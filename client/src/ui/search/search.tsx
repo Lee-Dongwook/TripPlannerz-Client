@@ -1,14 +1,20 @@
 import {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Table } from "antd";
 
 import { Trip } from '@/domain/TripList';
-
+import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
 import { Pagination } from '@/ui/search/pagination/pagination';
+
 
 function SearchPage() {
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const token = useSelector((state:any) => state.token.token);
+    const searchParams = new URLSearchParams(location.search);
+    const searchedKeyword = searchParams.get('keyword');
 
     const [tripList, setTripList] = useState<Trip[]>([]);
 
@@ -16,6 +22,14 @@ function SearchPage() {
         const url = `/search/${postId}`;
         navigate(url);
     }
+
+    useEffect(() => {
+      if(searchedKeyword){
+        const encodedKey = encodeURIComponent(searchedKeyword);
+        const response = getPaginatedTripList(token, 0, "new", encodedKey);
+        console.log(response);
+      }
+    },[searchedKeyword])
 
     const tableColumns = [
         {
