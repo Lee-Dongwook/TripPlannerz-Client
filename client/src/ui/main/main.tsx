@@ -2,16 +2,8 @@ import { useState, useEffect } from "react";
 import { Card, List, Progress, FloatButton } from "antd";
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
-import { getEntireTripList } from "@/application/api/getEntireTripList";
+import { getEntireTripList } from "@/application/api/main/getEntireTripList";
 import { useSelector } from "react-redux";
-// import NavBar from '../../components/Navbar/Navbar'
-// import Footer from '../../components/Footer/Footer'
-// import { ImageSlider } from "../../util/ImageSlider";
-// import { TravelChart } from "../../util/TravelChart";
-// import KakaoMap from '../../util/KakaoMap';
-// import axios from "axios";
-// import "./MainPage.css";
-
 
 function MainPage() {
 
