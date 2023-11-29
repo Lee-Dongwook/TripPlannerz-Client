@@ -23,12 +23,19 @@ function SearchPage() {
         navigate(url);
     }
 
-    useEffect(() => {
+    const handleGetPaginatedTripList = async() => {
       if(searchedKeyword){
         const encodedKey = encodeURIComponent(searchedKeyword);
-        const response = getPaginatedTripList(token, 0, "new", encodedKey);
-        console.log(response);
+        const response = getPaginatedTripList(token,0,"new",encodedKey);
+        return response;
+      } else {
+        const response = getPaginatedTripList(token, 0, "new", '');
+        return response;
       }
+    }
+
+    useEffect(() => {
+      handleGetPaginatedTripList();
     },[searchedKeyword])
 
     const tableColumns = [
