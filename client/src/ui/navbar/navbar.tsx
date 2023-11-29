@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Menu } from 'antd';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
-import { MoveToMain } from '@/application/navbar/routes/moveToMain';
 import { getEventSoruce } from '@/application/api/navbar/getEventSource';
 import { searchTripInTripList } from '@/application/navbar/searchTripInTripList';
 
@@ -32,6 +31,10 @@ function Navbar() {
     const [noticeDrawerState, setNoticeDrawerState] = useState<boolean>(false);
     const [userInfoDrawerState, setUserInfoDrawerState] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
+
+    const moveToMain = () => {
+      navigate('/main');
+    }
 
     const toggleTravelButtonState = () => {
       setTravelButtonState(!travelButtonState);
@@ -88,7 +91,7 @@ function Navbar() {
 
     return(
         <Menu mode="horizontal" theme="light" className={styles.navbarContainer}>
-        <Menu.Item><NavbarButton name='TripPlannerz' style={{width: '200px'}} onClick={MoveToMain} /></Menu.Item>
+        <Menu.Item><NavbarButton name='TripPlannerz' style={{width: '200px'}} onClick={moveToMain} /></Menu.Item>
         <Menu.Item>
           <NavbarButton name='여행 계획' style={{width: '200px'}} onClick={toggleTravelButtonState} />
           {travelButtonState && <InnerMenu /> }
