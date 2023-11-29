@@ -4,6 +4,8 @@ import { Table } from "antd";
 
 import { Trip } from '@/domain/TripList';
 
+import { Pagination } from '@/ui/search/pagination/pagination';
+
 function SearchPage() {
 
     const navigate = useNavigate();
@@ -66,7 +68,10 @@ function SearchPage() {
     }))
   
     return(
-        <Table columns={tableColumns} dataSource={tableData} pagination={false} />
+        <div>
+          <Table columns={tableColumns} dataSource={tableData} pagination={false} />
+          <Pagination totalPage = {5} />
+        </div>
     )
 }
 
