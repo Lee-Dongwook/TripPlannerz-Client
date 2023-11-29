@@ -34,8 +34,13 @@ function SearchPage() {
       }
     }
 
+    const fetchData = async() => {
+      const response = await handleGetPaginatedTripList();
+      setTripList(response.data.content);  
+    }
+
     useEffect(() => {
-      handleGetPaginatedTripList();
+      fetchData();
     },[searchedKeyword])
 
     const tableColumns = [
