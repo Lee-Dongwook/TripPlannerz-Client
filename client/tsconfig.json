@@ -25,7 +25,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*":["src/*"]
-    }
+    },
+
+    /* Storybook */
+    "esModuleInterop": true
 
   },
   "include": ["src", "**/*.ts", "**/*.tsx"],
