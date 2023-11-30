@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Menu } from 'antd';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 
+import { Member } from '@/domain/Member';
+
 import { getEventSoruce } from '@/application/api/navbar/getEventSource';
+import { getMemberTripInfo } from '@/application/api/navbar/getMemberTripInfo';
 import { searchTripInTripList } from '@/application/navbar/searchTripInTripList';
 
 import { addNotification } from '@/store/action/notificationAction';
@@ -15,6 +18,7 @@ import { NavbarInput } from '@/ui/navbar/input/navbarInput';
 import { InnerMenu } from '@/ui/navbar/innerMenu/innerMenu';
 import { NoticeDrawer } from '@/ui/navbar/drawer/noticeDrawer';
 import { UserInfoDrawer } from '@/ui/navbar/drawer/userInfoDrawer';
+
 
 
 
@@ -31,6 +35,7 @@ function Navbar() {
     const [noticeDrawerState, setNoticeDrawerState] = useState<boolean>(false);
     const [userInfoDrawerState, setUserInfoDrawerState] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [memberInfo, setMemberInfo] = useState<Member>({})
 
     const moveToMain = () => {
       navigate('/main');
@@ -83,9 +88,20 @@ function Navbar() {
       }
     }
 
+    const handleGetMemberInfo = async() => {
+      const response = await getMemberTripInfo(token);
+      if(response.data){
+        setMemberInfo((prevInfo) => ({
+          ...prevInfo,
+          ...response.data
+        }))
+      }
+    }
+
     useEffect(() => {
       createEventSource();
       deleteEventSource();
+      handleGetMemberInfo();
     },[dispatch, token])
 
 
@@ -116,7 +132,8 @@ function Navbar() {
           <UserInfoDrawer
             onClick={openUserInfoDrawer}
             onClose={closeUserInfoDrawer}
-            visible={userInfoDrawerState} />
+            visible={userInfoDrawerState}
+            info={memberInfo} />
         </Menu.Item>
       </Menu>
     )
