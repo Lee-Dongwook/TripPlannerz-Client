@@ -1,31 +1,29 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Form, Button, Modal, Card } from "react-bootstrap";
-import Pagination from "../../util/Pagination";
-import { SelectPreference } from "../../util/SelectPreference";
-import "./MyPage.css";
 import find from "../../Image/돋보기.png";
 import axios from "axios";
 import { Table } from "antd";
-axios.default.withCredentials = true;
+
+import type { Member } from "@/domain/Member";
+import type { AccompanyList } from "@/domain/AccompanyList";
+
+import { getMemberTripInfo } from "@/application/api/my/getMemberTripInfo";
+import { getTripAccompanyRequestList } from "@/application/api/my/getTripAccompanyRequestList";
+import { getPaginatedTripList } from "@/application/api/my/getPaginatedTripList";
 
 function MyPage() {
-  const token = localStorage.getItem("token");
-  
-  const [name, setName] = useState(""); //프로필 이름
-  
-  const [gender, setGender] = useState(""); //프로필 성별
-  
-  const [email, setEmail] = useState(""); //프로필 이메일
-  
-  const [rank, setRank] = useState([]); //프로필 선호 태그
+  const token = useSelector((state:any) => state.token.token);
+
+  const [memberInfo, setMemberInfo] = useState<Member>({});
+  const [accompanyList, setAccompanyList] = useState<AccompanyList[]>([])
+  const [posts, setPosts] = useState<any[]>([]);
   
   const [currentPage, setCurrentPage] = useState("profile"); //메뉴 토글
   
   const [preview, setPreview] = useState([]);
   
   const [create, setCreate] = useState(0); //생성한 일정 개수
-  
-  const [pw, setPw] = useState(""); //현재 패스워드
   
   const [password, setPassword] = useState(""); // 수정할 패스워드
   
@@ -34,8 +32,6 @@ function MyPage() {
   const [confirmPassword, setConfirmPassword] = useState(""); //수정할 패스워드 확인
   
   const [correct, setCorrect] = useState(false); // 비밀번호 일치 여부
-  
-  const [posts, setPosts] = useState([]); //페이지마다 띄울 게시판 목록
   
   const [postNumber, setPostNumber] = useState([]); // 각 목록 번호
   
@@ -50,16 +46,12 @@ function MyPage() {
   const [order, setOrder] = useState("기본"); //버튼 정렬 기준
   
   const [keyword, setKeyword] = useState(""); // 일정 검색어
-  
-  const [loading, setLoading] = useState(false);
 
   const [nestedModal, setNestedModal] = useState(false);
   
   const [toggle, setToggle] = useState(false);
   
-  const [withdrawModal, setWithdrawModal] = useState(false);
-
-  const [accompanyList, setAccompanyList] = useState([]) // 동행 신청 현황
+  const [withdrawModal, setWithdrawModal] = useState(false); 
 
   let ranklist = "";
   const size = posts.length;
@@ -71,33 +63,30 @@ function MyPage() {
     return currentPosts;
   };
 
-  useEffect(() => {
-    localStorage.setItem("cast", 1);
-    localStorage.setItem("rank", -1);
-    localStorage.setItem("vest", 1);
-    axios.get("http://localhost:8080/api/members/tripInfo", 
-     {
-      headers:{'Authorization': `Bearer ${token}` },
-     }).then((response) => {
-      setName(response.data.name);
-      setGender(response.data.gender);
-      setEmail(response.data.email);
-      setRank(response.data.preferences);
-    });
-  }, []);
+  const handleGetMemberTripInfo = async() => {
+    const response = await getMemberTripInfo(token);
 
-  useEffect(() => {
-  
-  const fetchData = async () => {
-    const response = await axios.get("http://localhost:8080/api/trip/accompany/requestList",{
-      headers:{'Authorization': `Bearer ${token}` },
-    })
-    console.log(typeof(response.data))
-
-    if(response.data.length > 0)
-    {
+    if(response.data){
       
-      const accompany = {
+      const updateMemberInfo: Record<Exclude<keyof Member,"pw">, any> = {
+        name: response.data.name,
+        gender: response.data.gender,
+        email: response.data.email,
+        types: response.data.prefereneces
+      }
+      
+      setMemberInfo((prevInfo) => ({
+        ...prevInfo,
+        updateMemberInfo
+      }))
+    }
+  }
+
+  const handleGetTripAccompanyRequestList = async() => {
+    const response = await getTripAccompanyRequestList(token);
+
+    if(response.data){
+      const newAccompanyList = {
         comment: response.data[0].comment,
         comment_id: response.data[0].comment_id,
         senderName: response.data[0].senderName,
@@ -105,53 +94,26 @@ function MyPage() {
         tripUUID: response.data[0].tripUUID
       }
 
-      console.log(accompany)
-
-      setAccompanyList([...accompanyList, accompany])
+      setAccompanyList([...accompanyList, newAccompanyList]);
     }
   }
-  
-  fetchData()
-  
-  },[])
+
+  const handleGetPaginatedTripList = async() => {
+    const response = await getPaginatedTripList(token, currentNumber, order);
+
+    if(response.data){
+      setPosts(response.data.content);
+    }
+  }
 
   useEffect(() => {
-    console.log(currentNumber);
-    const fetchData = async () => {
-      setLoading(true);
-      const response = await axios.get(
-        `http://localhost:8080/api/members/tripList?page=${currentNumber}&sortType=${order}`,
-        {
-          headers: {'Authorization': `Bearer ${token}`},
-        }
-      );
-
-      const postNumberArray = response.data.content.map((post) => post.id);
-      setPostNumber(postNumberArray);
-      setPosts(response.data.content);
-      setTotal(response.data.totalElements);
-      setTotalPage(response.data.totalPages);
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [currentNumber, order]);
+    handleGetMemberTripInfo();
+    handleGetTripAccompanyRequestList();
+  }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get(
-        `http://localhost:8080/api/trip/search?page=${currentNumber}&sortType=${order}&keyWord=${keyword}`,
-        {
-          headers: {'Authorization': `Bearer ${token}`},
-        }
-      );
-
-      console.log(response.data);
-      setPosts(response.data.content);
-      setTotal(response.data.totalElements);
-      setTotalPage(response.data.totalPages);
-    };
-  }, [keyword]);
+    handleGetPaginatedTripList();
+  }, [currentNumber, order])
 
   const handleSelectOrder = (e) => {
     const value = e.target.value;
@@ -195,14 +157,8 @@ function MyPage() {
       console.log(ranks);
 
       const postToServer = {
-        types: rank
+        types: ranks
       }
-
-      axios
-        .post("http://localhost:8080/api/members/change/types", postToServer, {
-          headers: {'Authorization': `Bearer ${token}`},
-        })
-        .then((res) => console.log(res), alert("태그가 변경되었습니다."));
 
       setNestedModal(false);
     }
@@ -232,22 +188,22 @@ function MyPage() {
       pw: withdrawPassword
     }
 
-    axios
-      .post("http://localhost:8080/api/members/exit", postToServer,{
-        headers: {'Authorization': `Bearer ${token}`}
-      })
-      .then((response) => {
-        console.log("비번: ",response.data.result);
-        if (response.data.result === true) {
-          alert("탈퇴가 완료되었습니다.");
-          setWithdrawModal(false);
-          window.location.href = "/";
-        }
-      })
-      .catch((response) => {
-        alert("오류가 발생하였습니다.");
-        setWithdrawModal(false);
-      });
+    // axios
+    //   .post("http://localhost:8080/api/members/exit", postToServer,{
+    //     headers: {'Authorization': `Bearer ${token}`}
+    //   })
+    //   .then((response) => {
+    //     console.log("비번: ",response.data.result);
+    //     if (response.data.result === true) {
+    //       alert("탈퇴가 완료되었습니다.");
+    //       setWithdrawModal(false);
+    //       window.location.href = "/";
+    //     }
+    //   })
+    //   .catch((response) => {
+    //     alert("오류가 발생하였습니다.");
+    //     setWithdrawModal(false);
+    //   });
   };
 
   for (let i = 0; i < rank.length; i++) {
@@ -306,19 +262,19 @@ function MyPage() {
       pw: pw
     }
 
-    axios
-      .post("http://localhost:8080/api/members/verify/pw", postToServer,{
-        headers: {'Authorization': `Bearer ${token}`},
-      })
-      .then((res) => {
-        console.log(res.data.result);
-        if (res.data.result === true) {
-          alert("인증 성공했습니다.");
-          setModifyPasswordPage(1);
-        } else if (res.data.result === false) {
-          alert("비밀번호를 다시 입력해주세요.");
-        }
-      });
+    // axios
+    //   .post("http://localhost:8080/api/members/verify/pw", postToServer,{
+    //     headers: {'Authorization': `Bearer ${token}`},
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data.result);
+    //     if (res.data.result === true) {
+    //       alert("인증 성공했습니다.");
+    //       setModifyPasswordPage(1);
+    //     } else if (res.data.result === false) {
+    //       alert("비밀번호를 다시 입력해주세요.");
+    //     }
+    //   });
   };
 
   const handlePasswordButton = (e) => {
@@ -327,12 +283,12 @@ function MyPage() {
       pw: password
     }
 
-    axios
-      .post("http://localhost:8080/api/members/change/pw", postToServer,
-      { 
-        headers: {'Authorization': `Bearer ${token}`}
-      }
-      ).then((res) => console.log(res), alert("비밀번호가 변경되었습니다."));
+    // axios
+    //   .post("http://localhost:8080/api/members/change/pw", postToServer,
+    //   { 
+    //     headers: {'Authorization': `Bearer ${token}`}
+    //   }
+    //   ).then((res) => console.log(res), alert("비밀번호가 변경되었습니다."));
   };
 
   const responseAccompanyTrue = (id) => {
@@ -343,13 +299,13 @@ function MyPage() {
       comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id
     }
 
-    axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
-      headers: {'Authorization': `Bearer ${token}`}
-    })
-    .then((res) => {
-      console.log(res)
-      alert('동행 신청을 허락하였습니다.')
-    })
+    // axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
+    //   headers: {'Authorization': `Bearer ${token}`}
+    // })
+    // .then((res) => {
+    //   console.log(res)
+    //   alert('동행 신청을 허락하였습니다.')
+    // })
   }
 
   const responseAccompanyFalse = (id) => {
@@ -360,13 +316,13 @@ function MyPage() {
       comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id
     }
 
-    axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
-      headers: {'Authorization': `Bearer ${token}`}
-    })
-    .then((res) => {
-      console.log(res)
-      alert('동행 신청을 허락하였습니다.')
-    })
+    // axios.post(`http://localhost:8080/api/trip/responseAccompany/${check}`,postToServer,{
+    //   headers: {'Authorization': `Bearer ${token}`}
+    // })
+    // .then((res) => {
+    //   console.log(res)
+    //   alert('동행 신청을 허락하였습니다.')
+    // })
   }
 
   const Posts = ({ posts, loading, handleClick }) => {
