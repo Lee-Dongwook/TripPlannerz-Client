@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Card, List, Progress, FloatButton } from "antd";
 import { QuestionCircleOutlined } from '@ant-design/icons'
 
 import { getEntireTripList } from "@/application/api/main/getEntireTripList";
-import { useSelector } from "react-redux";
+
 
 function MainPage() {
 
@@ -72,9 +73,6 @@ function MainPage() {
   
   return (
     <div>
-      {/* <ImageSlider /> */}
-      <br />
-          {/* <TravelChart /> */}
           <List
             grid={{ gutter: 16, column: 6 }}
             dataSource={travelList}
@@ -88,7 +86,6 @@ function MainPage() {
                 {item.title}
               </h3>
               <hr />
-              {/* <KakaoMap width="200px" height="200px"/> */}
               <div style={{ color: '#666', marginBottom: '10px', fontSize: '1rem' }}>
                 <strong>인원 현황: </strong>
                   {item.currentNum} / {item.recruitNum}
