@@ -8,6 +8,7 @@ import StartPage from "@/ui/start/start";
 import MainPage from "@/ui/main/main";
 import SearchPage from "@/ui/search/search";
 import DetailPage from "@/ui/detail/detail";
+import MyPage from "@/ui/my/my";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           {token && <Route path="/main" element={<MainPage />}></Route>}
           {token && <Route path="/search" element={<SearchPage />}></Route>}
           {token && <Route path="/search/:postId" element={<DetailPage />}></Route>}
+          {token && <Route path="/my" element={<MyPage />}></Route>}
         </Routes>
       </Suspense>
     </Router>

@@ -1,14 +1,22 @@
 import {Button, Col, Drawer, Table} from 'antd';
 import { UserOutlined } from "@ant-design/icons"
+import { useNavigate } from 'react-router-dom';
+
 import { Member } from '@/domain/Member';
 
 export const UserInfoDrawer = ({onClick, onClose, visible, info}) => {
+
+    const navigate = useNavigate();
 
     const memberInfo: Member = {
       name: info.name,
       gender: info.gender,
       email: info.email,
       types: info.types
+    }
+
+    const moveToMyPage = () => {
+      navigate('/my');
     }
 
     return(
@@ -22,7 +30,7 @@ export const UserInfoDrawer = ({onClick, onClose, visible, info}) => {
             <Col title="선호도" key="types" />
             </Table>
             <hr />
-          <Button style={{ width: '330px', borderColor: 'black'}}>마이페이지</Button>
+          <Button style={{ width: '330px', borderColor: 'black'}} onClick={moveToMyPage}>마이페이지</Button>
           <br />
           <br />
           <Button style={{ width: '330px', borderColor: 'black'}}>로그아웃</Button>
