@@ -9,7 +9,7 @@ const meta: Meta<typeof StartPage> = {
 export default meta;
 type Story = StoryObj<typeof StartPage>
 
-export const FirstStory: Story = {
+export const StartPageStory: Story = {
     args: {
 
     },
