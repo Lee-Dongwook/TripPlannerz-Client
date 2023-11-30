@@ -3,6 +3,7 @@ export interface Trip {
     uuid?: string
     title?: string
     capacity?: number
+    content?: string
     closeRecruitDate?: number
     goingDate?: number
     comingDate?: number

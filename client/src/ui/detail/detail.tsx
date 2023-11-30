@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Input, Radio, Space, Timeline } from 'antd'
+import { useSelector } from "react-redux";
 import { Button, Form, Card, Modal } from "react-bootstrap";
+import { Input, Radio, Space, Timeline } from 'antd';
 
 import { getDetailTripInfo } from "@/application/api/detail/getDetailTripInfo";
 import { getDetailTripRoute } from "@/application/api/detail/getDetailTripRoute";
@@ -10,70 +11,78 @@ import { postCommentToServer } from "@/application/api/detail/postCommentToServe
 import { postRequestAccompanyToServer } from "@/application/api/detail/postRequestAccompanyToServer";
 import { postTripLocationToServer } from "@/application/api/detail/postTripLocationToServer";
 import { postStartLocationToServer } from "@/application/api/detail/postStartLocationToServer";
+import { Trip } from "@/domain/TripList";
 
 function DetailPage() {
   
-  const token = localStorage.getItem("token");
+  const token = useSelector((state:any) => state.token.token);
   
-  const location = useLocation();
-  
+  const location = useLocation(); 
   const arr = location.pathname.split("/");
-  
-  const [loading, setLoading] = useState(true);
-  
-  const [title, setTitle] = useState(""); //제목
-  
-  const [startingDate, setStartingDate] = useState(""); //시작 날짜
-  
-  const [comingDate, setComingDate] = useState(""); //종료 날짜
-  
-  const [content, setContent] = useState(""); //내용
-  
-  const [memberNum, setMemberNum] = useState(0); //멤버 수
-  
-  const [memberList, setMemberList] = useState([]); //멤버 인원
 
+  const [detailTripInfo, setDetailTripInfo] = useState<Trip>({});
+  const [memberNum, setMemberNum] = useState<number>(0);
+  const [memberList, setMemberList] = useState<string[]>([]);
+  const [comments, setComments] = useState<string[]>([]);
+  const [searchPlace, setSearchPlace] = useState<string[]>([]);
+  const [userName, setUserName] = useState<string>("");
   const [review, setReview] = useState("");//댓글의 실제 내용
-
-  const [comments, setComments] = useState(["1","2"]);
-
-  const [tripUuid, setTripUuid] = useState("");
-
-  const [recoilComment, setRecoilComment] = useRecoilState(comment);
-
   const [requestAccompanyModal, setRequestAccompanyModal] = useState(false);
-
   const [requestContent, setRequestContent] = useState(""); // 동행 신청 내용 
-
-  const [userName, setUserName] = useState("");
-
-  const [searchPlace, setSearchPlace] = useState([])
-
   const [searchPlaceForOptimize, setSearchPlaceForOptimize] = useState([]);
-
   const [searchPlaceInput, setSearchPlaceInput] = useState("")
-
   const [optimizeModal, setOptimizeModal] = useState(false);
-
   const [startLocation, setStartLocation] = useState("");
 
   const handleGetDetailTripInfo = async() => {
     const response = await getDetailTripInfo(token,arr);
-  }
+    
+    if(response.data){
+        const receivedTripInfo: Record<keyof Trip, any> = {
+            id: response.data.id,
+            uuid: response.data.uuid,
+            title: response.data.title,
+            content: response.data.content,
+            goingDate: response.data.startingDate,
+            comingDate: response.data.comingDate,
+        };
 
+        setDetailTripInfo((prevInfo) => ({
+            ...prevInfo,
+            ...receivedTripInfo
+        }));
+
+        setMemberNum(response.data.memberNum);
+        setMemberList(response.data.memberList);
+        setComments(response.data.commentList);
+    }
+  }
+  
+  
   const handleGetMemberTripInfo = async() => {
     const response = await getMemberTripInfo(token);
+
+    if(response.data){
+        setUserName(response.data.name);
+    }
+  }
+  
+  const handleGetDetailTripRoute = async() => {
+    if(detailTripInfo.uuid){
+        const response = await getDetailTripRoute(token, detailTripInfo.uuid);
+
+        if(response.data){
+            setSearchPlace(response.data);
+        }
+    }
   }
 
-  const handleGetDetailTripRoute = async() => {
-    const response = await getDetailTripRoute(token, tripUuid);
-  }
 
   useEffect(() => {
     handleGetDetailTripInfo();
     handleGetMemberTripInfo();
     handleGetDetailTripRoute();
-  }, []);
+  }, [detailTripInfo.uuid]);
 
   const handleOpenModal = () => {
     setRequestAccompanyModal(true);
