@@ -1,11 +1,15 @@
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {Button, Col, Drawer, Table} from 'antd';
 import { UserOutlined } from "@ant-design/icons"
-import { useNavigate } from 'react-router-dom';
+
 
 import { Member } from '@/domain/Member';
+import { postLogout} from '@/application/api/navbar/postLogout';
 
 export const UserInfoDrawer = ({onClick, onClose, visible, info}) => {
 
+    const token = useSelector((state:any) => state.token.token);
     const navigate = useNavigate();
 
     const memberInfo: Member = {
@@ -17,6 +21,15 @@ export const UserInfoDrawer = ({onClick, onClose, visible, info}) => {
 
     const moveToMyPage = () => {
       navigate('/my');
+    }
+
+    const handleLogOut = async() => {
+      const response = await postLogout(token);
+      
+      if(response) {
+        alert('로그아웃이 되었습니다.');
+        navigate('/');
+      }
     }
 
     return(
@@ -33,7 +46,7 @@ export const UserInfoDrawer = ({onClick, onClose, visible, info}) => {
           <Button style={{ width: '330px', borderColor: 'black'}} onClick={moveToMyPage}>마이페이지</Button>
           <br />
           <br />
-          <Button style={{ width: '330px', borderColor: 'black'}}>로그아웃</Button>
+          <Button style={{ width: '330px', borderColor: 'black'}} onClick={handleLogOut}>로그아웃</Button>
           </Drawer>
         </>
     )
