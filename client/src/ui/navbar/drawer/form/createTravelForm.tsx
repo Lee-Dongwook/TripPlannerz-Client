@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Button, Cascader, DatePicker, Form, Input, Upload, Table } from 'antd';
+import { useSelector } from 'react-redux';
+import { Button, Cascader, DatePicker, Form, Input, InputNumber ,Upload, Table } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import Slider from 'rc-slider';
 
 import { Trip } from '@/domain/TripList';
 
@@ -13,6 +13,8 @@ import { majorCategories, minorCategories, subCategories } from "@/lib/info/trip
 
 
 export const CreateTravelForm = () => {
+
+  const token = useSelector((state:any) => state.token.token);
 
   const [tripInfo, setTripInfo] = useState<Trip>({});
   const [image, setImage] = useState([]);
@@ -32,8 +34,9 @@ export const CreateTravelForm = () => {
   const handleTripGoingDateChange = (event) => {setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'goingDate', event))};
   const handleTripComingDateChange = (event) => {setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'comingDate', event))};
 
-  const handleCascaderChange = (selectedOptions) => {
-    console.log(selectedOptions);
+  const handleCascaderChange = (selectedOptions: string[]) => {
+    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'area', selectedOptions[1]));
+    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'sigungu', selectedOptions[2]));
   }
 
   const createTripTableFirstRow = [
@@ -62,8 +65,8 @@ export const CreateTravelForm = () => {
       dataIndex: 'title',
       width: 200, 
       render: () => (
-        <Form.Item label="여행 제목" name="title" style={{ display: 'flex', alignItems: 'center' }}>
-          <Input style={{marginLeft: '10%', width: '200px'}} onChange={handleTripTitleChange} />
+        <Form.Item name="title" style={{ display: 'flex', justifyContent: 'center' }}>
+          <Input style={{ width: '200px'}} onChange={handleTripTitleChange} />
         </Form.Item>
       ),
     },
@@ -72,8 +75,8 @@ export const CreateTravelForm = () => {
       dataIndex: 'capacity',
       width: 200, 
       render: () => (
-        <Form.Item label={tripInfo.recruitNum ? `모집 인원 ${Math.ceil(tripInfo.recruitNum / 10)}명` : ""} name="capcity">
-          <Slider onChange={handleTripRecuritNumChange} />
+        <Form.Item name="capacity" style={{display: 'flex', justifyContent: 'center'}}>
+          <InputNumber min={1} max={10} onChange={handleTripRecuritNumChange} />
         </Form.Item>
       ),
     },
@@ -83,30 +86,30 @@ export const CreateTravelForm = () => {
     {
       title: '4) 모집 마감 날짜',
       dataIndex: 'deadlineDate',
-      width: 100,
+      width: 200,
       render: () => (
-        <Form.Item label="모집 마감 날짜">
-          <DatePicker onChange={(_date, dateString) => handleTripCloseRecruitDateChange(dateString)} />
+        <Form.Item style={{display: 'flex', justifyContent: 'center'}}>
+          <DatePicker onChange={(_date, dateString) => handleTripCloseRecruitDateChange(dateString)} placeholder="모집 마감 날짜" />
         </Form.Item>
       ),
     },
     {
       title: '5) 여행 시작 날짜',
       dataIndex: 'startDate',
-      width: 100,
+      width: 200,
       render: () => (
-        <Form.Item label="여행 시작 날짜">
-          <DatePicker onChange={(date,dateString) => handleTripGoingDateChange(dateString)} placeholder="가는 날 선택" />
+        <Form.Item style={{display: 'flex', justifyContent: 'center'}}>
+          <DatePicker onChange={(_date,dateString) => handleTripGoingDateChange(dateString)} placeholder="가는 날 선택" />
         </Form.Item>
       ),
     },
     {
       title: '6) 여행 종료 날짜',
       dataIndex: 'endDate',
-      width: 100,
+      width: 200,
       render: () => (
-        <Form.Item label="여행 종료 날짜">
-          <DatePicker onChange={(date,dateString) => handleTripComingDateChange(dateString)} placeholder="오는 날 선택" />
+        <Form.Item style={{display: 'flex', justifyContent: 'center'}} >
+          <DatePicker onChange={(_date,dateString) => handleTripComingDateChange(dateString)} placeholder="오는 날 선택" />
         </Form.Item>
       ),
     },
@@ -114,16 +117,26 @@ export const CreateTravelForm = () => {
 
   const initialData = [{}];
 
+  const handleSubmitTripInfoToServer = async() => {
+    const response = await SubmitTripInfoToServer(token, image, tripInfo);
+
+    if(response){
+      alert('여행이 생성되었습니다.');
+    } else{
+      alert('여행 생성에 오류가 발생하였습니다.');
+    }
+  }
+
     return(
         <>
         <h5>1. 여행 장소 선택</h5>
-        <Form onFinish={SubmitTripInfoToServer}>
+        <Form>
         <Cascader onChange={handleCascaderChange} size="large" placeholder="지역을 선택하세요"  options = {TripCategoryCascaderOption(majorCategories, minorCategories, subCategories)}/>
         </Form>
         <hr />
         <h5>2. 여행 정보 입력</h5>
         <br />
-        <Form onFinish={SubmitTripInfoToServer}>
+        <Form>
         <Table
          columns={createTripTableFirstRow}
          dataSource={initialData}
@@ -140,7 +153,7 @@ export const CreateTravelForm = () => {
         />
         </Form>
         <Form.Item>
-          <Button type="primary" htmlType="submit" onClick={SubmitTripInfoToServer}>등록</Button>
+          <Button type="primary" htmlType="submit" onClick={handleSubmitTripInfoToServer}>등록</Button>
         </Form.Item>
         </>
     )
