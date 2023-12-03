@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {Button, Col, Drawer, Table} from 'antd';
+import {Button, Drawer, Table} from 'antd';
 import { UserOutlined } from "@ant-design/icons"
-
 
 import { Member } from '@/domain/Member';
 import { postLogout} from '@/application/api/navbar/postLogout';
+
+const { Column } = Table;
 
 export const UserInfoDrawer = ({onClick, onClose, visible, info}) => {
 
@@ -16,7 +17,7 @@ export const UserInfoDrawer = ({onClick, onClose, visible, info}) => {
       name: info.name,
       gender: info.gender,
       email: info.email,
-      types: info.types
+      types: info.prefereneces
     }
 
     const moveToMyPage = () => {
@@ -29,20 +30,22 @@ export const UserInfoDrawer = ({onClick, onClose, visible, info}) => {
       if(response) {
         alert('로그아웃이 되었습니다.');
         localStorage.removeItem('persist:root');
-        navigate('/');
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
       }
     }
 
     return(
         <>
          <UserOutlined style={{width: '100px', justifyContent: 'center'}} onClick={onClick} />
-          <Drawer title="사용자 정보" onClose={onClose} visible={visible}>
-            <Table dataSource={[memberInfo]}>
-            <Col title="이름" key="name" />
-            <Col title="성별" key="gender" />
-            <Col title="이메일" key="email" />
-            <Col title="선호도" key="types" />
-            </Table>
+          <Drawer title="사용자 정보" onClose={onClose} open={visible}>
+            {memberInfo && <Table dataSource={[memberInfo]}>
+            <Column title="이름" dataIndex="name" key="name" />
+            <Column title="성별" dataIndex="gender" key="gender" />
+            <Column title="이메일" dataIndex="email"  key="email" />
+            <Column title="선호도" dataIndex="types" key="types" />
+            </Table>}
             <hr />
           <Button style={{ width: '330px', borderColor: 'black'}} onClick={moveToMyPage}>마이페이지</Button>
           <br />
