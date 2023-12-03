@@ -1,6 +1,10 @@
 import type { Member } from "@/domain/Member";
 import { postLoginJwt } from "@/application/api/start/postLoginJwt";
+import { createRandomKey } from "@/lib/crypto/createRandomKey";
+import { createEncryptToken } from '@/lib/crypto/createEncryptToken';
 import { setToken } from "@/store/action/tokenAction";
+
+const secretKey: string = createRandomKey();
 
 export const accessToService = async(user: Member, dispatch: any) => {
 
@@ -10,6 +14,8 @@ export const accessToService = async(user: Member, dispatch: any) => {
 
         const token: string | null = response.data.token;
         if(token) {
+          const encryptedToken = createEncryptToken(token, secretKey);
+          console.log(encryptedToken);
           dispatch(setToken(token));
         }
 
