@@ -5,6 +5,7 @@ import { Button } from 'antd';
 import { Member } from '@/domain/Member';
 import { getMemberTripInfo } from '@/application/api/my/getMemberTripInfo';
 import ProfilePage from '@/ui/my/profile/profile';
+import AccountPage from '@/ui/my/account/account';
 import WithdrawPage from '@/ui/my/withdraw/withdraw';
 
 function MyPage() {
@@ -50,8 +51,7 @@ function MyPage() {
       <div id="section2">
         {currentSection === 'section2' && (
           <div>
-            <h2>Section 2 Content</h2>
-            <p>This is the content of Section 2.</p>
+            <AccountPage />
           </div>
         )}
       </div>
