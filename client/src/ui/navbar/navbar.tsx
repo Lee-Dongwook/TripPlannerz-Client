@@ -12,7 +12,6 @@ import { searchTripInTripList } from '@/application/navbar/searchTripInTripList'
 
 import { addNotification } from '@/store/action/notificationAction';
 
-import styles from '@/ui/navbar/navbar.module.css';
 import { NavbarButton } from '@/ui/navbar/button/navbarButton';
 import { NavbarInput } from '@/ui/navbar/input/navbarInput';
 import { InnerMenu } from '@/ui/navbar/innerMenu/innerMenu';
@@ -106,7 +105,7 @@ function Navbar() {
 
 
     return(
-        <Menu mode="horizontal" theme="light" className={styles.navbarContainer}>
+        <Menu mode="horizontal" theme="light" style={{justifyContent:'center'}}>
         <Menu.Item><NavbarButton name='TripPlannerz' style={{width: '200px'}} onClick={moveToMain} /></Menu.Item>
         <Menu.Item>
           <NavbarButton name='여행 계획' style={{width: '200px'}} onClick={toggleTravelButtonState} />
