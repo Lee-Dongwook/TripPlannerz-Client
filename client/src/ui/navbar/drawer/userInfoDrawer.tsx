@@ -28,6 +28,7 @@ export const UserInfoDrawer = ({onClick, onClose, visible, info}) => {
       
       if(response) {
         alert('로그아웃이 되었습니다.');
+        localStorage.removeItem('persist:root');
         navigate('/');
       }
     }
