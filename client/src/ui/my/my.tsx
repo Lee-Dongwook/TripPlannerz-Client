@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { Button } from 'antd';
+
+import WithdrawPage from '@/ui/my/withdraw/withdraw';
+
+
 function MyPage() {
   const [currentSection, setCurrentSection] = useState('section1');
 
   const handleChangeCurrentSection = (section: string) => {
     setCurrentSection(section);
   };
+
+  const testEmail = '1'
 
   return (
     <div>
@@ -44,8 +50,7 @@ function MyPage() {
       <div id="section4">
         {currentSection === 'section4' && (
           <div>
-            <h2>Section 4 Content</h2>
-            <p>This is the content of Section 4.</p>
+           <WithdrawPage email={testEmail} />
           </div>
         )}
       </div>
