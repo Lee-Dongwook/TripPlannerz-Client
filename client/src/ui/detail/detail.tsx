@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Card } from 'antd';
+import { Card, Input, Button } from 'antd';
 
 import type { Member } from '@/domain/Member';
 import type { Trip } from '@/domain/TripList';
 import type { Comment } from '@/domain/Comment';
+import type { TripPlaceInfo } from '@/domain/TripPlaceInfo';
+
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
+import { postTripLocationToServer } from '@/application/api/detail/postTripLocationToServer';
 
 import { CommentList } from '@/ui/detail/comment/comment';
 import { RequestAccompany } from '@/ui/detail/accompany/accompany';
-import { SearchMap } from '@/ui/detail/search/searchMap';
 import { OptimizeRoute } from '@/ui/detail/optimize/optimizeRoute';
 import { TripInfo } from '@/ui/detail/info/tripInfo';
 import { TripTimeline } from '@/ui/detail/timeline/tripTimeline';
@@ -29,6 +31,8 @@ function DetailPage() {
     Member[]
   >([]);
   const [tripCommentList, setTripCommentList] = useState<Comment[]>([]);
+  const [searchPlace, setSearchPlace] = useState<string>('');
+  const [searchPlaceList, setSearchPlaceList] = useState<TripPlaceInfo[]>([]);
 
   const handleGetDetailTripInfo = async () => {
     const response = await getDetailTripInfo(token, arr);
@@ -73,6 +77,29 @@ function DetailPage() {
     }
   };
 
+  const handleInputSearchPlace = (event) => {
+    setSearchPlace(event.target.value);
+  };
+
+  const handleSaveLocationToServer = async () => {
+    const latitude: string = localStorage.getItem('latitude') || '';
+
+    if (detailTripInfo.uuid) {
+      const postToServer: TripPlaceInfo = {
+        name: searchPlace,
+        x: latitude.split(',')[0],
+        y: latitude.split(',')[1],
+        tripUUID: detailTripInfo.uuid,
+      };
+
+      const response = await postTripLocationToServer(token, postToServer);
+
+      if (response) {
+        setSearchPlace('');
+      }
+    }
+  };
+
   useEffect(() => {
     handleGetDetailTripInfo();
   }, []);
@@ -84,6 +111,11 @@ function DetailPage() {
           description={
             <div>
               <TripInfo tripInfo={detailTripInfo} content={tripContent} />
+              <Input
+                placeholder='여행장소를 입력하세요'
+                onChange={handleInputSearchPlace}
+              />
+              <Button onClick={handleSaveLocationToServer}>입력</Button>
               {/* <TripTimeline />
               <table>
                 <td>
@@ -93,7 +125,7 @@ function DetailPage() {
                   <RequestAccompany />
                 </td>
               </table>
-              <SearchMap /> */}
+               */}
               {detailTripInfo.uuid && (
                 <CommentList
                   tripUUID={detailTripInfo.uuid}
