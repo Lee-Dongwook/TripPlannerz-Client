@@ -3,8 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Card } from 'antd';
 
-import { Member } from '@/domain/Member';
-import { Trip } from '@/domain/TripList';
+import type { Member } from '@/domain/Member';
+import type { Trip } from '@/domain/TripList';
+import type { Comment } from '@/domain/Comment';
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 
 import { CommentList } from '@/ui/detail/comment/comment';
@@ -27,6 +28,7 @@ function DetailPage() {
   const [tripAccompanyMemberList, setTripAccompanyMemberList] = useState<
     Member[]
   >([]);
+  const [tripCommentList, setTripCommentList] = useState<Comment[]>([]);
 
   const handleGetDetailTripInfo = async () => {
     const response = await getDetailTripInfo(token, arr);
@@ -61,14 +63,19 @@ function DetailPage() {
       setTripContent(response.data.content);
       setTripAccompanyMemberList((prevList) => [
         ...prevList,
-        response.data.memberList,
+        ...response.data.memberList,
+      ]);
+
+      setTripCommentList((prevList) => [
+        ...prevList,
+        ...response.data.commentList,
       ]);
     }
   };
 
   useEffect(() => {
     handleGetDetailTripInfo();
-  }, [detailTripInfo.uuid]);
+  }, []);
 
   return (
     <div>
@@ -87,7 +94,12 @@ function DetailPage() {
                 </td>
               </table>
               <SearchMap /> */}
-              <CommentList />
+              {detailTripInfo.uuid && (
+                <CommentList
+                  tripUUID={detailTripInfo.uuid}
+                  commentList={tripCommentList}
+                />
+              )}
             </div>
           }
         ></Meta>
