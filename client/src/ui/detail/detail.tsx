@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Button, Form, Card, Modal } from 'react-bootstrap';
-import { Input, Radio, Space, Timeline } from 'antd';
+import { Card } from 'react-bootstrap';
+import { Timeline } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 import { getMemberTripInfo } from '@/application/api/detail/getMemberTripInfo';
-import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
 import { postTripLocationToServer } from '@/application/api/detail/postTripLocationToServer';
 import { postStartLocationToServer } from '@/application/api/detail/postStartLocationToServer';
 
 import { CommentList } from '@/ui/detail/comment/comment';
-import { RequestAccompany } from './accompany/accompany';
+import { RequestAccompany } from '@/ui/detail/accompany/accompany';
+import { SearchMap } from '@/ui/detail/search/searchMap';
+import { OptimizeRoute } from '@/ui/detail/optimize/optimizeRoute';
 
 function DetailPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -174,11 +175,6 @@ function DetailPage() {
             flexDirection: 'row',
           }}
         >
-          <Kakao
-            width='400px'
-            height='400px'
-            searchKeyword={searchPlaceInput}
-          />
           <div
             className='CardInfo'
             style={{
@@ -225,55 +221,14 @@ function DetailPage() {
             </div>
             <table>
               <td>
-                <Button
-                  style={{
-                    width: '200px',
-                    backgroundColor: 'white',
-                    color: 'black',
-                  }}
-                  onClick={handleChangeTimeLineItem}
-                >
-                  경로 최적화
-                </Button>
-                <Modal show={optimizeModal} onHide={handleCloseOptimizeModal}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>시작점 선택</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    {optimizeModal && (
-                      <Radio.Group
-                        onChange={handleSaveStartLocation}
-                        value={startLocation}
-                      >
-                        {searchPlaceForOptimize.map((searchPlace, index) => (
-                          <Space direction='vertical' key={index}>
-                            <Radio value={searchPlace.name}>
-                              {searchPlace.name}
-                            </Radio>
-                          </Space>
-                        ))}
-                      </Radio.Group>
-                    )}
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button onClick={sendStartLocationToServer}>확인</Button>
-                  </Modal.Footer>
-                </Modal>
+                <OptimizeRoute />
               </td>
               <td style={{ padding: '75px' }}>
                 <RequestAccompany />
               </td>
             </table>
           </div>
-          <div style={{ marginTop: '-25px', marginLeft: '20px', flex: '2' }}>
-            <h3>여행 장소</h3>
-            <Input
-              style={{ width: '400px' }}
-              placeholder='여행장소를 입력하세요'
-              onChange={handleSearchInput}
-            />
-            <Button onClick={handleUpdateSearchInput}>입력</Button>
-          </div>
+          <SearchMap />
         </Card.Body>
       </Card>
       <CommentList />
