@@ -77,7 +77,7 @@ function DetailPage() {
           description={
             <div>
               <TripInfo tripInfo={detailTripInfo} content={tripContent} />
-              <TripTimeline />
+              {/* <TripTimeline />
               <table>
                 <td>
                   <OptimizeRoute />
@@ -86,7 +86,7 @@ function DetailPage() {
                   <RequestAccompany />
                 </td>
               </table>
-              <SearchMap />
+              <SearchMap /> */}
               <CommentList />
             </div>
           }
