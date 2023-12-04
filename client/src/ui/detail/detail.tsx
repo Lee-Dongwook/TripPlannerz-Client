@@ -8,12 +8,12 @@ import { Trip } from '@/domain/TripList';
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 import { getMemberTripInfo } from '@/application/api/detail/getMemberTripInfo';
-import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
 import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
 import { postTripLocationToServer } from '@/application/api/detail/postTripLocationToServer';
 import { postStartLocationToServer } from '@/application/api/detail/postStartLocationToServer';
 
 import { CommentList } from '@/ui/detail/comment/comment';
+import { RequestAccompany } from './accompany/accompany';
 
 function DetailPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -24,12 +24,8 @@ function DetailPage() {
   const [detailTripInfo, setDetailTripInfo] = useState<Trip>({});
   const [memberNum, setMemberNum] = useState<number>(0);
   const [memberList, setMemberList] = useState<string[]>([]);
-  const [comments, setComments] = useState<string[]>([]);
   const [searchPlace, setSearchPlace] = useState<string[]>([]);
   const [userName, setUserName] = useState<string>('');
-  const [review, setReview] = useState(''); //댓글의 실제 내용
-  const [requestAccompanyModal, setRequestAccompanyModal] = useState(false);
-  const [requestContent, setRequestContent] = useState(''); // 동행 신청 내용
   const [searchPlaceForOptimize, setSearchPlaceForOptimize] = useState([]);
   const [searchPlaceInput, setSearchPlaceInput] = useState('');
   const [optimizeModal, setOptimizeModal] = useState(false);
@@ -93,53 +89,6 @@ function DetailPage() {
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
-  };
-
-  const handleAddComment = async () => {
-    if (review) {
-      setRecoilComment(review);
-
-      const postToServer = {
-        review: review,
-        tripUUID: tripUuid,
-      };
-
-      const response = await postCommentToServer(token, postToServer);
-
-      //   axios.post(`http://localhost:8080/api/trip/postComment`,postToServer,{
-      //    headers: {'Authorization': `Bearer ${token}`}
-      //  }).then((res) => {
-      //   alert("댓글이 등록되었습니다.")
-      //   window.location.href=`/search/${arr[2]}`
-      //  }).catch((res) => alert('댓글 등록에 오류가 발생하였습니다.'))
-    }
-  };
-
-  function keyDown(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      handleAddComment();
-      setReview('');
-    }
-  }
-
-  const handleRequestContent = (event) => {
-    setRequestContent(event.target.value);
-  };
-
-  const handleRequestAccompany = async () => {
-    const postToServer = {
-      review: requestContent,
-      tripUUID: tripUuid,
-    };
-
-    const response = await postRequestAccompanyToServer(token, postToServer);
-
-    // axios.post(`http://localhost:8080/api/trip/requestAccompany`, postToServer, {
-    //   headers: {'Authorization': `Bearer ${token}`}
-    // }).then((res) => {
-    //   alert("동행 신청이 완료되었습니다.")
-    // }).catch((res) => alert('동행 신청에 오류가 발생하였습니다.'))
   };
 
   const handleSearchInput = (event) => {
@@ -212,15 +161,6 @@ function DetailPage() {
     //     setOptimizeModal(false);
     //   }
     // })
-  };
-
-  const handleDeleteCertainComment = (index) => {
-    const newComment = comments.filter((comment, idx) => idx !== index);
-    setComments(newComment);
-
-    alert('댓글이 삭제되었습니다.');
-
-    window.location.href = `/search/${arr[2]}`;
   };
 
   return (
@@ -321,35 +261,10 @@ function DetailPage() {
                 </Modal>
               </td>
               <td style={{ padding: '75px' }}>
-                <Button
-                  style={{
-                    width: '200px',
-                    backgroundColor: 'white',
-                    color: 'black',
-                  }}
-                  onClick={handleOpenModal}
-                >
-                  동행 신청
-                </Button>
+                <RequestAccompany />
               </td>
             </table>
           </div>
-          <Modal show={requestAccompanyModal} onHide={handleCloseModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>동행 신청</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Control
-                  type='textarea'
-                  style={{ height: '300px' }}
-                  placeholder='신청서를 작성해주세요'
-                  onChange={handleRequestContent}
-                />
-                <Button onClick={handleRequestAccompany}>신청하기</Button>
-              </Form>
-            </Modal.Body>
-          </Modal>
           <div style={{ marginTop: '-25px', marginLeft: '20px', flex: '2' }}>
             <h3>여행 장소</h3>
             <Input
@@ -361,38 +276,7 @@ function DetailPage() {
           </div>
         </Card.Body>
       </Card>
-      <div className='CommentList'>
-        <Form.Group>
-          <Form.Control
-            as='textarea'
-            rows={3}
-            value={review}
-            onChange={handleReviewChange}
-            onKeyDown={keyDown}
-          />
-        </Form.Group>
-        <Button variant='primary' onClick={handleAddComment}>
-          댓글 추가
-        </Button>
-        {comments.length === 0
-          ? ''
-          : comments.map((comment, index) => (
-              <div>
-                <Card key={index}>
-                  <p>날짜: {comment.postDate}</p>
-                  <p>글쓴이: {comment.senderName}</p>
-                  <p>댓글: {comment.review}</p>
-                </Card>
-                {comment.senderName === userName ? (
-                  <Button onClick={() => handleDeleteCertainComment(index)}>
-                    삭제
-                  </Button>
-                ) : (
-                  ''
-                )}
-              </div>
-            ))}
-      </div>
+      <CommentList />
     </div>
   );
 }
