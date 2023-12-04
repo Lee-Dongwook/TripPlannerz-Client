@@ -24,7 +24,7 @@ function App() {
           {token && (
             <Route path='/search/:postId' element={<DetailPage />}></Route>
           )}
-          {/* {token && <Route path="/my" element={<MyPage />}></Route>} */}
+          {token && <Route path='/my' element={<MyPage />}></Route>}
         </Routes>
       </Suspense>
     </Router>
