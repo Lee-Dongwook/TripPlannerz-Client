@@ -9,7 +9,6 @@ import AccountPage from '@/ui/my/account/account';
 import WithdrawPage from '@/ui/my/withdraw/withdraw';
 
 function MyPage() {
-
   const token = useSelector((state: any) => state.token.token);
 
   const [currentSection, setCurrentSection] = useState('section1');
@@ -19,36 +18,44 @@ function MyPage() {
     setCurrentSection(section);
   };
 
-  const handleGetMemberInfo = async() => {
+  const handleGetMemberInfo = async () => {
     const response = await getMemberTripInfo(token);
 
-    if(response.data){
+    if (response.data) {
       setMemberInfo(response.data);
     } else {
       throw new Error('서버로 부터 유저 정보를 가져오지 못함');
     }
-  }
+  };
 
   useEffect(() => {
     handleGetMemberInfo();
-  },[])
+  }, []);
 
   return (
     <div>
-      <Button onClick={() => handleChangeCurrentSection('section1')}>프로필</Button>
-      <Button onClick={() => handleChangeCurrentSection('section2')}>정보수정</Button>
-      <Button onClick={() => handleChangeCurrentSection('section3')}>일정조회</Button>
-      <Button onClick={() => handleChangeCurrentSection('section4')}>회원탈퇴</Button>
+      <Button onClick={() => handleChangeCurrentSection('section1')}>
+        프로필
+      </Button>
+      <Button onClick={() => handleChangeCurrentSection('section2')}>
+        정보수정
+      </Button>
+      <Button onClick={() => handleChangeCurrentSection('section3')}>
+        일정조회
+      </Button>
+      <Button onClick={() => handleChangeCurrentSection('section4')}>
+        회원탈퇴
+      </Button>
 
-      <div id="section1">
+      <div id='section1'>
         {currentSection === 'section1' && (
           <div>
-           <ProfilePage memberInfo={memberInfo} />
+            <ProfilePage memberInfo={memberInfo} />
           </div>
         )}
       </div>
 
-      <div id="section2">
+      <div id='section2'>
         {currentSection === 'section2' && (
           <div>
             <AccountPage />
@@ -56,7 +63,7 @@ function MyPage() {
         )}
       </div>
 
-      <div id="section3">
+      <div id='section3'>
         {currentSection === 'section3' && (
           <div>
             <h2>Section 3 Content</h2>
@@ -65,10 +72,10 @@ function MyPage() {
         )}
       </div>
 
-      <div id="section4">
+      <div id='section4'>
         {currentSection === 'section4' && (
           <div>
-           <WithdrawPage email={memberInfo?.email} />
+            <WithdrawPage email={memberInfo?.email} />
           </div>
         )}
       </div>

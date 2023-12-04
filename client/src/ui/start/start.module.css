@@ -1,17 +1,16 @@
 .startContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: normal;
-    align-items: center;
-    width: 100%;
-    height: calc(95vh);
-    overflow-y: auto;
-    background-color: #000000;
-    color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: normal;
+  align-items: center;
+  width: 100%;
+  height: calc(95vh);
+  overflow-y: auto;
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .startContainer h2 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 200;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 200;
 }
-

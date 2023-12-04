@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Image } from 'antd';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import type { Member } from '@/domain/Member';
 
-import { updateUserInfo } from '@/application/start/updateUserInfo'; 
+import { updateUserInfo } from '@/application/start/updateUserInfo';
 import { sendEmailToServer } from '@/application/start/sendEmailToServer';
 import { sendEmailCodeToServer } from '@/application/start/sendEmailCodeToServer';
 import { accessToService } from '@/application/start/accessToService';
@@ -17,113 +17,126 @@ import styles from '@/ui/start/start.module.css';
 import { LoginModal } from '@/ui/start/modal/loginModal';
 import { SignUpModal } from '@/ui/start/modal/signUpModal';
 
-
 function StartPage() {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const selectedPreferenceList = useSelector((state:any) => state.types.types);
+  const selectedPreferenceList = useSelector((state: any) => state.types.types);
 
   const [user, setUser] = useState<Member>({
-      name: '',
-      gender: '',
-      email: '',
-      pw: '',
-      types: [],
+    name: '',
+    gender: '',
+    email: '',
+    pw: '',
+    types: [],
   });
-  
+
   const [emailCode, setEmailCode] = useState<string>(''); //이메일 인증 코드
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [confirmPassword, setConfirmPassword] = useState<string>(''); // 비밀번호 확인
 
-  const handleNameChange = (event) => { setUser((prevUser) => updateUserInfo(prevUser, 'name', event.target.value))};
-  
-  const handleGenderChange = (event) => {setUser((prevUser) => updateUserInfo(prevUser, 'gender', event.target.value))};
-  
-  const handleEmailChange = (event) => {setUser((prevUser) => updateUserInfo(prevUser, 'email', event.target.value))};
-  
-  const handlePasswordChange = (event) => {setUser((prevUser) => updateUserInfo(prevUser, 'pw', event.target.value))};
-  
-  const handleEmailCodeChange = (event) => {setEmailCode(event.target.value)};
-  
-  const handleConfirmPasswordChange = (event) => {setConfirmPassword(event.target.value)};
-  
-  const handleSendEmailToServer = async(event) => {
+  const handleNameChange = (event) => {
+    setUser((prevUser) => updateUserInfo(prevUser, 'name', event.target.value));
+  };
+
+  const handleGenderChange = (event) => {
+    setUser((prevUser) =>
+      updateUserInfo(prevUser, 'gender', event.target.value)
+    );
+  };
+
+  const handleEmailChange = (event) => {
+    setUser((prevUser) =>
+      updateUserInfo(prevUser, 'email', event.target.value)
+    );
+  };
+
+  const handlePasswordChange = (event) => {
+    setUser((prevUser) => updateUserInfo(prevUser, 'pw', event.target.value));
+  };
+
+  const handleEmailCodeChange = (event) => {
+    setEmailCode(event.target.value);
+  };
+
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
+  };
+
+  const handleSendEmailToServer = async (event) => {
     event.preventDefault();
     try {
       await sendEmailToServer(user);
-    } catch(error){
+    } catch (error) {
       console.error(error);
     }
   };
 
-  const handleSendEmailCodeToServer = async(event) => {
+  const handleSendEmailCodeToServer = async (event) => {
     event.preventDefault();
 
     try {
       await sendEmailCodeToServer(user, emailCode);
-    } catch(error){
+    } catch (error) {
       console.error(error);
     }
-
   };
 
-  const handleAccessToService = async(event) => {
+  const handleAccessToService = async (event) => {
     event.preventDefault();
 
     try {
-      const response=  await accessToService(user, dispatch);
-      if(response.status === 200){
+      const response = await accessToService(user, dispatch);
+      if (response.status === 200) {
         navigate('/main');
       }
-
-    } catch(error){
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  const handleSubmitUserInfoToServer = async(event) => {
-      event.preventDefault();
+  const handleSubmitUserInfoToServer = async (event) => {
+    event.preventDefault();
 
-      try {
-        await SubmitUserInfoToServer(user, selectedPreferenceList);
-      } catch(error){
-        console.log(error);
-      }
-  }
+    try {
+      await SubmitUserInfoToServer(user, selectedPreferenceList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-      <div className={styles.startContainer}>
-        <Image width={'calc(15vw)'} src={sight} alt="시작 이미지" /> 
-          <h2>TripPlannerz</h2>
-        <table>
-          <td>
+    <div className={styles.startContainer}>
+      <Image width={'calc(15vw)'} src={sight} alt='시작 이미지' />
+      <h2>TripPlannerz</h2>
+      <table>
+        <td>
           <LoginModal
-            onSubmit={handleAccessToService} 
-            onChange={{ 
-              handleEmailChange, 
-              handlePasswordChange 
-            }} 
-            onClick={handleAccessToService} 
+            onSubmit={handleAccessToService}
+            onChange={{
+              handleEmailChange,
+              handlePasswordChange,
+            }}
+            onClick={handleAccessToService}
           />
-          </td>
-          <td>
-          <SignUpModal  
-            onSubmit={handleSubmitUserInfoToServer} 
+        </td>
+        <td>
+          <SignUpModal
+            onSubmit={handleSubmitUserInfoToServer}
             onChange={{
               handleNameChange,
               handleGenderChange,
               handleEmailChange,
               handleEmailCodeChange,
               handlePasswordChange,
-              handleConfirmPasswordChange
-            }} 
+              handleConfirmPasswordChange,
+            }}
             onClick={{
               handleSendEmailToServer,
               handleSendEmailCodeToServer,
-            }} />
-          </td>
-        </table>
+            }}
+          />
+        </td>
+      </table>
     </div>
   );
 }
