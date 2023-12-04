@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Button, Form, Card, Modal } from 'react-bootstrap';
 import { Input, Radio, Space, Timeline } from 'antd';
 
+import { Trip } from '@/domain/TripList';
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 import { getMemberTripInfo } from '@/application/api/detail/getMemberTripInfo';
@@ -11,7 +12,8 @@ import { postCommentToServer } from '@/application/api/detail/postCommentToServe
 import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
 import { postTripLocationToServer } from '@/application/api/detail/postTripLocationToServer';
 import { postStartLocationToServer } from '@/application/api/detail/postStartLocationToServer';
-import { Trip } from '@/domain/TripList';
+
+import { CommentList } from '@/ui/detail/comment/comment';
 
 function DetailPage() {
   const token = useSelector((state: any) => state.token.token);
