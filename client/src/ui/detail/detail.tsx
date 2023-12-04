@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Card } from 'react-bootstrap';
-import { Timeline } from 'antd';
+import { Card } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
@@ -15,6 +14,10 @@ import { CommentList } from '@/ui/detail/comment/comment';
 import { RequestAccompany } from '@/ui/detail/accompany/accompany';
 import { SearchMap } from '@/ui/detail/search/searchMap';
 import { OptimizeRoute } from '@/ui/detail/optimize/optimizeRoute';
+import { TripInfo } from '@/ui/detail/info/tripInfo';
+import { TripTimeline } from '@/ui/detail/timeline/tripTimeline';
+
+const { Meta } = Card;
 
 function DetailPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -167,71 +170,25 @@ function DetailPage() {
   return (
     <div>
       <Card>
-        <Card.Body
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'row',
-          }}
-        >
-          <div
-            className='CardInfo'
-            style={{
-              borderRadius: '10px',
-              border: '2px solid skyblue',
-              maxHeight: '750px',
-              overflowY: 'auto',
-              marginLeft: '20px',
-              flex: '1',
-            }}
-          >
-            <br />
-            <h3>{title}</h3>
-            <br />
-            <h5>
-              여행 기간 :{' '}
-              {startingDate < comingDate
-                ? `${startingDate} ~ ${comingDate}`
-                : `${comingDate} ~ ${startingDate}`}
-            </h5>
-            <br />
-            <h5>내용: {content ? content : '예시 여행입니다.'} </h5>
-            <br />
-            <div
-              style={{
-                textAlign: 'center',
-                minHeight: '250px',
-                maxHeight: '250px',
-                overflowY: 'auto',
-                border: '4px solid skyblue',
-                borderRadius: '10px',
-              }}
-            >
-              <h4 style={{ padding: '5px' }}>
-                <strong>TimeLine</strong>
-              </h4>
-              <hr />
-              <Timeline mode='alternate'>
-                {timeLineItem &&
-                  timeLineItem.map((item, index) => (
-                    <Timeline.Item key={index}>{item.children}</Timeline.Item>
-                  ))}
-              </Timeline>
+        <Meta
+          description={
+            <div>
+              <TripInfo />
+              <TripTimeline />
+              <table>
+                <td>
+                  <OptimizeRoute />
+                </td>
+                <td style={{ padding: '75px' }}>
+                  <RequestAccompany />
+                </td>
+              </table>
+              <SearchMap />
+              <CommentList />
             </div>
-            <table>
-              <td>
-                <OptimizeRoute />
-              </td>
-              <td style={{ padding: '75px' }}>
-                <RequestAccompany />
-              </td>
-            </table>
-          </div>
-          <SearchMap />
-        </Card.Body>
+          }
+        ></Meta>
       </Card>
-      <CommentList />
     </div>
   );
 }
