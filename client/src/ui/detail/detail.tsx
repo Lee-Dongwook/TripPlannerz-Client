@@ -11,6 +11,8 @@ import type { TripPlaceInfo } from '@/domain/TripPlaceInfo';
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 import { postTripLocationToServer } from '@/application/api/detail/postTripLocationToServer';
 
+import KakaoMap from '@/lib/kakao/kakaoMap';
+
 import { CommentList } from '@/ui/detail/comment/comment';
 import { RequestAccompany } from '@/ui/detail/accompany/accompany';
 import { OptimizeRoute } from '@/ui/detail/optimize/optimizeRoute';
@@ -107,6 +109,7 @@ function DetailPage() {
   return (
     <div>
       <Card>
+        <KakaoMap width='400px' height='400px' searchKeyword={searchPlace} />
         <Meta
           description={
             <div>
