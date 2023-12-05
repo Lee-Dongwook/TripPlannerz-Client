@@ -1,0 +1,12 @@
+.mainContainer {
+  width: 100%;
+  height: calc(85vh);
+  display: flex;
+}
+
+.mainCard {
+  width: calc(18vw);
+  height: calc(45vh);
+  border-radius: '10px';
+  box-shadow: '0 4px 8px rgba(0, 0, 0, 0.1)';
+}

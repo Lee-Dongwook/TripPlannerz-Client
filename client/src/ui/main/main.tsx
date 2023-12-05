@@ -7,6 +7,9 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Trip } from '@/domain/TripList';
 import { getEntireTripList } from '@/application/api/main/getEntireTripList';
 
+import styles from '@/ui/main/main.module.css';
+import Kakao from '@/lib/kakao/kakao';
+
 function MainPage() {
   const token = useSelector((state: any) => state.token.token);
 
@@ -31,25 +34,20 @@ function MainPage() {
   };
 
   return (
-    <div>
+    <div className={styles.mainContainer}>
       {loading ? (
         <Spin tip='Loading...' size='large'>
-          <List grid={{ gutter: 16, column: 6 }} />
+          <List grid={{ gutter: 50, column: 5 }} />
         </Spin>
       ) : (
         <List
-          grid={{ gutter: 16, column: 6 }}
+          grid={{ gutter: 50, column: 5 }}
           dataSource={travelList}
           renderItem={(item) => (
             <List.Item>
               <Card
                 onClick={() => movetoSubPage(item.id ? item.id : 0)}
-                style={{
-                  width: '300px',
-                  height: '340px',
-                  borderRadius: '10px',
-                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                }}
+                className={styles.mainCard}
               >
                 <h3
                   style={{
@@ -62,6 +60,8 @@ function MainPage() {
                 >
                   {item.title}
                 </h3>
+                <hr />
+                <Kakao />
                 <hr />
                 <div
                   style={{
