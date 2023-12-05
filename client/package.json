@@ -30,6 +30,7 @@
     "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.1",
     "@storybook/addon-essentials": "7.6.0",
     "@storybook/addon-interactions": "7.6.0",
     "@storybook/addon-links": "7.6.0",
