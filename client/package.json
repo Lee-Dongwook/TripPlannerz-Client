@@ -67,7 +67,5 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vite-plugin-windicss": "^1.9.2"
-  },
-  "readme": "ERROR: No README data found!",
-  "_id": "client@0.0.0"
+  }
 }
