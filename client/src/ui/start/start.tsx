@@ -31,7 +31,6 @@ function StartPage() {
   });
 
   const [emailCode, setEmailCode] = useState<string>(''); //이메일 인증 코드
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [confirmPassword, setConfirmPassword] = useState<string>(''); // 비밀번호 확인
 
   const handleNameChange = (event) => {
@@ -107,36 +106,34 @@ function StartPage() {
   return (
     <div className={styles.startContainer}>
       <Image width={'calc(15vw)'} src={sight} alt='시작 이미지' />
-      <h2>TripPlannerz</h2>
-      <table>
-        <td>
-          <LoginModal
-            onSubmit={handleAccessToService}
-            onChange={{
-              handleEmailChange,
-              handlePasswordChange,
-            }}
-            onClick={handleAccessToService}
-          />
-        </td>
-        <td>
-          <SignUpModal
-            onSubmit={handleSubmitUserInfoToServer}
-            onChange={{
-              handleNameChange,
-              handleGenderChange,
-              handleEmailChange,
-              handleEmailCodeChange,
-              handlePasswordChange,
-              handleConfirmPasswordChange,
-            }}
-            onClick={{
-              handleSendEmailToServer,
-              handleSendEmailCodeToServer,
-            }}
-          />
-        </td>
-      </table>
+      <div className={styles.startTitle}>
+        <h2>TripPlannerz</h2>
+      </div>
+      <div className={styles.startButton}>
+        <LoginModal
+          onSubmit={handleAccessToService}
+          onChange={{
+            handleEmailChange,
+            handlePasswordChange,
+          }}
+          onClick={handleAccessToService}
+        />
+        <SignUpModal
+          onSubmit={handleSubmitUserInfoToServer}
+          onChange={{
+            handleNameChange,
+            handleGenderChange,
+            handleEmailChange,
+            handleEmailCodeChange,
+            handlePasswordChange,
+            handleConfirmPasswordChange,
+          }}
+          onClick={{
+            handleSendEmailToServer,
+            handleSendEmailCodeToServer,
+          }}
+        />
+      </div>
     </div>
   );
 }

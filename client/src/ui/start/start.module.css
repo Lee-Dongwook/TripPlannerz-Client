@@ -4,13 +4,17 @@
   justify-content: normal;
   align-items: center;
   width: 100%;
-  height: calc(95vh);
+  height: calc(100vh);
   overflow-y: auto;
   background-color: #000000;
   color: #ffffff;
 }
 
-.startContainer h2 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 200;
+.startTitle {
+  margin-top: 3%;
+}
+
+.startButton {
+  margin-top: 3%;
+  display: flex;
 }
