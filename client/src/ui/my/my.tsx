@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 
 import { Member } from '@/domain/Member';
 import { getMemberTripInfo } from '@/application/api/my/getMemberTripInfo';
@@ -13,6 +13,7 @@ function MyPage() {
 
   const [currentSection, setCurrentSection] = useState('section1');
   const [memberInfo, setMemberInfo] = useState<Member>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleChangeCurrentSection = (section: string) => {
     setCurrentSection(section);
@@ -23,6 +24,7 @@ function MyPage() {
 
     if (response.data) {
       setMemberInfo(response.data);
+      setLoading(false);
     } else {
       throw new Error('서버로 부터 유저 정보를 가져오지 못함');
     }
@@ -34,51 +36,54 @@ function MyPage() {
 
   return (
     <div>
-      <Button onClick={() => handleChangeCurrentSection('section1')}>
-        프로필
-      </Button>
-      <Button onClick={() => handleChangeCurrentSection('section2')}>
-        정보수정
-      </Button>
-      <Button onClick={() => handleChangeCurrentSection('section3')}>
-        일정조회
-      </Button>
-      <Button onClick={() => handleChangeCurrentSection('section4')}>
-        회원탈퇴
-      </Button>
-
-      <div id='section1'>
-        {currentSection === 'section1' && (
-          <div>
-            <ProfilePage memberInfo={memberInfo} />
+      {loading ? (
+        <Spin tip='loading...' size='large'></Spin>
+      ) : (
+        <>
+          {' '}
+          <Button onClick={() => handleChangeCurrentSection('section1')}>
+            프로필
+          </Button>
+          <Button onClick={() => handleChangeCurrentSection('section2')}>
+            정보수정
+          </Button>
+          <Button onClick={() => handleChangeCurrentSection('section3')}>
+            일정조회
+          </Button>
+          <Button onClick={() => handleChangeCurrentSection('section4')}>
+            회원탈퇴
+          </Button>
+          <div id='section1'>
+            {currentSection === 'section1' && (
+              <div>
+                <ProfilePage memberInfo={memberInfo} />
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
-      <div id='section2'>
-        {currentSection === 'section2' && (
-          <div>
-            <AccountPage />
+          <div id='section2'>
+            {currentSection === 'section2' && (
+              <div>
+                <AccountPage />
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
-      <div id='section3'>
-        {currentSection === 'section3' && (
-          <div>
-            <h2>Section 3 Content</h2>
-            <p>This is the content of Section 3.</p>
+          <div id='section3'>
+            {currentSection === 'section3' && (
+              <div>
+                <h2>Section 3 Content</h2>
+                <p>This is the content of Section 3.</p>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
-      <div id='section4'>
-        {currentSection === 'section4' && (
-          <div>
-            <WithdrawPage email={memberInfo?.email} />
+          <div id='section4'>
+            {currentSection === 'section4' && (
+              <div>
+                <WithdrawPage email={memberInfo?.email} />
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 }

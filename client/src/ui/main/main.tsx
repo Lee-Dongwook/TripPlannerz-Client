@@ -17,7 +17,6 @@ function MainPage() {
 
   const fetchData = async () => {
     const response = await getEntireTripList(token);
-    console.log(response.data.content);
     const updateList = response.data.content;
     setTravelList(updateList);
     setLoading(false);

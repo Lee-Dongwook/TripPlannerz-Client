@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Table } from 'antd';
+import { Table, Spin } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
@@ -15,6 +15,7 @@ function SearchPage() {
   const searchedKeyword = searchParams.get('keyword');
 
   const [tripList, setTripList] = useState<Trip[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleMoveToCertainTrip = (postId: string) => {
     const url = `/search/${postId}`;
@@ -35,6 +36,7 @@ function SearchPage() {
   const fetchData = async () => {
     const response = await handleGetPaginatedTripList();
     setTripList(response.data.content);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -118,8 +120,20 @@ function SearchPage() {
 
   return (
     <div>
-      <Table columns={tableColumns} dataSource={tableData} pagination={false} />
-      <Pagination totalPage={5} />
+      {loading ? (
+        <Spin tip='loading...' size='large'>
+          <Table />
+        </Spin>
+      ) : (
+        <>
+          <Table
+            columns={tableColumns}
+            dataSource={tableData}
+            pagination={false}
+          />
+          <Pagination totalPage={5} />
+        </>
+      )}
     </div>
   );
 }
