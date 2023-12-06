@@ -109,16 +109,24 @@ function DetailPage() {
   return (
     <div>
       <Card>
-        <KakaoMap width='400px' height='400px' searchKeyword={searchPlace} />
         <Meta
           description={
-            <div>
-              <TripInfo tripInfo={detailTripInfo} content={tripContent} />
-              <Input
-                placeholder='여행장소를 입력하세요'
-                onChange={handleInputSearchPlace}
+            <>
+              <div style={{ display: 'flex' }}>
+                <TripInfo tripInfo={detailTripInfo} content={tripContent} />
+                <div style={{ flex: 1 }}>
+                  <Input
+                    placeholder='여행장소를 입력하세요'
+                    onChange={handleInputSearchPlace}
+                  />
+                  <Button onClick={handleSaveLocationToServer}>입력</Button>
+                </div>
+              </div>
+              <KakaoMap
+                width='400px'
+                height='400px'
+                searchKeyword={searchPlace}
               />
-              <Button onClick={handleSaveLocationToServer}>입력</Button>
               {/* <TripTimeline />
               <table>
                 <td>
@@ -135,7 +143,7 @@ function DetailPage() {
                   commentList={tripCommentList}
                 />
               )}
-            </div>
+            </>
           }
         ></Meta>
       </Card>
