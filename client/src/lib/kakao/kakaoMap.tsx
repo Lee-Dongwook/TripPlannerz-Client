@@ -101,7 +101,7 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
   }, [searchKeyword]);
 
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
       <div
         ref={container}
         style={{
@@ -111,10 +111,10 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
           border: '2px solid skyblue',
         }}
       ></div>
-      <div>
+      <div style={{ flex: 1 }}>
         {markers ? (
           <Table
-            dataSource={markers.slice(0, 3)}
+            dataSource={markers.slice(0, 6)}
             columns={[
               {
                 title: '여행하실 장소들',
