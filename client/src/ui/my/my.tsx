@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, Spin, Menu } from 'antd';
+import { Spin, Menu } from 'antd';
 
 import { Member } from '@/domain/Member';
 import { getMemberTripInfo } from '@/application/api/my/getMemberTripInfo';
