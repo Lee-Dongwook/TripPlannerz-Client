@@ -6,6 +6,7 @@ import { Member } from '@/domain/Member';
 import { getMemberTripInfo } from '@/application/api/my/getMemberTripInfo';
 import ProfilePage from '@/ui/my/profile/profile';
 import AccountPage from '@/ui/my/account/account';
+import SchedulePage from '@/ui/my/schedule/schedule';
 import WithdrawPage from '@/ui/my/withdraw/withdraw';
 
 const { Item } = Menu;
@@ -75,8 +76,7 @@ function MyPage() {
             <div id='section3'>
               {currentSection === 'section3' && (
                 <div>
-                  <h2>Section 3 Content</h2>
-                  <p>This is the content of Section 3.</p>
+                  <SchedulePage />
                 </div>
               )}
             </div>
