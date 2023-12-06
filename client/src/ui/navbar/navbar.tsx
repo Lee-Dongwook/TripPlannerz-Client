@@ -129,9 +129,11 @@ function Navbar() {
           value={searchTerm}
           placeholder='여행 일정을 검색하세요'
           onChange={handleChangeSearchTerm}
-          onKeyDown={(event) =>
-            searchTripInTripList(navigate, event, searchTerm)
-          }
+          onKeyDown={(event) => {
+            event.preventDefault();
+            searchTripInTripList(navigate, event, searchTerm);
+            setSearchTerm('');
+          }}
         />
       </Menu.Item>
       <Menu.Item>
