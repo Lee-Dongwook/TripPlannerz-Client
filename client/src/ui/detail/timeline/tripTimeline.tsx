@@ -1,7 +1,17 @@
-export const TripTimeline = () => {
+import { Timeline } from 'antd';
+import type { TripTimeLineProp } from '@/ui/detail/timeline/tripTimelineProp.types';
+
+export const TripTimeline = ({ searchPlaceList }: TripTimeLineProp) => {
+  const timeLineItem =
+    searchPlaceList.length > 0
+      ? searchPlaceList.map((item) => ({
+          children: item.name,
+        }))
+      : null;
+
   return (
     <>
-      <h4>
+      <h4 style={{ textAlign: 'center' }}>
         <strong>TimeLine</strong>
       </h4>
       <hr />
