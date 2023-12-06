@@ -121,6 +121,9 @@ function DetailPage() {
               <div style={{ display: 'flex' }}>
                 <TripInfo tripInfo={detailTripInfo} content={tripContent} />
                 <div style={{ flex: 1 }}>
+                  <TripTimeline searchPlaceList={searchPlaceList} />
+                </div>
+                <div style={{ flex: 2 }}>
                   <Input
                     style={{ width: '30%' }}
                     placeholder='여행장소를 입력하세요'
