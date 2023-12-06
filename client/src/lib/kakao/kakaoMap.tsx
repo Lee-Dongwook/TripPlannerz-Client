@@ -128,6 +128,7 @@ function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
               },
             ]}
             pagination={false}
+            style={{ minHeight: '400px' }}
           />
         ) : (
           '검색어를 입력해주세요'

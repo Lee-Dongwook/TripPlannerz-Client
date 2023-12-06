@@ -112,31 +112,23 @@ function DetailPage() {
         <Meta
           description={
             <>
+              <KakaoMap
+                width='400px'
+                height='400px'
+                searchKeyword={searchPlace}
+              />
+              <br />
               <div style={{ display: 'flex' }}>
                 <TripInfo tripInfo={detailTripInfo} content={tripContent} />
                 <div style={{ flex: 1 }}>
                   <Input
+                    style={{ width: '30%' }}
                     placeholder='여행장소를 입력하세요'
                     onChange={handleInputSearchPlace}
                   />
                   <Button onClick={handleSaveLocationToServer}>입력</Button>
                 </div>
               </div>
-              <KakaoMap
-                width='400px'
-                height='400px'
-                searchKeyword={searchPlace}
-              />
-              {/* <TripTimeline />
-              <table>
-                <td>
-                  <OptimizeRoute />
-                </td>
-                <td style={{ padding: '75px' }}>
-                  <RequestAccompany />
-                </td>
-              </table>
-               */}
               {detailTripInfo.uuid && (
                 <CommentList
                   tripUUID={detailTripInfo.uuid}
