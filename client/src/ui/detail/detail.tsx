@@ -109,33 +109,33 @@ function DetailPage() {
   return (
     <div>
       <Card>
-        <KakaoMap width='400px' height='400px' searchKeyword={searchPlace} />
         <Meta
           description={
-            <div>
-              <TripInfo tripInfo={detailTripInfo} content={tripContent} />
-              <Input
-                placeholder='여행장소를 입력하세요'
-                onChange={handleInputSearchPlace}
+            <>
+              <KakaoMap
+                width='400px'
+                height='400px'
+                searchKeyword={searchPlace}
               />
-              <Button onClick={handleSaveLocationToServer}>입력</Button>
-              {/* <TripTimeline />
-              <table>
-                <td>
-                  <OptimizeRoute />
-                </td>
-                <td style={{ padding: '75px' }}>
-                  <RequestAccompany />
-                </td>
-              </table>
-               */}
+              <br />
+              <div style={{ display: 'flex' }}>
+                <TripInfo tripInfo={detailTripInfo} content={tripContent} />
+                <div style={{ flex: 1 }}>
+                  <Input
+                    style={{ width: '30%' }}
+                    placeholder='여행장소를 입력하세요'
+                    onChange={handleInputSearchPlace}
+                  />
+                  <Button onClick={handleSaveLocationToServer}>입력</Button>
+                </div>
+              </div>
               {detailTripInfo.uuid && (
                 <CommentList
                   tripUUID={detailTripInfo.uuid}
                   commentList={tripCommentList}
                 />
               )}
-            </div>
+            </>
           }
         ></Meta>
       </Card>

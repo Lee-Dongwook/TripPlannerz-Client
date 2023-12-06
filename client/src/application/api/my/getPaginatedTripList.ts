@@ -6,7 +6,7 @@ export const getPaginatedTripList = async(
     order: string,
 ) => {
   if(token){
-    const response = await axios.get(`http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}`,{
+    const response = await axios.get(`http://localhost:8080/api/trip/tripList?page=${currentNumber}&sortType=${order}&keyWord=`,{
         headers: {'Authorization': `Bearer ${token}`}
     })
     return response;

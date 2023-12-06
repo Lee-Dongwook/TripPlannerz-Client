@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, Spin } from 'antd';
+import { Spin, Menu } from 'antd';
 
 import { Member } from '@/domain/Member';
 import { getMemberTripInfo } from '@/application/api/my/getMemberTripInfo';
 import ProfilePage from '@/ui/my/profile/profile';
 import AccountPage from '@/ui/my/account/account';
+import SchedulePage from '@/ui/my/schedule/schedule';
 import WithdrawPage from '@/ui/my/withdraw/withdraw';
+
+const { Item } = Menu;
 
 function MyPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -35,52 +38,55 @@ function MyPage() {
   }, []);
 
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
       {loading ? (
         <Spin tip='loading...' size='large'></Spin>
       ) : (
         <>
-          {' '}
-          <Button onClick={() => handleChangeCurrentSection('section1')}>
-            프로필
-          </Button>
-          <Button onClick={() => handleChangeCurrentSection('section2')}>
-            정보수정
-          </Button>
-          <Button onClick={() => handleChangeCurrentSection('section3')}>
-            일정조회
-          </Button>
-          <Button onClick={() => handleChangeCurrentSection('section4')}>
-            회원탈퇴
-          </Button>
-          <div id='section1'>
-            {currentSection === 'section1' && (
-              <div>
-                <ProfilePage memberInfo={memberInfo} />
-              </div>
-            )}
-          </div>
-          <div id='section2'>
-            {currentSection === 'section2' && (
-              <div>
-                <AccountPage />
-              </div>
-            )}
-          </div>
-          <div id='section3'>
-            {currentSection === 'section3' && (
-              <div>
-                <h2>Section 3 Content</h2>
-                <p>This is the content of Section 3.</p>
-              </div>
-            )}
-          </div>
-          <div id='section4'>
-            {currentSection === 'section4' && (
-              <div>
-                <WithdrawPage email={memberInfo?.email} />
-              </div>
-            )}
+          <Menu
+            onClick={(e) => handleChangeCurrentSection(e.key)}
+            selectedKeys={[currentSection]}
+            mode='vertical'
+            style={{
+              width: '15%',
+              height: 'calc(90vh)',
+              backgroundColor: 'whitesmoke',
+            }}
+          >
+            <Item key='section1'>프로필</Item>
+            <Item key='section2'>정보수정</Item>
+            <Item key='section3'>일정조회</Item>
+            <Item key='section4'>회원탈퇴</Item>
+          </Menu>
+          <div style={{ flex: 1 }}>
+            <div id='section1'>
+              {currentSection === 'section1' && (
+                <div>
+                  <ProfilePage memberInfo={memberInfo} />
+                </div>
+              )}
+            </div>
+            <div id='section2'>
+              {currentSection === 'section2' && (
+                <div>
+                  <AccountPage />
+                </div>
+              )}
+            </div>
+            <div id='section3'>
+              {currentSection === 'section3' && (
+                <div>
+                  <SchedulePage />
+                </div>
+              )}
+            </div>
+            <div id='section4'>
+              {currentSection === 'section4' && (
+                <div>
+                  <WithdrawPage email={memberInfo?.email} />
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}
