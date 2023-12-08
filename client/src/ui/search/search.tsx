@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Row, Col, Menu, Table, Spin } from 'antd';
+import { Row, Col, Table, Spin } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
+import SideBar from '@/ui/sidebar/sidebar';
 import { Pagination } from '@/ui/search/pagination/pagination';
-
-const { Item } = Menu;
 
 function SearchPage() {
   const navigate = useNavigate();
@@ -130,16 +129,7 @@ function SearchPage() {
       ) : (
         <>
           <Row style={{ width: '100%', height: '100%' }}>
-            <Col
-              span={4}
-              style={{ backgroundColor: 'whitesmoke', padding: '16px' }}
-            >
-              <Menu mode='vertical'>
-                <Item key='new'>최신 순</Item>
-                <Item key='hits'>조회수 순</Item>
-                <Item key='favorite'>좋아요 순</Item>
-              </Menu>
-            </Col>
+            <SideBar />
             <Col span={20} style={{ padding: '16px' }}>
               <Table
                 columns={tableColumns}
