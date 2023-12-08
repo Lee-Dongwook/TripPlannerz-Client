@@ -5,7 +5,7 @@ export interface Trip {
     capacity?: number
     content?: string
     closeRecruitDate?: number
-    goingDate?: number
+    startingDate?: number
     comingDate?: number
     image?: string
     recruitNum?: number

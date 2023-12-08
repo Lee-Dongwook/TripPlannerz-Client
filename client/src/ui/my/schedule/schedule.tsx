@@ -44,7 +44,7 @@ function SchedulePage() {
       key: 'title',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -57,7 +57,7 @@ function SchedulePage() {
       key: 'deadline',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -70,7 +70,7 @@ function SchedulePage() {
       key: 'participants',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -83,7 +83,7 @@ function SchedulePage() {
       key: 'date',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -93,11 +93,12 @@ function SchedulePage() {
   ];
 
   const tableData = tripList.map((trip) => ({
+    id: trip.id ? trip.id : '',
     title: trip.title ? trip.title : '',
     deadline:
-      trip.goingDate && trip.comingDate
-        ? trip.goingDate < trip.comingDate
-          ? trip.goingDate
+      trip.startingDate && trip.comingDate
+        ? trip.startingDate < trip.comingDate
+          ? trip.startingDate
           : trip.comingDate
         : '',
     participants:
@@ -105,10 +106,10 @@ function SchedulePage() {
         ? trip.currentNum + ' / ' + trip.recruitNum
         : '',
     date:
-      trip.goingDate && trip.comingDate
-        ? trip.goingDate < trip.comingDate
-          ? trip.goingDate + ' ~ ' + trip.comingDate
-          : trip.comingDate + ' ~ ' + trip.goingDate
+      trip.startingDate && trip.comingDate
+        ? trip.startingDate < trip.comingDate
+          ? trip.startingDate + ' ~ ' + trip.comingDate
+          : trip.comingDate + ' ~ ' + trip.startingDate
         : '',
   }));
 

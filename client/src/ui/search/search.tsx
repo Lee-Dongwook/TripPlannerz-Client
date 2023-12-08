@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Table, Spin } from 'antd';
+import { Row, Col, Table, Spin } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
+import SideBar from '@/ui/sidebar/sidebar';
 import { Pagination } from '@/ui/search/pagination/pagination';
 
 function SearchPage() {
@@ -50,7 +51,7 @@ function SearchPage() {
       key: 'title',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -63,7 +64,7 @@ function SearchPage() {
       key: 'deadline',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -76,7 +77,7 @@ function SearchPage() {
       key: 'participants',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -89,7 +90,7 @@ function SearchPage() {
       key: 'date',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -99,11 +100,12 @@ function SearchPage() {
   ];
 
   const tableData = tripList.map((trip) => ({
+    id: trip.id ? trip.id : '',
     title: trip.title ? trip.title : '',
     deadline:
-      trip.goingDate && trip.comingDate
-        ? trip.goingDate < trip.comingDate
-          ? trip.goingDate
+      trip.startingDate && trip.comingDate
+        ? trip.startingDate < trip.comingDate
+          ? trip.startingDate
           : trip.comingDate
         : '',
     participants:
@@ -111,27 +113,32 @@ function SearchPage() {
         ? trip.currentNum + ' / ' + trip.recruitNum
         : '',
     date:
-      trip.goingDate && trip.comingDate
-        ? trip.goingDate < trip.comingDate
-          ? trip.goingDate + ' ~ ' + trip.comingDate
-          : trip.comingDate + ' ~ ' + trip.goingDate
+      trip.startingDate && trip.comingDate
+        ? trip.startingDate < trip.comingDate
+          ? trip.startingDate + ' ~ ' + trip.comingDate
+          : trip.comingDate + ' ~ ' + trip.startingDate
         : '',
   }));
 
   return (
-    <div>
+    <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
       {loading ? (
         <Spin tip='loading...' size='large'>
           <Table />
         </Spin>
       ) : (
         <>
-          <Table
-            columns={tableColumns}
-            dataSource={tableData}
-            pagination={false}
-          />
-          <Pagination totalPage={5} />
+          <Row style={{ width: '100%', height: '100%' }}>
+            <SideBar />
+            <Col span={20} style={{ padding: '16px' }}>
+              <Table
+                columns={tableColumns}
+                dataSource={tableData}
+                pagination={false}
+              />
+              <Pagination totalPage={5} />
+            </Col>
+          </Row>
         </>
       )}
     </div>

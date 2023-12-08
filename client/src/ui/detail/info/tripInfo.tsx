@@ -9,12 +9,15 @@ import { TripTimeline } from '@/ui/detail/timeline/tripTimeline';
 
 const { Meta } = Card;
 
-export const TripInfo = ({ token, tripInfo, content }: TripInfoProp) => {
-  const { uuid, title, goingDate, comingDate } = tripInfo;
+export const TripInfo = ({
+  token,
+  tripInfo,
+  content,
+  searchPlaceList,
+}: TripInfoProp) => {
+  const { uuid, title, startingDate, comingDate } = tripInfo;
 
   const [searchKeyword, setSearchKeyword] = useState<string>('');
-
-  const [searchPlaceList, setSearchPlaceList] = useState<TripPlaceInfo[]>([]);
 
   const handleInputSearchPlace = (event) => {
     setSearchKeyword(event.target.value);
@@ -58,8 +61,8 @@ export const TripInfo = ({ token, tripInfo, content }: TripInfoProp) => {
                   <strong>여행 기간:</strong>
                 </span>
                 <span>
-                  {goingDate && comingDate
-                    ? `${goingDate} ~ ${comingDate}`
+                  {startingDate && comingDate
+                    ? `${startingDate} ~ ${comingDate}`
                     : '일정 없음'}
                 </span>
               </div>
@@ -74,7 +77,7 @@ export const TripInfo = ({ token, tripInfo, content }: TripInfoProp) => {
           style={{ marginBottom: '10px' }}
         />
         <hr />
-        <TripTimeline searchPlaceList={searchPlaceList} />
+        {searchPlaceList && <TripTimeline searchPlaceList={searchPlaceList} />}
         <div
           style={{
             display: 'flex',

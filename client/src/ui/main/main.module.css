@@ -1,6 +1,6 @@
 .mainContainer {
   width: 100%;
-  height: calc(85vh);
+  height: calc(100vh);
   display: flex;
 }
 
