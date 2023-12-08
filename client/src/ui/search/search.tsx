@@ -50,7 +50,7 @@ function SearchPage() {
       key: 'title',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -63,7 +63,7 @@ function SearchPage() {
       key: 'deadline',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -76,7 +76,7 @@ function SearchPage() {
       key: 'participants',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -89,7 +89,7 @@ function SearchPage() {
       key: 'date',
       render: (text, record) => (
         <span
-          onClick={() => handleMoveToCertainTrip(record.key)}
+          onClick={() => handleMoveToCertainTrip(record.id)}
           className='list-key'
         >
           {text}
@@ -99,6 +99,7 @@ function SearchPage() {
   ];
 
   const tableData = tripList.map((trip) => ({
+    id: trip.id ? trip.id : '',
     title: trip.title ? trip.title : '',
     deadline:
       trip.startingDate && trip.comingDate
