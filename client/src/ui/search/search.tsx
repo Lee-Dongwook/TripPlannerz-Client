@@ -101,9 +101,9 @@ function SearchPage() {
   const tableData = tripList.map((trip) => ({
     title: trip.title ? trip.title : '',
     deadline:
-      trip.goingDate && trip.comingDate
-        ? trip.goingDate < trip.comingDate
-          ? trip.goingDate
+      trip.startingDate && trip.comingDate
+        ? trip.startingDate < trip.comingDate
+          ? trip.startingDate
           : trip.comingDate
         : '',
     participants:
@@ -111,10 +111,10 @@ function SearchPage() {
         ? trip.currentNum + ' / ' + trip.recruitNum
         : '',
     date:
-      trip.goingDate && trip.comingDate
-        ? trip.goingDate < trip.comingDate
-          ? trip.goingDate + ' ~ ' + trip.comingDate
-          : trip.comingDate + ' ~ ' + trip.goingDate
+      trip.startingDate && trip.comingDate
+        ? trip.startingDate < trip.comingDate
+          ? trip.startingDate + ' ~ ' + trip.comingDate
+          : trip.comingDate + ' ~ ' + trip.startingDate
         : '',
   }));
 

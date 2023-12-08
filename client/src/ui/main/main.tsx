@@ -83,7 +83,7 @@ function MainPage() {
                   />
                 </div>
                 <div style={{ color: '#666', fontSize: '0.9rem' }}>
-                  <strong>여행 기간:</strong> {item.goingDate} ~{' '}
+                  <strong>여행 기간:</strong> {item.startingDate} ~{' '}
                   {item.comingDate}
                 </div>
               </Card>

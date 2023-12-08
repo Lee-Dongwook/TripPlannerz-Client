@@ -48,7 +48,7 @@ function DetailPage() {
         uuid: response.data.uuid,
         title: response.data.title,
         content: response.data.content,
-        goingDate: response.data.startingDate,
+        startingDate: response.data.startingDate,
         comingDate: response.data.comingDate,
       };
 

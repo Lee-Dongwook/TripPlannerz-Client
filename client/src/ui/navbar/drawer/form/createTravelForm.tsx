@@ -53,7 +53,7 @@ export const CreateTravelForm = () => {
     );
   };
   const handleTripGoingDateChange = (event) => {
-    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'goingDate', event));
+    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'startingDate', event));
   };
   const handleTripComingDateChange = (event) => {
     setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'comingDate', event));
