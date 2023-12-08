@@ -9,8 +9,7 @@ import MainPage from '@/ui/main/main';
 import CreatePage from '@/ui/create/create';
 import SearchPage from '@/ui/search/search';
 import DetailPage from '@/ui/detail/detail';
-
-import MyPage from '@/ui/my/my';
+import ProfilePage from '@/ui/my/profile/profile';
 import AccountPage from '@/ui/my/account/account';
 import SchedulePage from '@/ui/my/schedule/schedule';
 import WithdrawPage from '@/ui/my/withdraw/withdraw';
@@ -30,7 +29,7 @@ function App() {
               <Route path='/create' element={<CreatePage />} />
               <Route path='/search' element={<SearchPage />} />
               <Route path='/search/:postId' element={<DetailPage />} />
-              <Route path='/my/profile' element={<MyPage />} />
+              <Route path='/my/profile' element={<ProfilePage />} />
               <Route path='/my/account' element={<AccountPage />} />
               <Route path='/my/schedule' element={<SchedulePage />} />
               <Route path='/my/withdraw' element={<WithdrawPage />} />
