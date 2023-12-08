@@ -1,5 +1,10 @@
 import { Col, Menu, type MenuProps } from 'antd';
-import { BarsOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  BarsOutlined,
+  SearchOutlined,
+  UserOutlined,
+  PlusCircleOutlined,
+} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -30,6 +35,7 @@ function SideBar() {
       null,
       [
         getItem('메인 페이지', 'main', <BarsOutlined />),
+        getItem('여행 생성', 'create', <PlusCircleOutlined />),
         getItem('여행 조회', 'search', <SearchOutlined />),
         getItem('마이 페이지', 'my', <UserOutlined />, [
           getItem('내 정보', 'my'),

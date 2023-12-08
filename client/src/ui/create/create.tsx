@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Cascader,
@@ -9,14 +10,14 @@ import {
   InputNumber,
   Upload,
   Table,
+  Row,
+  Col,
 } from 'antd';
 import ImgCrop from 'antd-img-crop';
 
 import { Trip } from '@/domain/TripList';
-
 import { updateTripInfo } from '@/application/navbar/updateTripInfo';
 import { SubmitTripInfoToServer } from '@/application/navbar/submitTripInfoToServer';
-
 import { TripCategoryCascaderOption } from '@/lib/info/tripCategoryCascaderOption';
 import {
   majorCategories,
@@ -24,7 +25,12 @@ import {
   subCategories,
 } from '@/lib/info/tripCatergoryList';
 
-export const CreateTravelForm = () => {
+import SideBar from '@/ui/sidebar/sidebar';
+import styles from '@/ui/create/create.module.css';
+
+function CreatePage() {
+  const navigate = useNavigate();
+
   const token = useSelector((state: any) => state.token.token);
 
   const [tripInfo, setTripInfo] = useState<Trip>({});
@@ -172,54 +178,62 @@ export const CreateTravelForm = () => {
 
     if (response) {
       alert('여행이 생성되었습니다.');
+      navigate('/main');
     } else {
       alert('여행 생성에 오류가 발생하였습니다.');
     }
   };
 
   return (
-    <>
-      <h5>1. 여행 장소 선택</h5>
-      <Form>
-        <Cascader
-          onChange={handleCascaderChange}
-          size='large'
-          placeholder='지역을 선택하세요'
-          options={TripCategoryCascaderOption(
-            majorCategories,
-            minorCategories,
-            subCategories
-          )}
-        />
-      </Form>
-      <hr />
-      <h5>2. 여행 정보 입력</h5>
-      <br />
-      <Form>
-        <Table
-          columns={createTripTableFirstRow}
-          dataSource={initialData}
-          bordered
-          pagination={false}
-          rowKey={(record, index) => String(index)}
-        />
-        <Table
-          columns={createTripTableSecondRow}
-          dataSource={initialData}
-          bordered
-          pagination={false}
-          rowKey={(record, index) => String(index)}
-        />
-      </Form>
-      <Form.Item>
-        <Button
-          type='primary'
-          htmlType='submit'
-          onClick={handleSubmitTripInfoToServer}
-        >
-          등록
-        </Button>
-      </Form.Item>
-    </>
+    <div className={styles.createContainer}>
+      <Row style={{ width: '100%', height: '100%' }}>
+        <SideBar />
+        <Col span={20} style={{ padding: '16px' }}>
+          <h5>1. 여행 장소 선택</h5>
+          <Form>
+            <Cascader
+              onChange={handleCascaderChange}
+              size='large'
+              placeholder='지역을 선택하세요'
+              options={TripCategoryCascaderOption(
+                majorCategories,
+                minorCategories,
+                subCategories
+              )}
+            />
+          </Form>
+          <hr />
+          <h5>2. 여행 정보 입력</h5>
+          <br />
+          <Form>
+            <Table
+              columns={createTripTableFirstRow}
+              dataSource={initialData}
+              bordered
+              pagination={false}
+              rowKey={(record, index) => String(index)}
+            />
+            <Table
+              columns={createTripTableSecondRow}
+              dataSource={initialData}
+              bordered
+              pagination={false}
+              rowKey={(record, index) => String(index)}
+            />
+          </Form>
+          <Form.Item>
+            <Button
+              type='primary'
+              htmlType='submit'
+              onClick={handleSubmitTripInfoToServer}
+            >
+              등록
+            </Button>
+          </Form.Item>
+        </Col>
+      </Row>
+    </div>
   );
-};
+}
+
+export default CreatePage;

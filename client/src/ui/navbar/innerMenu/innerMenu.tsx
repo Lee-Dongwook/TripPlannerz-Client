@@ -1,11 +1,13 @@
 import { Menu } from 'antd';
 import { useNavigate } from 'react-router-dom';
-
 import { NavbarButton } from '@/ui/navbar/button/navbarButton';
-import { CreateTravelDrawer } from '@/ui/navbar/drawer/createTravelDrawer';
 
 export const InnerMenu = () => {
   const navigate = useNavigate();
+
+  const moveToCreate = () => {
+    navigate('/create');
+  };
 
   const moveToSearch = () => {
     navigate('/search');
@@ -18,18 +20,22 @@ export const InnerMenu = () => {
   return (
     <>
       <Menu.Item>
-        <CreateTravelDrawer />
+        <NavbarButton
+          name='여행 생성'
+          style={{ width: '100px' }}
+          onClick={moveToCreate}
+        />
       </Menu.Item>
       <Menu.Item>
         <NavbarButton
-          name='일정조회'
+          name='일정 조회'
           style={{ width: '100px' }}
           onClick={moveToSearch}
         />
       </Menu.Item>
       <Menu.Item>
         <NavbarButton
-          name='여행경비'
+          name='여행 경비'
           style={{ width: '100px' }}
           onClick={moveToBill}
         />
