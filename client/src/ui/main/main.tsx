@@ -46,7 +46,7 @@ function MainPage() {
             <SideBar />
             <Col span={20} style={{ padding: '16px' }}>
               <List
-                grid={{ gutter: 50, column: 5 }}
+                grid={{ gutter: 50, column: 4 }}
                 dataSource={travelList}
                 renderItem={(item) => (
                   <List.Item>
