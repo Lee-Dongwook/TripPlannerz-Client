@@ -9,7 +9,11 @@ import MainPage from '@/ui/main/main';
 import CreatePage from '@/ui/create/create';
 import SearchPage from '@/ui/search/search';
 import DetailPage from '@/ui/detail/detail';
+
 import MyPage from '@/ui/my/my';
+import AccountPage from '@/ui/my/account/account';
+import SchedulePage from '@/ui/my/schedule/schedule';
+import WithdrawPage from '@/ui/my/withdraw/withdraw';
 
 function App() {
   const token: string | null = useSelector((state: any) => state.token.token);
@@ -19,14 +23,19 @@ function App() {
       <Suspense fallback={<div>Loading...</div>}>
         {token && <Navbar />}
         <Routes>
-          <Route path='/' element={<StartPage />}></Route>
-          {token && <Route path='/main' element={<MainPage />}></Route>}
-          {token && <Route path='/create' element={<CreatePage />}></Route>}
-          {token && <Route path='/search' element={<SearchPage />}></Route>}
+          <Route path='/' element={<StartPage />} />
           {token && (
-            <Route path='/search/:postId' element={<DetailPage />}></Route>
+            <>
+              <Route path='/main' element={<MainPage />} />
+              <Route path='/create' element={<CreatePage />} />
+              <Route path='/search' element={<SearchPage />} />
+              <Route path='/search/:postId' element={<DetailPage />} />
+              <Route path='/my/profile' element={<MyPage />} />
+              <Route path='/my/account' element={<AccountPage />} />
+              <Route path='/my/schedule' element={<SchedulePage />} />
+              <Route path='/my/withdraw' element={<WithdrawPage />} />
+            </>
           )}
-          {token && <Route path='/my' element={<MyPage />}></Route>}
         </Routes>
       </Suspense>
     </Router>

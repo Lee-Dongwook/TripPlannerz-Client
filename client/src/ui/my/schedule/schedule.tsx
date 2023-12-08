@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Table, Spin } from 'antd';
+import { Row, Col, Table, Spin } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/my/getPaginatedTripList';
+import SideBar from '@/ui/sidebar/sidebar';
 
 function SchedulePage() {
   const token = useSelector((state: any) => state.token.token);
@@ -114,18 +115,23 @@ function SchedulePage() {
   }));
 
   return (
-    <div>
+    <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
       {loading ? (
         <Spin tip='loading...' size='large'>
           <Table />
         </Spin>
       ) : (
         <>
-          <Table
-            columns={tableColumns}
-            dataSource={tableData}
-            pagination={false}
-          />
+          <Row style={{ width: '100%', height: '100%' }}>
+            <SideBar />
+            <Col span={20} style={{ padding: '16px' }}>
+              <Table
+                columns={tableColumns}
+                dataSource={tableData}
+                pagination={false}
+              />
+            </Col>
+          </Row>
         </>
       )}
     </div>
