@@ -6,7 +6,7 @@
 [![Vite](https://img.shields.io/badge/Vite-%2306465D?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![antd](https://img.shields.io/badge/antd-%230170FE?style=flat&logo=ant-design&logoColor=white)](https://ant.design/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-%231a202c?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Yarn](https://img.shields.io/badge/Yarn-%232C8EBB?style=flat&logo=yarn&logoColor=white)](https://yarnpkg.com/)
+[![PNPM](https://img.shields.io/badge/PNPM-%23F53838?style=flat&logo=pnpm&logoColor=white)](https://pnpm.io/)
 [![Redux](https://img.shields.io/badge/Redux-%23764ABC?style=flat&logo=redux&logoColor=white)](https://redux.js.org/)
 [![ESLint](https://img.shields.io/badge/ESLint-%234B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
 [![Prettier](https://img.shields.io/badge/Prettier-%231a2b34?style=flat&logo=prettier&logoColor=white)](https://prettier.io/)
