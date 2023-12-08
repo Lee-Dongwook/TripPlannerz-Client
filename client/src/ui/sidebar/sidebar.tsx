@@ -24,32 +24,6 @@ function SideBar() {
   };
 
   const menuItems: MenuProps['items'] = [
-    // getItem('Navigation One', 'sub1', <MailOutlined />, [
-    //   getItem(
-    //     'Item 1',
-    //     'g1',
-    //     null,
-    //     [getItem('Option 1', '1'), getItem('Option 2', '2')],
-    //     'group'
-    //   ),
-    //   getItem(
-    //     'Item 2',
-    //     'g2',
-    //     null,
-    //     [getItem('Option 3', '3'), getItem('Option 4', '4')],
-    //     'group'
-    //   ),
-    // ]),
-
-    // getItem('Navigation Two', 'sub2', <BarsOutlined />, [
-    //   getItem('Option 5', '5'),
-    //   getItem('Option 6', '6'),
-    //   getItem('Submenu', 'sub3', null, [
-    //     getItem('Option 7', '7'),
-    //     getItem('Option 8', '8'),
-    //   ]),
-    // ]),
-
     getItem(
       'Menu',
       'grp',
@@ -57,7 +31,12 @@ function SideBar() {
       [
         getItem('메인 페이지', 'main', <BarsOutlined />),
         getItem('여행 조회', 'search', <SearchOutlined />),
-        getItem('마이 페이지', 'my', <UserOutlined />),
+        getItem('마이 페이지', 'my', <UserOutlined />, [
+          getItem('내 정보', 'my'),
+          getItem('정보 변경', 'my'),
+          getItem('내 일정 조회', 'my'),
+          getItem('회원 탈퇴', 'my'),
+        ]),
       ],
       'group'
     ),
