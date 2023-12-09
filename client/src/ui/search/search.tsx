@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Row, Col, Table, Spin } from 'antd';
+import { Row, Col, Table, Spin, Input } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
@@ -131,6 +131,7 @@ function SearchPage() {
           <Row style={{ width: '100%', height: '100%' }}>
             <SideBar />
             <Col span={20} style={{ padding: '16px' }}>
+              <Input type='text' placeholder='검색어를 입력하세요' />
               <Table
                 columns={tableColumns}
                 dataSource={tableData}
