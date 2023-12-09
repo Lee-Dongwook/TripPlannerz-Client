@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Card } from 'antd';
+import { Row, Col, Card } from 'antd';
 
 import type { Member } from '@/domain/Member';
 import type { Trip } from '@/domain/TripList';
@@ -10,6 +10,7 @@ import type { TripPlaceInfo } from '@/domain/TripPlaceInfo';
 
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 
+import SideBar from '@/ui/sidebar/sidebar';
 import { TripInfo } from '@/ui/detail/info/tripInfo';
 import { CommentList } from '@/ui/detail/comment/comment';
 import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
@@ -85,29 +86,36 @@ function DetailPage() {
   }, []);
 
   return (
-    <div>
-      <Card>
-        <Meta
-          description={
-            <>
-              <div style={{ display: 'flex' }}>
-                <TripInfo
-                  token={token}
-                  tripInfo={detailTripInfo}
-                  content={tripContent}
-                  searchPlaceList={searchPlaceList}
-                />
-              </div>
-              {detailTripInfo.uuid && (
-                <CommentList
-                  tripUUID={detailTripInfo.uuid}
-                  commentList={tripCommentList}
-                />
-              )}
-            </>
-          }
-        ></Meta>
-      </Card>
+    <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
+      <>
+        <Row style={{ width: '100%', height: '100%' }}>
+          <SideBar />
+          <Col span={20} style={{ padding: '16px' }}>
+            <Card>
+              <Meta
+                description={
+                  <>
+                    <div style={{ display: 'flex' }}>
+                      <TripInfo
+                        token={token}
+                        tripInfo={detailTripInfo}
+                        content={tripContent}
+                        searchPlaceList={searchPlaceList}
+                      />
+                    </div>
+                    {detailTripInfo.uuid && (
+                      <CommentList
+                        tripUUID={detailTripInfo.uuid}
+                        commentList={tripCommentList}
+                      />
+                    )}
+                  </>
+                }
+              ></Meta>
+            </Card>
+          </Col>
+        </Row>
+      </>
     </div>
   );
 }

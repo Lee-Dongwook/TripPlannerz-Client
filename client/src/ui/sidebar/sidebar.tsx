@@ -38,10 +38,10 @@ function SideBar() {
         getItem('여행 생성', 'create', <PlusCircleOutlined />),
         getItem('여행 조회', 'search', <SearchOutlined />),
         getItem('마이 페이지', 'my', <UserOutlined />, [
-          getItem('내 정보', 'my'),
-          getItem('정보 변경', 'my'),
-          getItem('내 일정 조회', 'my'),
-          getItem('회원 탈퇴', 'my'),
+          getItem('내 정보', 'my/profile'),
+          getItem('정보 변경', 'my/account'),
+          getItem('내 일정 조회', 'my/schedule'),
+          getItem('회원 탈퇴', 'my/withdraw'),
         ]),
       ],
       'group'
