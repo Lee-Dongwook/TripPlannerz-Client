@@ -27,6 +27,7 @@ import {
 
 import SideBar from '@/ui/sidebar/sidebar';
 import styles from '@/ui/create/create.module.css';
+import { UserOutlined } from '@ant-design/icons';
 
 function CreatePage() {
   const navigate = useNavigate();
@@ -117,7 +118,13 @@ function CreatePage() {
           name='capacity'
           style={{ display: 'flex', justifyContent: 'center' }}
         >
-          <InputNumber min={1} max={10} onChange={handleTripRecuritNumChange} />
+          <InputNumber
+            addonBefore={<UserOutlined />}
+            addonAfter='명'
+            min={1}
+            max={10}
+            onChange={handleTripRecuritNumChange}
+          />
         </Form.Item>
       ),
     },
