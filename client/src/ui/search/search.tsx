@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { Row, Col, Drawer, Descriptions, Table, Spin, Input } from 'antd';
+import { Row, Col, Card, Drawer, Table, Spin, Input } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
 import SideBar from '@/ui/sidebar/sidebar';
+
+const { Meta } = Card;
 
 function SearchPage() {
   const location = useLocation();
@@ -137,7 +139,41 @@ function SearchPage() {
                 open={drawerState}
                 width={1500}
               >
-                {selectedTrip && <></>}
+                {selectedTrip && (
+                  <>
+                    {console.log(selectedTrip)}
+                    <Card>
+                      <Meta
+                        title={selectedTrip.title}
+                        description={
+                          <>
+                            <div style={{ display: 'flex' }}>
+                              <span>
+                                <strong>여행 기간:</strong>
+                              </span>
+                              <span>
+                                {selectedTrip.startingDate &&
+                                selectedTrip.comingDate
+                                  ? `${selectedTrip.startingDate} ~ ${selectedTrip.comingDate}`
+                                  : '일정 없음'}
+                              </span>
+                            </div>
+                            <div style={{ display: 'flex' }}>
+                              <span>
+                                <strong>내용:</strong>
+                              </span>
+                              <span>
+                                {selectedTrip.content
+                                  ? selectedTrip.content
+                                  : '예시 여행입니다.'}
+                              </span>
+                            </div>
+                          </>
+                        }
+                      />
+                    </Card>
+                  </>
+                )}
               </Drawer>
             </Col>
           </Row>
