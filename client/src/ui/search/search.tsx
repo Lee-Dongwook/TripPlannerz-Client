@@ -6,7 +6,6 @@ import { Row, Col, Table, Spin, Input } from 'antd';
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
 import SideBar from '@/ui/sidebar/sidebar';
-import { Pagination } from '@/ui/search/pagination/pagination';
 
 function SearchPage() {
   const navigate = useNavigate();
@@ -136,8 +135,7 @@ function SearchPage() {
                 columns={tableColumns}
                 dataSource={tableData}
                 pagination={false}
-              />
-              <Pagination totalPage={5} />
+              />{' '}
             </Col>
           </Row>
         </>
