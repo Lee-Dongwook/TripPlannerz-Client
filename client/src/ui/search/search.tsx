@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Row, Col, Table, Spin, Input } from 'antd';
+import { Row, Col, Drawer, Descriptions, Table, Spin, Input } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
 import SideBar from '@/ui/sidebar/sidebar';
+import DetailDrawerPage from '@/ui/detail/detailDrawer';
 
 function SearchPage() {
   const navigate = useNavigate();
@@ -15,7 +16,18 @@ function SearchPage() {
   const searchedKeyword = searchParams.get('keyword');
 
   const [tripList, setTripList] = useState<Trip[]>([]);
+  const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+  const [drawerState, setDrawerState] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const handleOpenDrawer = (postId: string) => {
+    // setSelectedTrip();
+    setDrawerState(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setDrawerState(false);
+  };
 
   const handleMoveToCertainTrip = (postId: string) => {
     const url = `/search/${postId}`;
@@ -49,10 +61,7 @@ function SearchPage() {
       dataIndex: 'title',
       key: 'title',
       render: (text, record) => (
-        <span
-          onClick={() => handleMoveToCertainTrip(record.id)}
-          className='list-key'
-        >
+        <span onClick={() => handleOpenDrawer(record.id)} className='list-key'>
           {text}
         </span>
       ),
@@ -62,10 +71,7 @@ function SearchPage() {
       dataIndex: 'deadline',
       key: 'deadline',
       render: (text, record) => (
-        <span
-          onClick={() => handleMoveToCertainTrip(record.id)}
-          className='list-key'
-        >
+        <span onClick={() => handleOpenDrawer(record.id)} className='list-key'>
           {text}
         </span>
       ),
@@ -75,10 +81,7 @@ function SearchPage() {
       dataIndex: 'participants',
       key: 'participants',
       render: (text, record) => (
-        <span
-          onClick={() => handleMoveToCertainTrip(record.id)}
-          className='list-key'
-        >
+        <span onClick={() => handleOpenDrawer(record.id)} className='list-key'>
           {text}
         </span>
       ),
@@ -88,10 +91,7 @@ function SearchPage() {
       dataIndex: 'date',
       key: 'date',
       render: (text, record) => (
-        <span
-          onClick={() => handleMoveToCertainTrip(record.id)}
-          className='list-key'
-        >
+        <span onClick={() => handleOpenDrawer(record.id)} className='list-key'>
           {text}
         </span>
       ),
@@ -136,6 +136,16 @@ function SearchPage() {
                 dataSource={tableData}
                 pagination={false}
               />{' '}
+              <Drawer
+                title='일정 상세 정보'
+                placement='right'
+                closable={true}
+                onClose={handleCloseDrawer}
+                open={drawerState}
+                width={1500}
+              >
+                <DetailDrawerPage />
+              </Drawer>
             </Col>
           </Row>
         </>
