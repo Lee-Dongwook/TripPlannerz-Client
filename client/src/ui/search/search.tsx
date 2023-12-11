@@ -10,19 +10,26 @@ import {
   Modal,
   Radio,
   Row,
+  Segmented,
   Space,
   Spin,
   Table,
   Timeline,
 } from 'antd';
 
-import { Trip } from '@/domain/TripList';
+import type { Trip } from '@/domain/TripList';
+import type { Comment } from '@/domain/Comment';
+
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
 import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 import { postStartLocationToServer } from '@/application/api/detail/postStartLocationToServer';
+import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
+import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
+
 import SideBar from '@/ui/sidebar/sidebar';
 
 const { Meta } = Card;
+const { TextArea } = Input;
 
 function SearchPage() {
   const location = useLocation();
@@ -31,6 +38,7 @@ function SearchPage() {
   const searchedKeyword = searchParams.get('keyword');
 
   const [tripList, setTripList] = useState<Trip[]>([]);
+  const [sortType, setSortType] = useState<string>('new');
 
   const [selectedTrip, setSelectedTrip] = useState<any>(null);
   const [selectedTripUuid, setSelectedTripUuid] = useState<string>('');
@@ -46,6 +54,11 @@ function SearchPage() {
     useState<boolean>(false);
 
   const [optimizeTime, setOptimizeTime] = useState<number>(0);
+
+  const [review, setReview] = useState<string>('');
+  const [requestContent, setRequestContent] = useState<string>('');
+
+  const [tripCommentList, setTripCommentList] = useState<Comment[]>([]);
 
   const handleOpenDrawer = async (record) => {
     const selectedDetailTrip = tripList.find((trip) => trip.id === record.id);
@@ -95,13 +108,47 @@ function SearchPage() {
     }
   };
 
+  const handleReviewChange = (event) => {
+    setReview(event.target.value);
+  };
+
+  const handleAddComment = async () => {
+    const postToServer = {
+      review: review,
+      tripUUID: selectedTripUuid,
+    };
+
+    const response = await postCommentToServer(token, postToServer);
+
+    if (response) {
+      alert('댓글이 등록되었습니다.');
+    }
+  };
+
+  const handleChangeRequestContent = (e) => {
+    setRequestContent(e.target.value);
+  };
+
+  const handleRequestAccompany = async () => {
+    const postToServer = {
+      review: requestContent,
+      tripUUID: selectedTripUuid,
+    };
+
+    const response = await postRequestAccompanyToServer(token, postToServer);
+    if (response) {
+      alert('동행 신청이 완료되었습니다.');
+      setRequestContent('');
+    }
+  };
+
   const handleGetPaginatedTripList = async () => {
     if (searchedKeyword) {
       const encodedKey = encodeURIComponent(searchedKeyword);
-      const response = getPaginatedTripList(token, 0, 'new', encodedKey);
+      const response = getPaginatedTripList(token, 0, sortType, encodedKey);
       return response;
     } else {
-      const response = getPaginatedTripList(token, 0, 'new', '');
+      const response = getPaginatedTripList(token, 0, sortType, '');
       return response;
     }
   };
@@ -114,7 +161,7 @@ function SearchPage() {
 
   useEffect(() => {
     fetchData();
-  }, [searchedKeyword]);
+  }, [searchedKeyword, sortType]);
 
   const tableColumns = [
     {
@@ -193,9 +240,18 @@ function SearchPage() {
             <Col span={20} style={{ padding: '16px' }}>
               <Input type='text' placeholder='검색어를 입력하세요' />
               <Table
+                title={() => (
+                  <Segmented
+                    options={[
+                      { label: '최신 순', value: 'new' },
+                      { label: '조회수 순', value: 'hits' },
+                    ]}
+                    value={sortType}
+                    onChange={setSortType}
+                  />
+                )}
                 columns={tableColumns}
                 dataSource={tableData}
-                pagination={false}
               />{' '}
               <Drawer
                 title='일정 상세 정보'
@@ -316,6 +372,58 @@ function SearchPage() {
                                 : '최단 경로 버튼을 누르면 최단 경로를 계산할 수 있습니다.'}
                             </>
                           )
+                        }
+                      />
+                    </Card>
+                    <Card>
+                      <Meta
+                        title='동행 신청'
+                        description={
+                          <>
+                            <TextArea
+                              rows={3}
+                              placeholder='신청서를 작성해주세요'
+                              onChange={handleChangeRequestContent}
+                            />
+                            <Button onClick={handleRequestAccompany}>
+                              신청하기
+                            </Button>
+                          </>
+                        }
+                      />
+                    </Card>
+                    <Card>
+                      <Meta
+                        title='댓글 목록'
+                        description={
+                          <>
+                            {' '}
+                            <TextArea
+                              rows={3}
+                              value={review}
+                              onChange={handleReviewChange}
+                            />
+                            <Button onClick={handleAddComment}>
+                              댓글 추가
+                            </Button>
+                            {tripCommentList.length > 0 ? (
+                              tripCommentList.map((comment, index) => (
+                                <div>
+                                  <Card key={index}>
+                                    <p>날짜: {comment.postDate}</p>
+                                    <p>글쓴이: {comment.senderName}</p>
+                                    <p>댓글: {comment.review}</p>
+                                  </Card>
+                                </div>
+                              ))
+                            ) : (
+                              <Card>
+                                <p>날짜: </p>
+                                <p>글쓴이: 관리자</p>
+                                <p>댓글: 예시 댓글입니다.</p>
+                              </Card>
+                            )}
+                          </>
                         }
                       />
                     </Card>
