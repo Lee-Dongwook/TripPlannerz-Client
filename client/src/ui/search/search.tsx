@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Row, Col, Drawer, Descriptions, Table, Spin, Input } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
 import SideBar from '@/ui/sidebar/sidebar';
-import DetailDrawerPage from '@/ui/detail/detailDrawer';
 
 function SearchPage() {
-  const navigate = useNavigate();
   const location = useLocation();
   const token = useSelector((state: any) => state.token.token);
   const searchParams = new URLSearchParams(location.search);
@@ -20,18 +18,13 @@ function SearchPage() {
   const [drawerState, setDrawerState] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const handleOpenDrawer = (postId: string) => {
-    // setSelectedTrip();
+  const handleOpenDrawer = (trip: Trip) => {
+    setSelectedTrip(trip);
     setDrawerState(true);
   };
 
   const handleCloseDrawer = () => {
     setDrawerState(false);
-  };
-
-  const handleMoveToCertainTrip = (postId: string) => {
-    const url = `/search/${postId}`;
-    navigate(url);
   };
 
   const handleGetPaginatedTripList = async () => {
@@ -61,7 +54,7 @@ function SearchPage() {
       dataIndex: 'title',
       key: 'title',
       render: (text, record) => (
-        <span onClick={() => handleOpenDrawer(record.id)} className='list-key'>
+        <span onClick={() => handleOpenDrawer(record)} className='list-key'>
           {text}
         </span>
       ),
@@ -71,7 +64,7 @@ function SearchPage() {
       dataIndex: 'deadline',
       key: 'deadline',
       render: (text, record) => (
-        <span onClick={() => handleOpenDrawer(record.id)} className='list-key'>
+        <span onClick={() => handleOpenDrawer(record)} className='list-key'>
           {text}
         </span>
       ),
@@ -81,7 +74,7 @@ function SearchPage() {
       dataIndex: 'participants',
       key: 'participants',
       render: (text, record) => (
-        <span onClick={() => handleOpenDrawer(record.id)} className='list-key'>
+        <span onClick={() => handleOpenDrawer(record)} className='list-key'>
           {text}
         </span>
       ),
@@ -91,7 +84,7 @@ function SearchPage() {
       dataIndex: 'date',
       key: 'date',
       render: (text, record) => (
-        <span onClick={() => handleOpenDrawer(record.id)} className='list-key'>
+        <span onClick={() => handleOpenDrawer(record)} className='list-key'>
           {text}
         </span>
       ),
@@ -144,7 +137,7 @@ function SearchPage() {
                 open={drawerState}
                 width={1500}
               >
-                <DetailDrawerPage />
+                {selectedTrip && <></>}
               </Drawer>
             </Col>
           </Row>
