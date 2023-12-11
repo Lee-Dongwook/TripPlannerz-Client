@@ -19,11 +19,14 @@ import {
 
 import type { Trip } from '@/domain/TripList';
 import type { Comment } from '@/domain/Comment';
+
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
 import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 import { postStartLocationToServer } from '@/application/api/detail/postStartLocationToServer';
-import SideBar from '@/ui/sidebar/sidebar';
 import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
+import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
+
+import SideBar from '@/ui/sidebar/sidebar';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -53,6 +56,7 @@ function SearchPage() {
   const [optimizeTime, setOptimizeTime] = useState<number>(0);
 
   const [review, setReview] = useState<string>('');
+  const [requestContent, setRequestContent] = useState<string>('');
 
   const [tripCommentList, setTripCommentList] = useState<Comment[]>([]);
 
@@ -118,6 +122,23 @@ function SearchPage() {
 
     if (response) {
       alert('댓글이 등록되었습니다.');
+    }
+  };
+
+  const handleChangeRequestContent = (e) => {
+    setRequestContent(e.target.value);
+  };
+
+  const handleRequestAccompany = async () => {
+    const postToServer = {
+      review: requestContent,
+      tripUUID: selectedTripUuid,
+    };
+
+    const response = await postRequestAccompanyToServer(token, postToServer);
+    if (response) {
+      alert('동행 신청이 완료되었습니다.');
+      setRequestContent('');
     }
   };
 
@@ -355,29 +376,56 @@ function SearchPage() {
                       />
                     </Card>
                     <Card>
-                      <TextArea
-                        rows={3}
-                        value={review}
-                        onChange={handleReviewChange}
+                      <Meta
+                        title='동행 신청'
+                        description={
+                          <>
+                            <TextArea
+                              rows={3}
+                              placeholder='신청서를 작성해주세요'
+                              onChange={handleChangeRequestContent}
+                            />
+                            <Button onClick={handleRequestAccompany}>
+                              신청하기
+                            </Button>
+                          </>
+                        }
                       />
-                      <Button onClick={handleAddComment}>댓글 추가</Button>
-                      {tripCommentList.length > 0 ? (
-                        tripCommentList.map((comment, index) => (
-                          <div>
-                            <Card key={index}>
-                              <p>날짜: {comment.postDate}</p>
-                              <p>글쓴이: {comment.senderName}</p>
-                              <p>댓글: {comment.review}</p>
-                            </Card>
-                          </div>
-                        ))
-                      ) : (
-                        <Card>
-                          <p>날짜: </p>
-                          <p>글쓴이: 관리자</p>
-                          <p>댓글: 예시 댓글입니다.</p>
-                        </Card>
-                      )}
+                    </Card>
+                    <Card>
+                      <Meta
+                        title='댓글 목록'
+                        description={
+                          <>
+                            {' '}
+                            <TextArea
+                              rows={3}
+                              value={review}
+                              onChange={handleReviewChange}
+                            />
+                            <Button onClick={handleAddComment}>
+                              댓글 추가
+                            </Button>
+                            {tripCommentList.length > 0 ? (
+                              tripCommentList.map((comment, index) => (
+                                <div>
+                                  <Card key={index}>
+                                    <p>날짜: {comment.postDate}</p>
+                                    <p>글쓴이: {comment.senderName}</p>
+                                    <p>댓글: {comment.review}</p>
+                                  </Card>
+                                </div>
+                              ))
+                            ) : (
+                              <Card>
+                                <p>날짜: </p>
+                                <p>글쓴이: 관리자</p>
+                                <p>댓글: 예시 댓글입니다.</p>
+                              </Card>
+                            )}
+                          </>
+                        }
+                      />
                     </Card>
                   </>
                 )}
