@@ -192,11 +192,7 @@ function SearchPage() {
             <SideBar />
             <Col span={20} style={{ padding: '16px' }}>
               <Input type='text' placeholder='검색어를 입력하세요' />
-              <Table
-                columns={tableColumns}
-                dataSource={tableData}
-                pagination={false}
-              />{' '}
+              <Table columns={tableColumns} dataSource={tableData} />{' '}
               <Drawer
                 title='일정 상세 정보'
                 placement='right'
