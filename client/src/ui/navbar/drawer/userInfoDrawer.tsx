@@ -20,7 +20,7 @@ export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {
   };
 
   const moveToMyPage = () => {
-    navigate('/my');
+    navigate('/my/profile');
   };
 
   const handleLogOut = async () => {

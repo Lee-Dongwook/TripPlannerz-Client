@@ -1,5 +1,5 @@
 const initialState = {
-    token: null as string | null
+    token: ''
 };
 
 export const tokenReducer = (state = initialState, action: any) => {
