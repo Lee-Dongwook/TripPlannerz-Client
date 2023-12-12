@@ -19,8 +19,8 @@ function ProfilePage() {
   const [memberInfo, setMemberInfo] = useState<Member>();
   const [accompanyList, setAccompanyList] = useState<AccompanyList[]>([
     {
-      senderName: '1',
-      tripName: '서울',
+      senderName: '테스트 사용자1',
+      tripName: '부산',
       comment:
         '안녕하세요 OOO입니다. 해당 여행에 동행을 하고 싶어서 연락드렸습니다.',
       comment_id: '1',
