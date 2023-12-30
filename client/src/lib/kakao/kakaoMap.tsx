@@ -7,7 +7,11 @@ export const kakaoSearchPlace = (keyword) => {
   const ps = kakao.maps.services.Places();
 };
 
-function KakaoMap({ width = '400px', height = '400px', searchKeyword }) {
+function KakaoMap({
+  width = 'calc(20vw)',
+  height = 'calc(40vh)',
+  searchKeyword,
+}) {
   const container = useRef(null);
   const map = useRef(null);
 
