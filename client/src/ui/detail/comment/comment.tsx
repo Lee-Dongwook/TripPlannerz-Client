@@ -1,16 +1,49 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Button, Card, Form, Input } from 'antd';
 
+import type { Comment } from '@/domain/Comment';
+
+import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
 import { CommentProp } from '@/ui/detail/comment/commentProp.types';
 
 const { TextArea } = Input;
 
-export const CommentList = ({ tripUUID, commentList }: CommentProp) => {
+export const CommentList = ({ tripUUID }: CommentProp) => {
   const token = useSelector((state: any) => state.token.token);
+  const location = useLocation();
+  const arr = location.pathname.split('/');
+  const queryClient = useQueryClient();
 
   const [review, setReview] = useState<string>('');
+
+  const handleGetCommentList = async () => {
+    const response = await getDetailTripInfo(token, arr);
+
+    if (response.data) {
+      return response.data.commentList;
+    }
+    return [];
+  };
+
+  const { data: commentList } = useQuery(['comments', tripUUID], () => {
+    return handleGetCommentList();
+  });
+
+  const mutation = useMutation(
+    (postToServer) => postCommentToServer(token, postToServer),
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData(
+          ['comments', tripUUID],
+          (oldComments: Comment[]) => [...oldComments, data]
+        );
+      },
+    }
+  );
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
@@ -22,11 +55,15 @@ export const CommentList = ({ tripUUID, commentList }: CommentProp) => {
       tripUUID: tripUUID,
     };
 
-    const response = await postCommentToServer(token, postToServer);
+    mutation.mutate(postToServer, {
+      onSuccess: async () => {
+        const response = await postCommentToServer(token, postToServer);
 
-    if (response) {
-      alert('댓글이 등록되었습니다.');
-    }
+        if (response) {
+          alert('댓글이 등록되었습니다.');
+        }
+      },
+    });
   };
 
   return (
@@ -34,7 +71,10 @@ export const CommentList = ({ tripUUID, commentList }: CommentProp) => {
       <Form>
         <TextArea rows={3} value={review} onChange={handleReviewChange} />
       </Form>
-      <Button onClick={handleAddComment}>댓글 추가</Button>
+      <Button onClick={handleAddComment} loading={mutation.isLoading}>
+        댓글 추가
+      </Button>
+      {console.log(commentList)}
       {commentList &&
         commentList.map((comment, index) => (
           <div>
