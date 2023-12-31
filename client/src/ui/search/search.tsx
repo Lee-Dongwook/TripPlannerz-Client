@@ -259,7 +259,7 @@ function SearchPage() {
                 closable={true}
                 onClose={handleCloseDrawer}
                 open={drawerState}
-                width={1500}
+                width={900}
               >
                 {selectedTrip && (
                   <>

@@ -5,15 +5,14 @@ import { Row, Col, Card } from 'antd';
 
 import type { Member } from '@/domain/Member';
 import type { Trip } from '@/domain/TripList';
-import type { Comment } from '@/domain/Comment';
 import type { TripPlaceInfo } from '@/domain/TripPlaceInfo';
 
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
+import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 
 import SideBar from '@/ui/sidebar/sidebar';
 import { TripInfo } from '@/ui/detail/info/tripInfo';
 import { CommentList } from '@/ui/detail/comment/comment';
-import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 
 const { Meta } = Card;
 
@@ -28,7 +27,6 @@ function DetailPage() {
   const [tripAccompanyMemberList, setTripAccompanyMemberList] = useState<
     Member[]
   >([]);
-  const [tripCommentList, setTripCommentList] = useState<Comment[]>([]);
   const [searchPlaceList, setSearchPlaceList] = useState<TripPlaceInfo[]>([]);
 
   const handleGetDetailTripInfo = async () => {
@@ -67,11 +65,6 @@ function DetailPage() {
         ...response.data.memberList,
       ]);
 
-      setTripCommentList((prevList) => [
-        ...prevList,
-        ...response.data.commentList,
-      ]);
-
       const additionalResponse = await getDetailTripRoute(
         token,
         response.data.uuid
@@ -104,10 +97,7 @@ function DetailPage() {
                       />
                     </div>
                     {detailTripInfo.uuid && (
-                      <CommentList
-                        tripUUID={detailTripInfo.uuid}
-                        commentList={tripCommentList}
-                      />
+                      <CommentList tripUUID={detailTripInfo.uuid} />
                     )}
                   </>
                 }
