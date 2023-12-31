@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Row, Col, Card, List, Progress, Spin, FloatButton } from 'antd';
+import {
+  Row,
+  Col,
+  Card,
+  List,
+  Progress,
+  Spin,
+  FloatButton,
+  Button,
+} from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { Trip } from '@/domain/TripList';
@@ -46,7 +55,7 @@ function MainPage() {
             <SideBar />
             <Col span={20} style={{ padding: '16px' }}>
               <List
-                grid={{ gutter: 50, column: 4 }}
+                grid={{ gutter: 50, column: 3 }}
                 dataSource={travelList}
                 renderItem={(item) => (
                   <List.Item>
@@ -93,6 +102,7 @@ function MainPage() {
                         <strong>여행 기간:</strong> {item.startingDate} ~{' '}
                         {item.comingDate}
                       </div>
+                      <Button>이동하기</Button>
                     </Card>
                   </List.Item>
                 )}

@@ -55,7 +55,7 @@ function SideBar() {
   };
 
   return (
-    <Col span={3} style={{ backgroundColor: 'whitesmoke', padding: '16px' }}>
+    <Col span={4} style={{ backgroundColor: 'whitesmoke', padding: '20px' }}>
       <Menu
         mode='inline'
         items={menuItems}
