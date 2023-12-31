@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   Row,
-  Button,
   Col,
   Card,
   List,
   Progress,
   Spin,
   FloatButton,
+  Button,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
@@ -105,7 +105,7 @@ function MainPage() {
                       <Button
                         onClick={() => movetoSubPage(item.id ? item.id : 0)}
                       >
-                        이동하기
+                        일정 상세 확인하기
                       </Button>
                     </Card>
                   </List.Item>
