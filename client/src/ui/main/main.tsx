@@ -54,15 +54,16 @@ function MainPage() {
           <Row style={{ width: '100%', height: '100%' }}>
             <SideBar />
             <Col span={20} style={{ padding: '16px' }}>
+              <Card>
+                <h1>여행 일정</h1>
+                <h3>동행하고 싶은 여행을 찾아보세요</h3>
+              </Card>
               <List
                 grid={{ gutter: 50, column: 3 }}
                 dataSource={travelList}
                 renderItem={(item) => (
                   <List.Item>
-                    <Card
-                      onClick={() => movetoSubPage(item.id ? item.id : 0)}
-                      className={styles.mainCard}
-                    >
+                    <Card className={styles.mainCard}>
                       <h3
                         style={{
                           color: '#1890ff',
@@ -74,8 +75,6 @@ function MainPage() {
                       >
                         {item.title}
                       </h3>
-                      <hr />
-                      <Kakao />
                       <hr />
                       <div
                         style={{
@@ -102,7 +101,12 @@ function MainPage() {
                         <strong>여행 기간:</strong> {item.startingDate} ~{' '}
                         {item.comingDate}
                       </div>
-                      <Button>이동하기</Button>
+                      <br />
+                      <Button
+                        onClick={() => movetoSubPage(item.id ? item.id : 0)}
+                      >
+                        일정 상세 확인하기
+                      </Button>
                     </Card>
                   </List.Item>
                 )}
