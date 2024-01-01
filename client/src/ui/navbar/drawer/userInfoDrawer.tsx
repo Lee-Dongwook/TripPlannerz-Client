@@ -1,15 +1,17 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Drawer, Table } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 import { Member } from '@/domain/Member';
 import { postLogout } from '@/application/api/navbar/postLogout';
+import { setToken } from '@/store/action/tokenAction';
 
 const { Column } = Table;
 
 export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {
   const token = useSelector((state: any) => state.token.token);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const memberInfo: Member = {
@@ -29,9 +31,8 @@ export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {
     if (response) {
       alert('로그아웃이 되었습니다.');
       localStorage.removeItem('persist:root');
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
+      dispatch(setToken(null));
+      navigate('/');
     }
   };
 
