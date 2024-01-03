@@ -124,7 +124,7 @@ function SchedulePage() {
         <>
           <Row style={{ width: '100%', height: '100%' }}>
             <SideBar />
-            <Col span={20} style={{ padding: '16px' }}>
+            <Col span={15} style={{ padding: '16px' }}>
               <Input type='text' placeholder='검색어를 입력하세요' />
               <Table
                 columns={tableColumns}

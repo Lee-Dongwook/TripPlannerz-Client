@@ -55,11 +55,12 @@ function SideBar() {
   };
 
   return (
-    <Col span={4} style={{ backgroundColor: 'whitesmoke', padding: '20px' }}>
+    <Col span={4} style={{ padding: '20px' }}>
       <Menu
         mode='inline'
         items={menuItems}
         onSelect={({ key }) => navigateToSelectMenu(key)}
+        style={{ border: '1px solid skyblue' }}
       >
         {menuItems.map((item) => (
           <Menu.Item key={item.key} icon={item.icon}>

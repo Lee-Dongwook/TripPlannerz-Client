@@ -115,7 +115,7 @@ function ProfilePage() {
         <>
           <Row style={{ width: '100%', height: '100%' }}>
             <SideBar />
-            <Col span={20} style={{ padding: '16px' }}>
+            <Col span={15} style={{ padding: '16px' }}>
               <h3>내 정보</h3>
               <hr />
               <Table

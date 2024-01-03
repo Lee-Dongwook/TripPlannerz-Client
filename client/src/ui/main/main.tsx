@@ -15,8 +15,6 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { Trip } from '@/domain/TripList';
 import { getEntireTripList } from '@/application/api/main/getEntireTripList';
-import Kakao from '@/lib/kakao/kakao';
-
 import SideBar from '@/ui/sidebar/sidebar';
 import styles from '@/ui/main/main.module.css';
 
@@ -47,19 +45,18 @@ function MainPage() {
     <div className={styles.mainContainer}>
       {loading ? (
         <Spin tip='Loading...' size='large'>
-          <List grid={{ gutter: 50, column: 5 }} />
+          <List />
         </Spin>
       ) : (
         <>
           <Row style={{ width: '100%', height: '100%' }}>
             <SideBar />
-            <Col span={20} style={{ padding: '16px' }}>
+            <Col span={15} style={{ padding: '16px' }}>
               <Card>
                 <h1>여행 일정</h1>
                 <h3>동행하고 싶은 여행을 찾아보세요</h3>
               </Card>
               <List
-                grid={{ gutter: 50, column: 3 }}
                 dataSource={travelList}
                 renderItem={(item) => (
                   <List.Item>

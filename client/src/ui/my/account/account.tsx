@@ -53,7 +53,7 @@ function AccountPage() {
       <>
         <Row style={{ width: '100%', height: '100%' }}>
           <SideBar />
-          <Col span={20} style={{ padding: '16px' }}>
+          <Col span={15} style={{ padding: '16px' }}>
             {accountState ? (
               <div>
                 <h2>정보 수정</h2>
