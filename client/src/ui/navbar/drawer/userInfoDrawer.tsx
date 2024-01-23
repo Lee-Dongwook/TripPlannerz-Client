@@ -42,7 +42,7 @@ export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {
         style={{ width: '100px', justifyContent: 'center' }}
         onClick={onClick}
       />
-      <Drawer title='사용자 정보' onClose={onClose} open={visible}>
+      <Drawer title='사용자 정보' onClose={onClose} open={visible} width={370}>
         {memberInfo && (
           <Table dataSource={[memberInfo]}>
             <Column title='이름' dataIndex='name' key='name' />

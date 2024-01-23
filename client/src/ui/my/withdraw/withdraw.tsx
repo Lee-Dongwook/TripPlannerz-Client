@@ -47,7 +47,7 @@ function WithdrawPage() {
     <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
       <Row style={{ width: '100%', height: '100%' }}>
         <SideBar />
-        <Col span={20} style={{ padding: '16px' }}>
+        <Col span={15} style={{ padding: '16px' }}>
           <h2>회원 탈퇴 안내</h2>
           <hr />
           <h6>회원탈퇴를 신청하기 전 안내 사항을 확인해주세요.</h6>
