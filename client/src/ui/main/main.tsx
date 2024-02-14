@@ -15,6 +15,7 @@ import {
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { getEntireTripList } from '@/application/api/main/getEntireTripList';
+import SightImage from '@/lib/image/관광지.png';
 import SideBar from '@/ui/sidebar/sidebar';
 import styles from '@/ui/main/main.module.css';
 
@@ -84,9 +85,8 @@ function MainPage() {
         <SideBar />
         <Col span={15} style={{ padding: '16px' }}>
           {isError && <div>오류가 발생하였습니다.</div>}
-          <Card>
-            <h1>여행 일정</h1>
-            <h3>동행하고 싶은 여행을 찾아보세요</h3>
+          <Card className={styles.imgCard}>
+            <img src={SightImage} width={200} />
           </Card>
           <List
             dataSource={travelList}
@@ -96,7 +96,6 @@ function MainPage() {
                   <h3
                     style={{
                       color: '#1890ff',
-                      marginBottom: '10px',
                       textAlign: 'center',
                       fontWeight: 'bold',
                       fontSize: '1.5rem',
@@ -114,7 +113,6 @@ function MainPage() {
                   >
                     <strong>인원 현황: </strong> {item.currentNum} /{' '}
                     {item.recruitNum}
-                    <br />
                     <Progress
                       percent={
                         item.currentNum && item.recruitNum
@@ -141,6 +139,7 @@ function MainPage() {
           {isFetching && <Spin tip='Loading...' size='large' />}
           <div ref={observeTarget} />
         </Col>
+        <SideBar />
       </Row>
       <FloatButton
         tooltip={<div>Questions</div>}

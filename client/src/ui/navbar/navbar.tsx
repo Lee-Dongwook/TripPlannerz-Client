@@ -30,7 +30,7 @@ function Navbar() {
   const [eventSource, setEventSource] = useState<EventSourcePolyfill | null>(
     null
   );
-  const [travelButtonState, setTravelButtonState] = useState<boolean>(false);
+  const [travelButtonState, setTravelButtonState] = useState<boolean>(true);
   const [noticeDrawerState, setNoticeDrawerState] = useState<boolean>(false);
   const [userInfoDrawerState, setUserInfoDrawerState] =
     useState<boolean>(false);
@@ -107,7 +107,16 @@ function Navbar() {
   }, [dispatch, token]);
 
   return (
-    <Menu mode='horizontal' theme='light' style={{ justifyContent: 'center' }}>
+    <Menu
+      mode='horizontal'
+      theme='light'
+      style={{
+        height: '100px',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#EEEEEE',
+      }}
+    >
       <Menu.Item>
         <NavbarButton
           name='TripPlannerz'
