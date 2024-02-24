@@ -1,7 +1,13 @@
-import { createStore } from 'redux';
-import { persistStore } from 'redux-persist';
-import rootReducer from '@/store/reducer';
+import { configureStore } from '@reduxjs/toolkit';
+import tokenReducer from '@/store/token';
 
-export const store = createStore(rootReducer);
-export const persistor = persistStore(store);
-export type RootReducerType = ReturnType<typeof rootReducer>;
+const store = configureStore({
+    reducer: {
+        token: tokenReducer,
+    }
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

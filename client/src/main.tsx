@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { store } from '@/store/store.ts';
+import store from '@/store/store.ts';
 import App from './App.tsx';
 
 const queryClient = new QueryClient();
