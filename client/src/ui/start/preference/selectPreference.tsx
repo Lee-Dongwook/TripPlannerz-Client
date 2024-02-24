@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { setTripPreference } from '@/store/action/tripPreferenceAction';
+import { setPreferenceType } from '@/store/preferenceTypes';
 import { preferenceList } from '@/lib/info/preferenceList';
 
 export const SelectPreference = () => {
@@ -7,7 +7,7 @@ export const SelectPreference = () => {
 
   const handleButtonClick = (preferenceName) => {
     console.log(preferenceName);
-    dispatch(setTripPreference(preferenceName));
+    dispatch(setPreferenceType(preferenceName));
   };
 
   return (
