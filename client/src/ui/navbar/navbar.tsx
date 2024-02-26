@@ -10,7 +10,7 @@ import { getEventSoruce } from '@/application/api/navbar/getEventSource';
 import { getMemberTripInfo } from '@/application/api/navbar/getMemberTripInfo';
 import { searchTripInTripList } from '@/application/navbar/searchTripInTripList';
 
-import { addNotification } from '@/store/action/notificationAction';
+import { setNotification } from '@/store/notification';
 
 import { NavbarButton } from '@/ui/navbar/button/navbarButton';
 import { NavbarInput } from '@/ui/navbar/input/navbarInput';
@@ -75,7 +75,7 @@ function Navbar() {
       }님이 \n ${message.review.slice(0, 4)}..를 입력하였습니다. \n ${
         message.postDate
       }`;
-      dispatch(addNotification(notificationString));
+      dispatch(setNotification(notificationString));
     };
 
     eventSource.onclose = () => {};

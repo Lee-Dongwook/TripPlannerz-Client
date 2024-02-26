@@ -15,7 +15,10 @@ import SchedulePage from '@/ui/my/schedule/schedule';
 import WithdrawPage from '@/ui/my/withdraw/withdraw';
 
 function App() {
-  const token: string | null = useSelector((state: any) => state.token.token);
+  const token: string | null = useSelector((state: any) => {
+    console.log(state.token.token);
+    return state.token.token;
+  });
 
   return (
     <Router>
