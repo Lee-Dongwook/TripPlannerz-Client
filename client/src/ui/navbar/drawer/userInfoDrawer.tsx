@@ -5,7 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 
 import { Member } from '@/domain/Member';
 import { postLogout } from '@/application/api/navbar/postLogout';
-import { setToken } from '@/store/action/tokenAction';
+import { setToken } from '@/store/token';
 
 const { Column } = Table;
 
@@ -31,7 +31,7 @@ export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {
     if (response) {
       alert('로그아웃이 되었습니다.');
       localStorage.removeItem('persist:root');
-      dispatch(setToken(null));
+      dispatch(setToken(''));
       navigate('/');
     }
   };
