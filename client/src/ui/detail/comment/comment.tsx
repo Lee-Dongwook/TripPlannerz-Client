@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import { Button, Card, Form, Input } from 'antd';
+import * as _ from 'lodash';
 
 import type { Comment } from '@/domain/Comment';
 
@@ -16,38 +17,28 @@ export const CommentList = ({ tripUUID }: CommentProp) => {
   const token = useSelector((state: any) => state.token.token);
   const location = useLocation();
   const arr = location.pathname.split('/');
-  const queryClient = useQueryClient();
 
   const [review, setReview] = useState<string>('');
 
-  const handleGetCommentList = async () => {
+  const handleGetCommentList = useCallback(async () => {
     const response = await getDetailTripInfo(token, arr);
-
-    if (response.data) {
-      return response.data.commentList;
-    }
-    return [];
-  };
-
-  const { data: commentList } = useQuery(['comments', tripUUID], () => {
-    return handleGetCommentList();
-  });
-
-  const mutation = useMutation(
-    (postToServer) => postCommentToServer(token, postToServer),
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData(
-          ['comments', tripUUID],
-          (oldComments: Comment[]) => [...oldComments, data]
-        );
-      },
-    }
-  );
+    return response.data.commentList || [];
+  }, [token, arr]);
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
   };
+
+  const { data: commentList } = useQuery({
+    queryKey: ['comments'],
+    queryFn: handleGetCommentList,
+  });
+
+  const mutation = useMutation({
+    mutationFn: (postToServer: any) => {
+      return postCommentToServer(token, postToServer);
+    },
+  });
 
   const handleAddComment = async () => {
     const postToServer = {
@@ -56,12 +47,8 @@ export const CommentList = ({ tripUUID }: CommentProp) => {
     };
 
     mutation.mutate(postToServer, {
-      onSuccess: async () => {
-        const response = await postCommentToServer(token, postToServer);
-
-        if (response) {
-          alert('댓글이 등록되었습니다.');
-        }
+      onSuccess: () => {
+        alert('댓글이 등록되었습니다.');
       },
     });
   };
@@ -76,9 +63,9 @@ export const CommentList = ({ tripUUID }: CommentProp) => {
       </Button>
       {console.log(commentList)}
       {commentList &&
-        commentList.map((comment, index) => (
+        commentList.map((comment: Comment, idx) => (
           <div>
-            <Card key={index}>
+            <Card key={idx}>
               <p>날짜: {comment.postDate}</p>
               <p>글쓴이: {comment.senderName}</p>
               <p>댓글: {comment.review}</p>
