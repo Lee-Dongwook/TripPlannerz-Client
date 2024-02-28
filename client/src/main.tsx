@@ -5,6 +5,7 @@ import { persistStore } from 'redux-persist';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import store from '@/store/store.ts';
 import App from './App.tsx';
+import './main.css';
 
 const persistor = persistStore(store);
 const queryClient = new QueryClient();

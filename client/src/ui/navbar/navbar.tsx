@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Menu } from 'antd';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import * as _ from 'lodash';
 
 import { Member } from '@/domain/Member';
 
 import { getEventSoruce } from '@/application/api/navbar/getEventSource';
 import { getMemberTripInfo } from '@/application/api/navbar/getMemberTripInfo';
-import { searchTripInTripList } from '@/application/navbar/searchTripInTripList';
 
 import { setNotification } from '@/store/notification';
 
@@ -45,8 +45,16 @@ function Navbar() {
     setTravelButtonState(!travelButtonState);
   };
 
+  const debounce = useCallback(
+    _.debounce((searchValue) => {
+      navigate(`/search?keyword=${searchValue}`);
+    }, 500),
+    []
+  );
+
   const handleChangeSearchTerm = (event) => {
     setSearchTerm(event.target.value);
+    debounce(event.target.value);
   };
 
   const openNoticeDrawer = () => {
@@ -138,11 +146,6 @@ function Navbar() {
           value={searchTerm}
           placeholder='여행 일정을 검색하세요'
           onChange={handleChangeSearchTerm}
-          onKeyDown={(event) => {
-            event.preventDefault();
-            searchTripInTripList(navigate, event, searchTerm);
-            setSearchTerm('');
-          }}
         />
       </Menu.Item>
       <Menu.Item>
