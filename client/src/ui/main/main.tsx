@@ -6,6 +6,7 @@ import { Row, Col, Card, List, Progress, FloatButton, Button, Spin } from 'antd'
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { getEntireTripList } from '@/application/api/main/getEntireTripList';
+import Weather from '@/lib/weather/weather';
 import SightImage from '@/lib/image/관광지.png';
 import SideBar from '@/ui/sidebar/sidebar';
 import styles from '@/ui/main/main.module.css';
@@ -124,7 +125,7 @@ function MainPage() {
           {isFetching && <Spin tip='Loading...' size='large' />}
           <div ref={observeTarget} />
         </Col>
-        <SideBar />
+        <Weather />
       </Row>
       <FloatButton
         tooltip={<div>Questions</div>}
