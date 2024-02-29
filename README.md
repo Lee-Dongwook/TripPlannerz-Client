@@ -1,18 +1,47 @@
-# Tripplannerz-Client
+# TripPlannerz-Client
 
-### Technologies Used
-[![React](https://img.shields.io/badge/React-%2361DAFB?style=flat&logo=react&logoColor=white)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-%233178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-%2306465D?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![antd](https://img.shields.io/badge/antd-%230170FE?style=flat&logo=ant-design&logoColor=white)](https://ant.design/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-%231a202c?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![PNPM](https://img.shields.io/badge/PNPM-%23F53838?style=flat&logo=pnpm&logoColor=white)](https://pnpm.io/)
-[![Redux](https://img.shields.io/badge/Redux-%23764ABC?style=flat&logo=redux&logoColor=white)](https://redux.js.org/)
-[![ESLint](https://img.shields.io/badge/ESLint-%234B32C3?style=flat&logo=eslint&logoColor=white)](https://eslint.org/)
-[![Prettier](https://img.shields.io/badge/Prettier-%231a2b34?style=flat&logo=prettier&logoColor=white)](https://prettier.io/)
-[![Storybook](https://img.shields.io/badge/Storybook-%23FF4785?style=flat&logo=storybook&logoColor=white)](https://storybook.js.org/)
-[![Playwright](https://img.shields.io/badge/Playwright-%2307C160?style=flat&logo=playwright&logoColor=white)](https://playwright.dev/)
+TripPlannerZ 프론트엔드 레포지토리입니다.
 
+[기존에 진행하였던 프로젝트](https://github.com/GraudationProject2023/Tripplannerz)에서 구현하며 발생하였던 문제들을 해결하고, 새로운 기술들을 도입하여 재구성하였습니다.
 
+***
 
+### 기술 스택
 
+React v18.2.0
+
+TypeScript v5.2.2
+
+Redux v4.2.1
+
+React-Query v3.39.3
+
+Vite v5.0.0
+
+TailWind CSS v3.3.6
+
+***
+
+### 주요 기능
+
+#### 1. JWT 토큰 기반의 인증 및 Redux 상태 관리
+
+- 사용자가 로그인을 성공하면, 서버는 JWT를 생성하여 사용자에게 반환합니다. 이 JWT는 사용자의 다음 요청에서 사용되어 사용자를 인증합니다. 또한, Redux를 통해 애플리케이션의 상태를 효과적으로 관리하고 있습니다.
+
+#### 2. SSE를 활용한 실시간 알림 서비스
+
+- Server-Sent Events(SSE) 기술을 사용하여 사용자에게 실시간 알림 서비스를 제공하고 있습니다. 이를 통해 사용자는 새로운 이벤트 발생 시 즉시 알림을 받아보실 수 있습니다.
+
+#### 3. 무한 스크롤 및 낙관적 업데이트를 위한 React-Query 도입
+
+- React-Query를 사용하여 비동기 데이터 쿼리를 더욱 간편하게 처리하고 있습니다. 이 라이브러리의 도움으로 무한 스크롤과 낙관적 업데이트를 쉽게 구현할 수 있었습니다.
+
+#### 4. OpenWeatherMap API 활용한 날씨 정보 구현
+
+- OpenWeatherMap API를 사용하여 사용자의 위치에 따른 실시간 날씨 정보를 제공하고 있습니다. 이 API를 활용하면 사용자는 현 위치의 날씨를 실시간으로 확인할 수 있습니다.
+
+#### 5. KaKao Map API 활용한 여행 경로 설정을 위한 장소 검색 및 마커 지정 기능 추가
+
+- KaKao Map API를 통해 사용자가 여행 경로를 쉽게 설정할 수 있도록 하였습니다. 사용자는 원하는 장소를 검색하고, 그 위치에 마커를 지정함으로써 여행 경로를 직관적으로 파악할 수 있습니다.
+
+***
