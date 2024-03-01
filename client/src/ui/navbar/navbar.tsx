@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Menu } from 'antd';
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import * as _ from 'lodash';
+import debounce from 'lodash/debounce';
 
 import { Member } from '@/domain/Member';
 
@@ -42,8 +42,8 @@ function Navbar() {
     setTravelButtonState(!travelButtonState);
   };
 
-  const debounce = useCallback(
-    _.debounce((searchValue) => {
+  const delayedSearch = useCallback(
+    debounce((searchValue) => {
       navigate(`/search?keyword=${searchValue}`);
     }, 500),
     []
@@ -51,7 +51,7 @@ function Navbar() {
 
   const handleChangeSearchTerm = (event) => {
     setSearchTerm(event.target.value);
-    debounce(event.target.value);
+    delayedSearch(event.target.value);
   };
 
   const openNoticeDrawer = () => {
