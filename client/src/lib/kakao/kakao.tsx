@@ -1,22 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
+import { type MutableRefObject, useEffect, useRef } from 'react';
 
 function Kakao({ width = 'calc(15vw)', height = '200px' }) {
-  const container = useRef(null);
-  const map = useRef(null);
+  const mapRef = useRef<HTMLElement | null>(null);
 
-  const [markers, setMarkers] = useState([]);
-
-  useEffect(() => {
-    // 검색어를 적용한 Kakao Map 생성
-    const initializeMap = (latitude, longitude) => {
-      const defaultOptions = {
-        center: new kakao.maps.LatLng(latitude, longitude),
-        level: 3,
-      };
-      const options = defaultOptions;
-      map.current = new kakao.maps.Map(container.current, options);
+  const initializeMap = (latitude, longitude) => {
+    const container = document.getElementById('map');
+    const defaultOptions = {
+      center: new kakao.maps.LatLng(latitude, longitude),
+      level: 3,
     };
 
+    const map = new window.kakao.maps.Map(container as HTMLElement, defaultOptions);
+    (mapRef as MutableRefObject<any>).current = map;
+  };
+
+  useEffect(() => {
     // 초기에 GPS를 이용한 렌더링
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -41,7 +39,7 @@ function Kakao({ width = 'calc(15vw)', height = '200px' }) {
   return (
     <div>
       <div
-        ref={container}
+        id='map'
         style={{
           width: width,
           height: height,
