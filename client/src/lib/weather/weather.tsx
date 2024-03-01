@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useLayoutEffect } from 'react';
 import Timer from '../timer/timer';
-import { KoreanWeatherDescriptionList } from '../info/KoreanWeatherDescriptionList';
+import { getWeatherInfo } from '@/application/api/getWeatherInfo';
+import { convertWeatherInfo } from '@/application/convertWeatherInfo';
 
-const API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
-
-const weather = () => {
+const Weather = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [cityName, setCityName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [temp, setTemp] = useState<number>(0);
@@ -13,34 +12,36 @@ const weather = () => {
 
   const getWeather = async (lat, lon) => {
     try {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
-      );
+      const response = await getWeatherInfo(lat, lon);
+      if (response) {
+        const {
+          convertedCityName,
+          convertedWeatherDescription,
+          convertedDigitTemp,
+          convertedWeatherIconAddress,
+        } = convertWeatherInfo(response);
 
-      const weatherDescription = KoreanWeatherDescriptionList[response.data.weather[0].id];
-      const digitTemp = Math.round(response.data.main.temp);
-      const weatherIcon = response.data.weather[0].icon;
-      const weatherIconAddress = `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
-
-      setCityName(response.data.name.split('-')[0]);
-      setDescription(weatherDescription);
-      setTemp(digitTemp);
-      setIcon(weatherIconAddress);
+        setCityName(convertedCityName);
+        setDescription(convertedWeatherDescription);
+        setTemp(convertedDigitTemp);
+        setIcon(convertedWeatherIconAddress);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
       getWeather(lat, lng);
     });
+    setIsLoading(false);
   }, []);
 
-  return (
-    <div className='weather-card border rounded-lg bg-gray-100 mt-3 h-1/3 p-4'>
+  return isLoading === false ? (
+    <div className='border rounded-lg bg-blue-100 mt-3 w-max h-max p-5'>
       <Timer />
       <div className='flex items-center justify-center mb-4'>
         <span className='text-lg font-bold'>{cityName}</span>
@@ -49,7 +50,7 @@ const weather = () => {
       <div className='text-xl font-bold text-center mb-4'>{temp} °C</div>
       <div className='text-l font-bold text-center mb-4'>{description}</div>
     </div>
-  );
+  ) : null;
 };
 
-export default weather;
+export default Weather;
