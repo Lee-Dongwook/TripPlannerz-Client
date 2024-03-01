@@ -44,10 +44,7 @@ function SchedulePage() {
       dataIndex: 'title',
       key: 'title',
       render: (text, record) => (
-        <span
-          onClick={() => handleMoveToCertainTrip(record.id)}
-          className='list-key'
-        >
+        <span onClick={() => handleMoveToCertainTrip(record.id)} className='list-key'>
           {text}
         </span>
       ),
@@ -57,10 +54,7 @@ function SchedulePage() {
       dataIndex: 'deadline',
       key: 'deadline',
       render: (text, record) => (
-        <span
-          onClick={() => handleMoveToCertainTrip(record.id)}
-          className='list-key'
-        >
+        <span onClick={() => handleMoveToCertainTrip(record.id)} className='list-key'>
           {text}
         </span>
       ),
@@ -70,10 +64,7 @@ function SchedulePage() {
       dataIndex: 'participants',
       key: 'participants',
       render: (text, record) => (
-        <span
-          onClick={() => handleMoveToCertainTrip(record.id)}
-          className='list-key'
-        >
+        <span onClick={() => handleMoveToCertainTrip(record.id)} className='list-key'>
           {text}
         </span>
       ),
@@ -83,10 +74,7 @@ function SchedulePage() {
       dataIndex: 'date',
       key: 'date',
       render: (text, record) => (
-        <span
-          onClick={() => handleMoveToCertainTrip(record.id)}
-          className='list-key'
-        >
+        <span onClick={() => handleMoveToCertainTrip(record.id)} className='list-key'>
           {text}
         </span>
       ),
@@ -103,9 +91,7 @@ function SchedulePage() {
           : trip.comingDate
         : '',
     participants:
-      trip.currentNum && trip.recruitNum
-        ? trip.currentNum + ' / ' + trip.recruitNum
-        : '',
+      trip.currentNum && trip.recruitNum ? trip.currentNum + ' / ' + trip.recruitNum : '',
     date:
       trip.startingDate && trip.comingDate
         ? trip.startingDate < trip.comingDate
@@ -126,11 +112,7 @@ function SchedulePage() {
             <SideBar />
             <Col span={15} style={{ padding: '16px' }}>
               <Input type='text' placeholder='검색어를 입력하세요' />
-              <Table
-                columns={tableColumns}
-                dataSource={tableData}
-                pagination={false}
-              />
+              <Table columns={tableColumns} dataSource={tableData} pagination={false} />
             </Col>
           </Row>
         </>

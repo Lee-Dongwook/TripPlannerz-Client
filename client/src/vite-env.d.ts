@@ -1,9 +1,14 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-    readonly VITE_CUSTOM_ENV_VARIABLE: string;
+  readonly VITE_CUSTOM_ENV_VARIABLE: string;
 }
-  
+
 interface ImportMeta {
-    readonly env: ImportMetaEnv;
+  readonly env: ImportMetaEnv;
+}
+declare global {
+  interface Window {
+    kakao: any;
+  }
 }

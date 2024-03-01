@@ -1,5 +1,5 @@
-import { TripPlaceInfo } from "@/domain/TripPlaceInfo";
+import { TripPlaceInfo } from '@/domain/TripPlaceInfo';
 
 export interface TripTimeLineProp {
-    searchPlaceList: TripPlaceInfo[]
+  searchPlaceList: TripPlaceInfo[];
 }

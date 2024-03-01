@@ -9,12 +9,7 @@ import { TripTimeline } from '@/ui/detail/timeline/tripTimeline';
 
 const { Meta } = Card;
 
-export const TripInfo = ({
-  token,
-  tripInfo,
-  content,
-  searchPlaceList,
-}: TripInfoProp) => {
+export const TripInfo = ({ token, tripInfo, content, searchPlaceList }: TripInfoProp) => {
   const { uuid, title, startingDate, comingDate } = tripInfo;
 
   const [searchKeyword, setSearchKeyword] = useState<string>('');
@@ -61,9 +56,7 @@ export const TripInfo = ({
                   <strong>여행 기간:</strong>
                 </span>
                 <span>
-                  {startingDate && comingDate
-                    ? `${startingDate} ~ ${comingDate}`
-                    : '일정 없음'}
+                  {startingDate && comingDate ? `${startingDate} ~ ${comingDate}` : '일정 없음'}
                 </span>
               </div>
               <div style={{ display: 'flex' }}>

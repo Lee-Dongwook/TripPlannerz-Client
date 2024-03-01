@@ -20,7 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-
+    "types": [
+      "kakao.maps.d.ts"
+    ],
     /* Absolute Path */
     "baseUrl": ".",
     "paths": {

@@ -31,22 +31,18 @@ function StartPage() {
   });
 
   const [emailCode, setEmailCode] = useState<string>(''); //이메일 인증 코드
-  const [confirmPassword, setConfirmPassword] = useState<string>(''); // 비밀번호 확인
+  const [, setConfirmPassword] = useState<string>(''); // 비밀번호 확인
 
   const handleNameChange = (event) => {
     setUser((prevUser) => updateUserInfo(prevUser, 'name', event.target.value));
   };
 
   const handleGenderChange = (event) => {
-    setUser((prevUser) =>
-      updateUserInfo(prevUser, 'gender', event.target.value)
-    );
+    setUser((prevUser) => updateUserInfo(prevUser, 'gender', event.target.value));
   };
 
   const handleEmailChange = (event) => {
-    setUser((prevUser) =>
-      updateUserInfo(prevUser, 'email', event.target.value)
-    );
+    setUser((prevUser) => updateUserInfo(prevUser, 'email', event.target.value));
   };
 
   const handlePasswordChange = (event) => {

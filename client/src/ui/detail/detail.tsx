@@ -24,9 +24,7 @@ function DetailPage() {
 
   const [detailTripInfo, setDetailTripInfo] = useState<Trip>({});
   const [tripContent, setTripContent] = useState<string>('');
-  const [tripAccompanyMemberList, setTripAccompanyMemberList] = useState<
-    Member[]
-  >([]);
+  const [, setTripAccompanyMemberList] = useState<Member[]>([]);
   const [searchPlaceList, setSearchPlaceList] = useState<TripPlaceInfo[]>([]);
 
   const handleGetDetailTripInfo = async () => {
@@ -60,15 +58,9 @@ function DetailPage() {
       }));
 
       setTripContent(response.data.content);
-      setTripAccompanyMemberList((prevList) => [
-        ...prevList,
-        ...response.data.memberList,
-      ]);
+      setTripAccompanyMemberList((prevList) => [...prevList, ...response.data.memberList]);
 
-      const additionalResponse = await getDetailTripRoute(
-        token,
-        response.data.uuid
-      );
+      const additionalResponse = await getDetailTripRoute(token, response.data.uuid);
 
       setSearchPlaceList(additionalResponse.data);
     }
@@ -96,9 +88,7 @@ function DetailPage() {
                         searchPlaceList={searchPlaceList}
                       />
                     </div>
-                    {detailTripInfo.uuid && (
-                      <CommentList tripUUID={detailTripInfo.uuid} />
-                    )}
+                    {detailTripInfo.uuid && <CommentList tripUUID={detailTripInfo.uuid} />}
                   </>
                 }
               ></Meta>

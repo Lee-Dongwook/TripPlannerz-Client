@@ -1,5 +1,5 @@
 export interface TagModalProps {
-    show: boolean
-    onHide: () => void
-    onClick: () => void
+  show: boolean;
+  onHide: () => void;
+  onClick: () => void;
 }

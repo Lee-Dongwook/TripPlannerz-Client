@@ -9,8 +9,7 @@ const { TextArea } = Input;
 export const RequestAccompany = ({ tripUuid }) => {
   const token = useSelector((state: any) => state.token.token);
 
-  const [requsetAccompanyModalState, setRequestAccompanyModalState] =
-    useState<boolean>(false);
+  const [requsetAccompanyModalState, setRequestAccompanyModalState] = useState<boolean>(false);
 
   const [requestContent, setRequestContent] = useState<string>('');
 
@@ -33,6 +32,7 @@ export const RequestAccompany = ({ tripUuid }) => {
     };
 
     const response = await postRequestAccompanyToServer(token, postToServer);
+    console.log(response);
   };
 
   return (

@@ -65,9 +65,7 @@ function AccountPage() {
                     onChange={handleInputNewPassword}
                   />
                 </Form>
-                <Button onClick={handleSendNewPasswordToServer}>
-                  변경하기
-                </Button>
+                <Button onClick={handleSendNewPasswordToServer}>변경하기</Button>
               </div>
             ) : (
               <div>
@@ -79,9 +77,7 @@ function AccountPage() {
                     onChange={handleInputCurrentPassword}
                   />
                 </Form>
-                <Button onClick={handleSendCurrentPasswordToServer}>
-                  인증하기
-                </Button>
+                <Button onClick={handleSendCurrentPasswordToServer}>인증하기</Button>
               </div>
             )}
           </Col>

@@ -5,11 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import type { SignUpModalProps } from '@/ui/start/modal/type/signUpModal.types';
 import { TagModal } from '@/ui/start/modal/tagModal';
 
-export const SignUpModal = ({
-  onSubmit,
-  onChange,
-  onClick,
-}: SignUpModalProps) => {
+export const SignUpModal = ({ onSubmit, onChange, onClick }: SignUpModalProps) => {
   const [toggleSignUpModal, setToggleSignUpModal] = useState<boolean>(false);
   const [toggleTagModal, setToggleTagModal] = useState<boolean>(false);
 
@@ -45,11 +41,7 @@ export const SignUpModal = ({
               placeholder='이름을 입력해주세요'
               onChange={onChange.handleNameChange}
             />
-            <Form.Select
-              id='gender'
-              name='gender'
-              onChange={onChange.handleGenderChange}
-            >
+            <Form.Select id='gender' name='gender' onChange={onChange.handleGenderChange}>
               <option defaultValue='(male/female)' hidden>
                 (남/여)
               </option>
@@ -90,11 +82,7 @@ export const SignUpModal = ({
               태그선택
             </Button>
             {toggleTagModal && (
-              <TagModal
-                show={toggleTagModal}
-                onHide={closeTagModal}
-                onClick={closeTagModal}
-              />
+              <TagModal show={toggleTagModal} onHide={closeTagModal} onClick={closeTagModal} />
             )}
           </Form>
         </Modal.Body>

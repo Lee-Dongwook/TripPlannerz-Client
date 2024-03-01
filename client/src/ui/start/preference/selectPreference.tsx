@@ -25,10 +25,7 @@ export const SelectPreference = () => {
               alt={preference.name}
               className='card_image'
             />
-            <div
-              style={{ marginTop: '5px', fontSize: '18px' }}
-              className='card_text'
-            >
+            <div style={{ marginTop: '5px', fontSize: '18px' }} className='card_text'>
               {preference.name}
             </div>
           </div>

@@ -1,10 +1,5 @@
 import { Col, Menu, type MenuProps } from 'antd';
-import {
-  BarsOutlined,
-  SearchOutlined,
-  UserOutlined,
-  PlusCircleOutlined,
-} from '@ant-design/icons';
+import { BarsOutlined, SearchOutlined, UserOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -62,7 +57,7 @@ function SideBar() {
         onSelect={({ key }) => navigateToSelectMenu(key)}
         style={{ border: '1px solid skyblue' }}
       >
-        {menuItems.map((item) => (
+        {menuItems.map((item: any) => (
           <Menu.Item key={item.key} icon={item.icon}>
             {item.label}
           </Menu.Item>
