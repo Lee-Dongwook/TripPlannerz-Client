@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Timer from '../timer/timer';
 
 const API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
 
@@ -35,7 +36,8 @@ const weather = () => {
   }, []);
 
   return (
-    <div className='weather-card border rounded-lg bg-gray-100 h-1/4 p-4'>
+    <div className='weather-card border rounded-lg bg-gray-100 mt-3 h-1/4 p-4'>
+      <Timer />
       <div className='flex items-center justify-between mb-4'>
         <span className='text-lg font-bold'>{cityName}</span>
       </div>
