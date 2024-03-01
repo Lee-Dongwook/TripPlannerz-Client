@@ -38,15 +38,11 @@ function StartPage() {
   };
 
   const handleGenderChange = (event) => {
-    setUser((prevUser) =>
-      updateUserInfo(prevUser, 'gender', event.target.value)
-    );
+    setUser((prevUser) => updateUserInfo(prevUser, 'gender', event.target.value));
   };
 
   const handleEmailChange = (event) => {
-    setUser((prevUser) =>
-      updateUserInfo(prevUser, 'email', event.target.value)
-    );
+    setUser((prevUser) => updateUserInfo(prevUser, 'email', event.target.value));
   };
 
   const handlePasswordChange = (event) => {

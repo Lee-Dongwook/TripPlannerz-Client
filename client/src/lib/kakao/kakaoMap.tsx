@@ -7,11 +7,7 @@ export const kakaoSearchPlace = (keyword) => {
   const ps = kakao.maps.services.Places();
 };
 
-function KakaoMap({
-  width = 'calc(20vw)',
-  height = 'calc(40vh)',
-  searchKeyword,
-}) {
+function KakaoMap({ width = 'calc(20vw)', height = 'calc(40vh)', searchKeyword }) {
   const container = useRef(null);
   const map = useRef(null);
 
@@ -90,9 +86,7 @@ function KakaoMap({
 
       kakao.maps.event.addListener(marker, 'click', function () {
         infowindow.setContent(
-          '<div style="padding:5px;font-size:12px;">' +
-            place.place_name +
-            '</div>'
+          '<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>'
         );
         infowindow.open(map, marker);
       });

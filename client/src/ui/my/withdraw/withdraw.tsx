@@ -12,8 +12,7 @@ function WithdrawPage() {
   const navigate = useNavigate();
 
   const [withdrawModalState, setWithdrawModalState] = useState<boolean>(false);
-  const [withdrawCheckboxState, setWithdrawCheckboxState] =
-    useState<boolean>(false);
+  const [withdrawCheckboxState, setWithdrawCheckboxState] = useState<boolean>(false);
   const [userPassword, setUserPassword] = useState<string>();
 
   const handleOpenWithdrawModal = () => {
@@ -52,13 +51,10 @@ function WithdrawPage() {
           <hr />
           <h6>회원탈퇴를 신청하기 전 안내 사항을 확인해주세요.</h6>
           <br />
-          <h5>
-            사용하고 계신 아이디()는 탈퇴할 경우 재사용을 하거나 복구가
-            불가능합니다.
-          </h5>
+          <h5>사용하고 계신 아이디()는 탈퇴할 경우 재사용을 하거나 복구가 불가능합니다.</h5>
           <h6>
-            탈퇴한 아이디는 본인 및 타인이 더 이상 사용할 수 없는 점을 감안하여
-            신중하게 선택하시길 바랍니다.
+            탈퇴한 아이디는 본인 및 타인이 더 이상 사용할 수 없는 점을 감안하여 신중하게 선택하시길
+            바랍니다.
           </h6>
           <br />
           <h5>탈퇴 후 회원정보 및 서비스 이용기록은 모두 삭제됩니다.</h5>

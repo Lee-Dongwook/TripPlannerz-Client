@@ -21,11 +21,7 @@ import { Trip } from '@/domain/TripList';
 import { updateTripInfo } from '@/application/navbar/updateTripInfo';
 import { SubmitTripInfoToServer } from '@/application/navbar/submitTripInfoToServer';
 import { TripCategoryCascaderOption } from '@/lib/info/tripCategoryCascaderOption';
-import {
-  majorCategories,
-  minorCategories,
-  subCategories,
-} from '@/lib/info/tripCatergoryList';
+import { majorCategories, minorCategories, subCategories } from '@/lib/info/tripCatergoryList';
 
 import SideBar from '@/ui/sidebar/sidebar';
 import styles from '@/ui/create/create.module.css';
@@ -95,12 +91,8 @@ function CreatePage() {
   };
 
   const handleCascaderChange = (selectedOptions: string[]) => {
-    setTripInfo((prevInfo) =>
-      updateTripInfo(prevInfo, 'area', selectedOptions[1])
-    );
-    setTripInfo((prevInfo) =>
-      updateTripInfo(prevInfo, 'sigungu', selectedOptions[2])
-    );
+    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'area', selectedOptions[1]));
+    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'sigungu', selectedOptions[2]));
   };
 
   const onImageChange = (info) => {
@@ -113,17 +105,13 @@ function CreatePage() {
   };
 
   const handleTripTitleChange = (event) => {
-    setTripInfo((prevInfo) =>
-      updateTripInfo(prevInfo, 'title', event.target.value)
-    );
+    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'title', event.target.value));
   };
   const handleTripRecuritNumChange = (event) => {
     setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'recruitNum', event));
   };
   const handleTripCloseRecruitDateChange = (event) => {
-    setTripInfo((prevInfo) =>
-      updateTripInfo(prevInfo, 'closeRecruitDate', event)
-    );
+    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'closeRecruitDate', event));
   };
   const handleTripGoingDateChange = (event) => {
     setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'startingDate', event));
@@ -145,9 +133,7 @@ function CreatePage() {
                   <p>대분류(특별시/광역시/도)</p>
                   <p>중분류(특별시,광역시 : 시 이름/ 도: 도 이름)</p>
                   <p>소분류(특별시,광역시 : 구 이름 / 도: 시 이름)</p>
-                  <Form.Item
-                    style={{ display: 'flex', justifyContent: 'center' }}
-                  >
+                  <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
                     <Cascader
                       onChange={handleCascaderChange}
                       size='large'
@@ -173,12 +159,9 @@ function CreatePage() {
               description={
                 <>
                   <p>
-                    해당 여행 일정을 대표하는 사진을 올려 다른 사용자들이 확인
-                    할 수 있게 합니다.
+                    해당 여행 일정을 대표하는 사진을 올려 다른 사용자들이 확인 할 수 있게 합니다.
                   </p>
-                  <Form.Item
-                    style={{ display: 'flex', justifyContent: 'center' }}
-                  >
+                  <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
                     <ImgCrop rotationSlider>
                       <Upload
                         action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
@@ -210,14 +193,9 @@ function CreatePage() {
                       ? '해당 여행 일정의 제목을 작성해주세요'
                       : '해당 여행 일정에 함께할 인원 수를 제한하여 주세요'}
                   </p>
-                  <Form.Item
-                    style={{ display: 'flex', justifyContent: 'center' }}
-                  >
+                  <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
                     {currentStep === 2 ? (
-                      <Input
-                        style={{ width: '200px' }}
-                        onChange={handleTripTitleChange}
-                      />
+                      <Input style={{ width: '200px' }} onChange={handleTripTitleChange} />
                     ) : (
                       <InputNumber
                         addonBefore={<UserOutlined />}
@@ -256,9 +234,7 @@ function CreatePage() {
                         ? '해당 여행 일정의 시작 날짜를 정해주세요. '
                         : '해당 여행 일정의 종료 날짜를 정해주세요. '}
                   </p>
-                  <Form.Item
-                    style={{ display: 'flex', justifyContent: 'center' }}
-                  >
+                  <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
                     <DatePicker
                       onChange={(_date, dateString) =>
                         currentStep === 4
@@ -296,13 +272,9 @@ function CreatePage() {
                     여행 장소: {tripInfo.area} {tripInfo.sigungu}
                   </p>
                   <p>모집 인원 수 : {tripInfo.recruitNum} </p>
+                  <p>모집 마감 날짜: {new Date(tripInfo.closeRecruitDate!).toLocaleDateString()}</p>
                   <p>
-                    모집 마감 날짜:{' '}
-                    {new Date(tripInfo.closeRecruitDate!).toLocaleDateString()}
-                  </p>
-                  <p>
-                    여행 날짜 :{' '}
-                    {new Date(tripInfo.startingDate!).toLocaleDateString()}~{' '}
+                    여행 날짜 : {new Date(tripInfo.startingDate!).toLocaleDateString()}~{' '}
                     {new Date(tripInfo.comingDate!).toLocaleDateString()}
                   </p>
                 </>
@@ -372,11 +344,7 @@ function CreatePage() {
                 ) : (
                   <>
                     <Button onClick={handleStepChangeToPrev}>이전</Button>
-                    <Button
-                      type='primary'
-                      htmlType='submit'
-                      onClick={handleSubmitTripInfoToServer}
-                    >
+                    <Button type='primary' htmlType='submit' onClick={handleSubmitTripInfoToServer}>
                       등록
                     </Button>
                   </>

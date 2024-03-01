@@ -21,8 +21,7 @@ function ProfilePage() {
     {
       senderName: '테스트 사용자1',
       tripName: '부산',
-      comment:
-        '안녕하세요 OOO입니다. 해당 여행에 동행을 하고 싶어서 연락드렸습니다.',
+      comment: '안녕하세요 OOO입니다. 해당 여행에 동행을 하고 싶어서 연락드렸습니다.',
       comment_id: '1',
       tripUUID: '1',
     },
@@ -44,8 +43,7 @@ function ProfilePage() {
     const check = true;
 
     const postToServer = {
-      comment_id: accompanyList.filter((item) => item.comment_id === id)[0]
-        .comment_id,
+      comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id,
     };
 
     const response = await postAssignAccompany(token, postToServer, check);
@@ -59,8 +57,7 @@ function ProfilePage() {
     const check = false;
 
     const postToServer = {
-      comment_id: accompanyList.filter((item) => item.comment_id === id)[0]
-        .comment_id,
+      comment_id: accompanyList.filter((item) => item.comment_id === id)[0].comment_id,
     };
 
     const response = await postDenyAccompany(token, postToServer, check);
@@ -118,12 +115,7 @@ function ProfilePage() {
             <Col span={15} style={{ padding: '16px' }}>
               <h3>내 정보</h3>
               <hr />
-              <Table
-                columns={columns}
-                dataSource={data}
-                bordered
-                pagination={false}
-              />
+              <Table columns={columns} dataSource={data} bordered pagination={false} />
               <hr />
               <h3>동행 신청 현황</h3>
               {accompanyList.length > 0 &&
@@ -133,26 +125,14 @@ function ProfilePage() {
                     <h6>여행: {item.tripName}</h6>
                     <h6>
                       신청 내용 :{' '}
-                      {item.comment.length <= 50
-                        ? item.comment
-                        : item.comment.slice(0, 50) + '...'}
+                      {item.comment.length <= 50 ? item.comment : item.comment.slice(0, 50) + '...'}
                     </h6>
                     <table>
                       <td>
-                        <Button
-                          onClick={handleResponseAccompanyTrue(item.comment_id)}
-                        >
-                          O
-                        </Button>
+                        <Button onClick={handleResponseAccompanyTrue(item.comment_id)}>O</Button>
                       </td>
                       <td>
-                        <Button
-                          onClick={handleResponseAccompanyFalse(
-                            item.comment_id
-                          )}
-                        >
-                          X
-                        </Button>
+                        <Button onClick={handleResponseAccompanyFalse(item.comment_id)}>X</Button>
                       </td>
                     </table>
                   </Card>

@@ -1,3 +1,3 @@
 export interface CommentProp {
-    tripUUID: string
+  tripUUID: string;
 }

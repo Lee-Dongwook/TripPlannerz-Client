@@ -1,5 +1,5 @@
 export interface Comment {
-    postDate: string
-    senderName: string
-    review: string
+  postDate: string;
+  senderName: string;
+  review: string;
 }

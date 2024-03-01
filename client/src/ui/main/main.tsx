@@ -2,16 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useInfiniteQuery } from 'react-query';
-import {
-  Row,
-  Col,
-  Card,
-  List,
-  Progress,
-  FloatButton,
-  Button,
-  Spin,
-} from 'antd';
+import { Row, Col, Card, List, Progress, FloatButton, Button, Spin } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import { getEntireTripList } from '@/application/api/main/getEntireTripList';
@@ -25,18 +16,16 @@ function MainPage() {
 
   const [intersectionTarget, setIntersectionTarget] = useState(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isError } =
-    useInfiniteQuery(
-      ['tripList', token],
-      ({ pageParam = 0 }) => getEntireTripList(token, pageParam),
-      {
-        getNextPageParam: (lastPage, allPages) => {
-          const nextPageParam =
-            lastPage.data.content.length === 0 ? false : allPages.length;
-          return nextPageParam;
-        },
-      }
-    );
+  const { data, fetchNextPage, hasNextPage, isFetching, isError } = useInfiniteQuery(
+    ['tripList', token],
+    ({ pageParam = 0 }) => getEntireTripList(token, pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPageParam = lastPage.data.content.length === 0 ? false : allPages.length;
+        return nextPageParam;
+      },
+    }
+  );
 
   const travelList = data?.pages.flatMap((page) => page.data.content) || [];
 
@@ -111,22 +100,18 @@ function MainPage() {
                       fontSize: '1rem',
                     }}
                   >
-                    <strong>인원 현황: </strong> {item.currentNum} /{' '}
-                    {item.recruitNum}
+                    <strong>인원 현황: </strong> {item.currentNum} / {item.recruitNum}
                     <Progress
                       percent={
                         item.currentNum && item.recruitNum
-                          ? Math.floor(
-                              (item.currentNum / item.recruitNum) * 100
-                            )
+                          ? Math.floor((item.currentNum / item.recruitNum) * 100)
                           : 0
                       }
                       status='active'
                     />
                   </div>
                   <div style={{ color: '#666', fontSize: '0.9rem' }}>
-                    <strong>여행 기간:</strong> {item.startingDate} ~{' '}
-                    {item.comingDate}
+                    <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
                   </div>
                   <br />
                   <Button onClick={() => movetoSubPage(item.id ? item.id : 0)}>

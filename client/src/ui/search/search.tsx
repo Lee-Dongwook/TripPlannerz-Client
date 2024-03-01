@@ -50,8 +50,7 @@ function SearchPage() {
   const [optimizeModalState, setOptimizeModalState] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [calculateRouteLoading, setCalculateRouteLoading] =
-    useState<boolean>(false);
+  const [calculateRouteLoading, setCalculateRouteLoading] = useState<boolean>(false);
 
   const [optimizeTime, setOptimizeTime] = useState<number>(0);
 
@@ -65,10 +64,7 @@ function SearchPage() {
     if (selectedDetailTrip) {
       if (selectedDetailTrip.uuid) {
         setSelectedTripUuid(selectedDetailTrip.uuid);
-        const response = await getDetailTripRoute(
-          token,
-          selectedDetailTrip?.uuid
-        );
+        const response = await getDetailTripRoute(token, selectedDetailTrip?.uuid);
         setSelectedTripRoute(response.data);
         setSelectedTrip(record);
         setDrawerState(true);
@@ -216,9 +212,7 @@ function SearchPage() {
           : trip.comingDate
         : '',
     participants:
-      trip.currentNum && trip.recruitNum
-        ? trip.currentNum + ' / ' + trip.recruitNum
-        : '',
+      trip.currentNum && trip.recruitNum ? trip.currentNum + ' / ' + trip.recruitNum : '',
     date:
       trip.startingDate && trip.comingDate
         ? trip.startingDate < trip.comingDate
@@ -268,28 +262,18 @@ function SearchPage() {
                         description={
                           <>
                             <h5>
-                              모집 마감 날짜:{' '}
-                              {selectedTrip.deadline
-                                ? selectedTrip.deadline
-                                : ''}
+                              모집 마감 날짜: {selectedTrip.deadline ? selectedTrip.deadline : ''}
                             </h5>
                             <h5>
-                              여행 기간:{' '}
-                              {selectedTrip.date
-                                ? selectedTrip.date
-                                : '일정 없음'}
+                              여행 기간: {selectedTrip.date ? selectedTrip.date : '일정 없음'}
                             </h5>
                             <h5>
                               내용:{' '}
-                              {selectedTrip.content
-                                ? selectedTrip.content
-                                : '예시 여행입니다.'}
+                              {selectedTrip.content ? selectedTrip.content : '예시 여행입니다.'}
                             </h5>
                             <h5>
                               현 인원 / 총 인원 :{' '}
-                              {selectedTrip.participants
-                                ? selectedTrip.participants
-                                : ''}
+                              {selectedTrip.participants ? selectedTrip.participants : ''}
                             </h5>
                           </>
                         }
@@ -305,23 +289,16 @@ function SearchPage() {
                             <>
                               <Timeline>
                                 {selectedTripRoute?.map((route, index) => (
-                                  <Timeline.Item key={index}>
-                                    {route.name}
-                                  </Timeline.Item>
+                                  <Timeline.Item key={index}>{route.name}</Timeline.Item>
                                 ))}
                               </Timeline>
-                              <Button onClick={handleOpenOptimizeModal}>
-                                최단경로
-                              </Button>
+                              <Button onClick={handleOpenOptimizeModal}>최단경로</Button>
                               <Modal
                                 title='시작점 선택'
                                 open={optimizeModalState}
                                 onCancel={handleCloseOptimizeModal}
                                 footer={[
-                                  <Button
-                                    key='cancel'
-                                    onClick={handleCloseOptimizeModal}
-                                  >
+                                  <Button key='cancel' onClick={handleCloseOptimizeModal}>
                                     취소
                                   </Button>,
                                   <Button
@@ -340,9 +317,7 @@ function SearchPage() {
                                   >
                                     {selectedTripRoute!.map((route, index) => (
                                       <Space direction='vertical' key={index}>
-                                        <Radio value={route.name}>
-                                          {route.name}
-                                        </Radio>
+                                        <Radio value={route.name}>{route.name}</Radio>
                                       </Space>
                                     ))}
                                   </Radio.Group>
@@ -351,10 +326,7 @@ function SearchPage() {
                                 {calculateRouteLoading && (
                                   <>
                                     <br />
-                                    <Spin
-                                      tip='이동시간을 계산중입니다...'
-                                      size='large'
-                                    >
+                                    <Spin tip='이동시간을 계산중입니다...' size='large'>
                                       <></>
                                     </Spin>
                                   </>
@@ -365,8 +337,7 @@ function SearchPage() {
                                   '분 (' +
                                   parseInt(optimizeTime / 60) +
                                   ' 시간 ' +
-                                  (optimizeTime -
-                                    parseInt(optimizeTime / 60) * 60) +
+                                  (optimizeTime - parseInt(optimizeTime / 60) * 60) +
                                   ' 분)'
                                 : '최단 경로 버튼을 누르면 최단 경로를 계산할 수 있습니다.'}
                             </>
@@ -384,9 +355,7 @@ function SearchPage() {
                               placeholder='신청서를 작성해주세요'
                               onChange={handleChangeRequestContent}
                             />
-                            <Button onClick={handleRequestAccompany}>
-                              신청하기
-                            </Button>
+                            <Button onClick={handleRequestAccompany}>신청하기</Button>
                           </>
                         }
                       />
@@ -397,14 +366,8 @@ function SearchPage() {
                         description={
                           <>
                             {' '}
-                            <TextArea
-                              rows={3}
-                              value={review}
-                              onChange={handleReviewChange}
-                            />
-                            <Button onClick={handleAddComment}>
-                              댓글 추가
-                            </Button>
+                            <TextArea rows={3} value={review} onChange={handleReviewChange} />
+                            <Button onClick={handleAddComment}>댓글 추가</Button>
                             {tripCommentList.length > 0 ? (
                               tripCommentList.map((comment, index) => (
                                 <div>

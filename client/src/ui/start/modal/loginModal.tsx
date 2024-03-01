@@ -3,11 +3,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import type { LoginModalProps } from '@/ui/start/modal/type/loginModal.types';
 
-export const LoginModal = ({
-  onSubmit,
-  onChange,
-  onClick,
-}: LoginModalProps) => {
+export const LoginModal = ({ onSubmit, onChange, onClick }: LoginModalProps) => {
   const [toggleLoginModal, setToggleLoginModal] = useState<boolean>(false);
 
   const openLoginModal = () => {

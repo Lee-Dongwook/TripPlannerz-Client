@@ -27,13 +27,10 @@ function Navbar() {
     (state: any) => state.notification.notifications || []
   );
 
-  const [eventSource, setEventSource] = useState<EventSourcePolyfill | null>(
-    null
-  );
+  const [eventSource, setEventSource] = useState<EventSourcePolyfill | null>(null);
   const [travelButtonState, setTravelButtonState] = useState<boolean>(true);
   const [noticeDrawerState, setNoticeDrawerState] = useState<boolean>(false);
-  const [userInfoDrawerState, setUserInfoDrawerState] =
-    useState<boolean>(false);
+  const [userInfoDrawerState, setUserInfoDrawerState] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [memberInfo, setMemberInfo] = useState<Member>({});
 
@@ -78,11 +75,10 @@ function Navbar() {
 
     eventSource.onmessage = (event) => {
       const message = JSON.parse(event.data);
-      const notificationString = `${
-        message.senderName
-      }님이 \n ${message.review.slice(0, 4)}..를 입력하였습니다. \n ${
-        message.postDate
-      }`;
+      const notificationString = `${message.senderName}님이 \n ${message.review.slice(
+        0,
+        4
+      )}..를 입력하였습니다. \n ${message.postDate}`;
       dispatch(setNotification(notificationString));
     };
 
@@ -126,11 +122,7 @@ function Navbar() {
       }}
     >
       <Menu.Item>
-        <NavbarButton
-          name='TripPlannerz'
-          style={{ width: '200px' }}
-          onClick={moveToMain}
-        />
+        <NavbarButton name='TripPlannerz' style={{ width: '200px' }} onClick={moveToMain} />
       </Menu.Item>
       <Menu.Item>
         <NavbarButton

@@ -1,10 +1,5 @@
 import { Col, Menu, type MenuProps } from 'antd';
-import {
-  BarsOutlined,
-  SearchOutlined,
-  UserOutlined,
-  PlusCircleOutlined,
-} from '@ant-design/icons';
+import { BarsOutlined, SearchOutlined, UserOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
