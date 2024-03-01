@@ -19,10 +19,7 @@ export const OptimizeRoute = () => {
         </Modal.Header>
         <Modal.Body>
           {optimizeModal && (
-            <Radio.Group
-              onChange={handleSaveStartLocation}
-              value={startLocation}
-            >
+            <Radio.Group onChange={handleSaveStartLocation} value={startLocation}>
               {searchPlaceForOptimize.map((searchPlace, index) => (
                 <Space direction='vertical' key={index}>
                   <Radio value={searchPlace.name}>{searchPlace.name}</Radio>

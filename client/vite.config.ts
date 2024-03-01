@@ -1,16 +1,14 @@
-import { defineConfig, loadEnv } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
 import WindiCSS from 'vite-plugin-windicss';
 
 // https://vitejs.dev/config/
-export default ({mode}) => {
+export default ({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
 
-  const env = loadEnv(mode, process.cwd(), "");
-  
   return defineConfig({
     define: {
-      "process.env": env,
-
+      'process.env': env,
     },
     plugins: [react(), WindiCSS()],
     server: {
@@ -18,9 +16,7 @@ export default ({mode}) => {
       port: 3000,
     },
     resolve: {
-      alias: [
-        {find: "@", replacement: "/src"}
-      ]
-    }
-  })
-}
+      alias: [{ find: '@', replacement: '/src' }],
+    },
+  });
+};
