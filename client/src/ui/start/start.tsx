@@ -31,7 +31,7 @@ function StartPage() {
   });
 
   const [emailCode, setEmailCode] = useState<string>(''); //이메일 인증 코드
-  const [confirmPassword, setConfirmPassword] = useState<string>(''); // 비밀번호 확인
+  const [, setConfirmPassword] = useState<string>(''); // 비밀번호 확인
 
   const handleNameChange = (event) => {
     setUser((prevUser) => updateUserInfo(prevUser, 'name', event.target.value));

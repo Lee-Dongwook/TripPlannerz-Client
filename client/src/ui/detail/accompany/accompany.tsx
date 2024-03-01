@@ -32,6 +32,7 @@ export const RequestAccompany = ({ tripUuid }) => {
     };
 
     const response = await postRequestAccompanyToServer(token, postToServer);
+    console.log(response);
   };
 
   return (

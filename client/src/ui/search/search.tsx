@@ -57,7 +57,7 @@ function SearchPage() {
   const [review, setReview] = useState<string>('');
   const [requestContent, setRequestContent] = useState<string>('');
 
-  const [tripCommentList, setTripCommentList] = useState<Comment[]>([]);
+  const [tripCommentList] = useState<Comment[]>([]);
 
   const handleOpenDrawer = async (record) => {
     const selectedDetailTrip = tripList.find((trip) => trip.id === record.id);
@@ -240,7 +240,7 @@ function SearchPage() {
                       { label: '조회수 순', value: 'hits' },
                     ]}
                     value={sortType}
-                    onChange={setSortType}
+                    onChange={() => setSortType}
                   />
                 )}
                 columns={tableColumns}
@@ -335,9 +335,9 @@ function SearchPage() {
                               {optimizeTime > 0
                                 ? optimizeTime.toString() +
                                   '분 (' +
-                                  parseInt(optimizeTime / 60) +
+                                  (optimizeTime / 60).toString() +
                                   ' 시간 ' +
-                                  (optimizeTime - parseInt(optimizeTime / 60) * 60) +
+                                  (optimizeTime - (optimizeTime / 60) * 60) +
                                   ' 분)'
                                 : '최단 경로 버튼을 누르면 최단 경로를 계산할 수 있습니다.'}
                             </>

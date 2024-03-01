@@ -57,7 +57,7 @@ function SideBar() {
         onSelect={({ key }) => navigateToSelectMenu(key)}
         style={{ border: '1px solid skyblue' }}
       >
-        {menuItems.map((item) => (
+        {menuItems.map((item: any) => (
           <Menu.Item key={item.key} icon={item.icon}>
             {item.label}
           </Menu.Item>

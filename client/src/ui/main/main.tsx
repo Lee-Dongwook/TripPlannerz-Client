@@ -39,13 +39,12 @@ function MainPage() {
   }, []);
 
   const observerCallback = useCallback(
-    async ([entry]) => {
+    (entries: IntersectionObserverEntry[]) => {
+      const entry = entries[0];
       if (entry.isIntersecting && hasNextPage) {
-        try {
-          await fetchNextPage();
-        } catch (error) {
+        fetchNextPage().catch((error) => {
           console.error(error);
-        }
+        });
       }
     },
     [fetchNextPage, hasNextPage]

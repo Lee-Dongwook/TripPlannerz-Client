@@ -24,7 +24,7 @@ function DetailPage() {
 
   const [detailTripInfo, setDetailTripInfo] = useState<Trip>({});
   const [tripContent, setTripContent] = useState<string>('');
-  const [tripAccompanyMemberList, setTripAccompanyMemberList] = useState<Member[]>([]);
+  const [, setTripAccompanyMemberList] = useState<Member[]>([]);
   const [searchPlaceList, setSearchPlaceList] = useState<TripPlaceInfo[]>([]);
 
   const handleGetDetailTripInfo = async () => {

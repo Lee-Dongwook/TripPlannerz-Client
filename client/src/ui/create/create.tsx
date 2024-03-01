@@ -90,7 +90,7 @@ function CreatePage() {
     }
   };
 
-  const handleCascaderChange = (selectedOptions: string[]) => {
+  const handleCascaderChange = (selectedOptions: any) => {
     setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'area', selectedOptions[1]));
     setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'sigungu', selectedOptions[2]));
   };

@@ -17,7 +17,7 @@ function ProfilePage() {
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   const [memberInfo, setMemberInfo] = useState<Member>();
-  const [accompanyList, setAccompanyList] = useState<AccompanyList[]>([
+  const [accompanyList] = useState<AccompanyList[]>([
     {
       senderName: '테스트 사용자1',
       tripName: '부산',
@@ -129,10 +129,14 @@ function ProfilePage() {
                     </h6>
                     <table>
                       <td>
-                        <Button onClick={handleResponseAccompanyTrue(item.comment_id)}>O</Button>
+                        <Button onClick={() => handleResponseAccompanyTrue(item.comment_id)}>
+                          O
+                        </Button>
                       </td>
                       <td>
-                        <Button onClick={handleResponseAccompanyFalse(item.comment_id)}>X</Button>
+                        <Button onClick={() => handleResponseAccompanyFalse(item.comment_id)}>
+                          X
+                        </Button>
                       </td>
                     </table>
                   </Card>
