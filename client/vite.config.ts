@@ -1,7 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import WindiCSS from 'vite-plugin-windicss';
+import dts from 'vite-plugin-dts';
+import tailwindcss from 'tailwindcss';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -25,11 +26,18 @@ export default ({ mode }) => {
           entryFileNames: 'assets/js/[name]-[hash].js',
         },
       },
+      sourcemap: true,
+      emptyOutDir: true,
+    },
+    css: {
+      postcss: {
+        plugins: [tailwindcss],
+      },
     },
     define: {
       'process.env': isProduction ? prodEnv : devEnv,
     },
-    plugins: [react(), WindiCSS(), tsconfigPaths()],
+    plugins: [react(), tsconfigPaths(), dts({ rollupTypes: true })],
     server: {
       host: true,
       port: 3000,
