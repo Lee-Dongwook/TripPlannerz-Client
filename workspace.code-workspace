@@ -4,7 +4,10 @@
             "path": "apps"
         },
         {
-            "path": "shared"
+            "path": "shared/ui"
+        },
+        {
+            "path": "shared/e2e"
         }
     ]
 }
