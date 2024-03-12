@@ -6,6 +6,10 @@
       "package/*"
     ]
   },
+  "scripts": {
+    "web": "yarn workspace client dev",
+    "mobile": "yarn workspace mobile dev"
+  },
   "packageManager": "yarn@4.1.1",
   "devDependencies": {
     "eslint": "^8.57.0",
