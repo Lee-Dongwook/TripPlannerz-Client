@@ -11,7 +11,8 @@
   "scripts": {
     "dev:react-vite": "yarn workspace react-vite dev",
     "build:react-vite": "yarn workspace react-vite build",
-    "storybook": "yarn workspace @tripplannerz/ui storybook"
+    "storybook": "yarn workspace @tripplannerz/ui storybook",
+    "e2e": "yarn workspace @tripplannerz/e2e test:dev"
   },
   "lint-staged": {
     "**/*.{js,jsx,tsx}": [

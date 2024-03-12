@@ -2274,7 +2274,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.40.1":
+"@playwright/test@npm:^1.40.1, @playwright/test@npm:^1.42.1":
   version: 1.42.1
   resolution: "@playwright/test@npm:1.42.1"
   dependencies:
@@ -3496,6 +3496,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tripplannerz/e2e@workspace:shared/e2e":
+  version: 0.0.0-use.local
+  resolution: "@tripplannerz/e2e@workspace:shared/e2e"
+  dependencies:
+    "@playwright/test": "npm:^1.42.1"
+    "@types/node": "npm:^20.11.26"
+  languageName: unknown
+  linkType: soft
+
 "@tripplannerz/ui@workspace:shared/ui":
   version: 0.0.0-use.local
   resolution: "@tripplannerz/ui@workspace:shared/ui"
@@ -3813,7 +3822,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.9.4":
+"@types/node@npm:*, @types/node@npm:^20.11.26, @types/node@npm:^20.9.4":
   version: 20.11.26
   resolution: "@types/node@npm:20.11.26"
   dependencies:
