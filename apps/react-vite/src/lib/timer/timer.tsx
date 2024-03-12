@@ -2,20 +2,19 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 
 const Timer = () => {
-  const currentTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
-  const [runningTime, setRunningTime] = useState('');
+  const [currentTime, setCurrentTime] = useState(dayjs().format('YYYY-MM-DD HH:mm:ss'));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setRunningTime(currentTime);
+      setCurrentTime(dayjs().format('YYYY-MM-DD HH:mm:ss'));
     }, 1000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [currentTime]);
+  }, []);
 
-  return <div>{runningTime}</div>;
+  return <div>{currentTime}</div>;
 };
 
 export default Timer;
