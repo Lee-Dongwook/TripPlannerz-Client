@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@TripPlannerZ/variable": "*",
     "@ant-design/icons": "^5.2.6",
     "@reduxjs/toolkit": "^2.2.1",
     "antd": "^5.11.2",
