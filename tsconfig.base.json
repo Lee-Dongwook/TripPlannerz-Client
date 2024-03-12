@@ -16,5 +16,5 @@
         "path": "./package/client/"
       }
     ],
-    "exclude": ["node_modules"],
+    "exclude": ["package/**/node_modules","package/**/dist/**"],
   }
