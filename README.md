@@ -1,28 +1,23 @@
-# TripPlannerz-Client
+# TripPlannerz-Frontend
 
-TripPlannerZ 프론트엔드 레포지토리입니다.
-
+TripPlannerZ 프론트엔드 레포지토리입니다.   
 [기존에 진행하였던 프로젝트](https://github.com/GraudationProject2023/Tripplannerz)에서 구현하며 발생하였던 문제들을 해결하고, 새로운 기술들을 도입하여 재구성하였습니다.
 
-***
 
-### 기술 스택
+# 👋 프로젝트 소개
+여행을 좋아하는 사람들을 위한 여행 일정 계획 및 동행자 찾기 사이트 입니다.
 
-React v18.2.0
+# 🛠️ 기술 스택
+- React
+- TypeScript
+- Vite
+- Redux-Toolkit
+- Tanstack Query(구 React Query)
+- Antd → TailWind CSS(현재 마이그레이션 진행 중 입니다.)
 
-TypeScript v5.2.2
 
-Redux v4.2.1
 
-React-Query v3.39.3
-
-Vite v5.0.0
-
-TailWind CSS v3.3.6
-
-***
-
-### 주요 기능
+# 📝 핵심 변경 기능
 
 #### 1. JWT 토큰 기반의 인증 및 Redux 상태 관리
 
@@ -44,4 +39,3 @@ TailWind CSS v3.3.6
 
 - KaKao Map API를 통해 사용자가 여행 경로를 쉽게 설정할 수 있도록 하였습니다. 사용자는 원하는 장소를 검색하고, 그 위치에 마커를 지정함으로써 여행 경로를 직관적으로 파악할 수 있습니다.
 
-***
