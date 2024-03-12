@@ -1,15 +1,23 @@
 {
-  "name": "tripplannerz",
+  "name": "tripplannerz-frontend",
+  "packageManager": "yarn@4.1.1",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "package/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "shared/*"
+    ]
+  },
   "scripts": {
     "dev:react-vite": "yarn workspace react-vite dev",
     "build:react-vite": "yarn workspace react-vite build"
   },
-  "packageManager": "yarn@4.1.1",
+  "lint-staged": {
+    "**/*.{js,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
