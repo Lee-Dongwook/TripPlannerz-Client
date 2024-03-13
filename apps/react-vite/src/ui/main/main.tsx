@@ -2,8 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useInfiniteQuery } from 'react-query';
-import { Row, Col, Card, List, Progress, FloatButton, Button, Spin } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Row, Col, Card, List, Progress, Button, Spin } from 'antd';
 
 import { getEntireTripList } from '@/application/api/main/getEntireTripList';
 import Weather from '@/lib/weather/weather';
@@ -126,11 +125,6 @@ function MainPage() {
         </Col>
         <Weather />
       </Row>
-      <FloatButton
-        tooltip={<div>Questions</div>}
-        style={{ width: '60px', height: '60px' }}
-        icon={<QuestionCircleOutlined />}
-      />
     </div>
   );
 }

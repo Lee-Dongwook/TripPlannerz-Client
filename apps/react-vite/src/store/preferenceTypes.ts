@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-interface PreferenceTypeState {
+export interface PreferenceTypeState {
   types: any[];
 }
 
