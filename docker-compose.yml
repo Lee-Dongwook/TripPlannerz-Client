@@ -1,0 +1,18 @@
+version: '3.8'
+
+services: 
+  react-app: 
+    build: 
+      context: .
+      dockerfile: Dockerfile.vite
+    ports: 
+     - "3000:80"
+
+  nginx:
+    image: nginx:1.19.0
+    volumes: 
+     - ./nginx/vite.conf:/etc/nginx/conf.d/default.conf
+    ports:
+     - "3000:80"
+    depends_on:
+      - react-app
