@@ -71,16 +71,16 @@ function DetailPage() {
   }, []);
 
   return (
-    <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
+    <div>
       <>
-        <Row style={{ width: '100%', height: '100%' }}>
+        <Row>
           <SideBar />
-          <Col span={20} style={{ padding: '16px' }}>
+          <Col>
             <Card>
               <Meta
                 description={
                   <>
-                    <div style={{ display: 'flex' }}>
+                    <div>
                       <TripInfo
                         token={token}
                         tripInfo={detailTripInfo}

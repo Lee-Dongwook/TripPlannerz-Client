@@ -20,13 +20,13 @@ export const InnerMenu = () => {
   return (
     <>
       <Menu.Item>
-        <NavbarButton name='여행 생성' style={{ width: '100px' }} onClick={moveToCreate} />
+        <NavbarButton name='여행 생성' onClick={moveToCreate} />
       </Menu.Item>
       <Menu.Item>
-        <NavbarButton name='일정 조회' style={{ width: '100px' }} onClick={moveToSearch} />
+        <NavbarButton name='일정 조회' onClick={moveToSearch} />
       </Menu.Item>
       <Menu.Item>
-        <NavbarButton name='여행 경비' style={{ width: '100px' }} onClick={moveToBill} />
+        <NavbarButton name='여행 경비' onClick={moveToBill} />
       </Menu.Item>
     </>
   );

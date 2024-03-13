@@ -111,25 +111,12 @@ function Navbar() {
   }, [dispatch, token]);
 
   return (
-    <Menu
-      mode='horizontal'
-      theme='light'
-      style={{
-        height: '100px',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#EEEEEE',
-      }}
-    >
+    <Menu mode='horizontal' theme='light'>
       <Menu.Item>
-        <NavbarButton name='TripPlannerz' style={{ width: '200px' }} onClick={moveToMain} />
+        <NavbarButton name='TripPlannerz' onClick={moveToMain} />
       </Menu.Item>
       <Menu.Item>
-        <NavbarButton
-          name='여행 계획'
-          style={{ width: '200px' }}
-          onClick={toggleTravelButtonState}
-        />
+        <NavbarButton name='여행 계획' onClick={toggleTravelButtonState} />
         {travelButtonState && <InnerMenu />}
       </Menu.Item>
       <Menu.Item>

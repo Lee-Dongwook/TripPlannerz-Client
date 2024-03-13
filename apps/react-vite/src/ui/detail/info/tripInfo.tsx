@@ -38,20 +38,13 @@ export const TripInfo = ({ token, tripInfo, content, searchPlaceList }: TripInfo
   };
 
   return (
-    <Card
-      style={{
-        width: '100%',
-        height: 'calc(80vh)',
-        borderRadius: '10px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <Card>
+      <div>
         <Meta
           title={title}
           description={
             <>
-              <div style={{ display: 'flex' }}>
+              <div>
                 <span>
                   <strong>여행 기간:</strong>
                 </span>
@@ -59,7 +52,7 @@ export const TripInfo = ({ token, tripInfo, content, searchPlaceList }: TripInfo
                   {startingDate && comingDate ? `${startingDate} ~ ${comingDate}` : '일정 없음'}
                 </span>
               </div>
-              <div style={{ display: 'flex' }}>
+              <div>
                 <span>
                   <strong>내용:</strong>
                 </span>
@@ -67,21 +60,11 @@ export const TripInfo = ({ token, tripInfo, content, searchPlaceList }: TripInfo
               </div>
             </>
           }
-          style={{ marginBottom: '10px' }}
         />
         <hr />
         {searchPlaceList && <TripTimeline searchPlaceList={searchPlaceList} />}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Input
-            style={{ width: '25%', textAlign: 'center' }}
-            placeholder='여행장소를 입력하세요'
-            onChange={handleInputSearchPlace}
-          />
+        <div>
+          <Input placeholder='여행장소를 입력하세요' onChange={handleInputSearchPlace} />
           <Button onClick={handleSaveLocationToServer}>입력</Button>
         </div>
         <KakaoMap searchKeyword={searchKeyword} />

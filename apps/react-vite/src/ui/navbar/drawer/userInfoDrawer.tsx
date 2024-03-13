@@ -38,7 +38,7 @@ export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {
 
   return (
     <>
-      <UserOutlined style={{ width: '100px', justifyContent: 'center' }} onClick={onClick} />
+      <UserOutlined onClick={onClick} />
       <Drawer title='사용자 정보' onClose={onClose} open={visible} width={370}>
         {memberInfo && (
           <Table dataSource={[memberInfo]}>
@@ -49,14 +49,8 @@ export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {
           </Table>
         )}
         <hr />
-        <Button style={{ width: '330px', borderColor: 'black' }} onClick={moveToMyPage}>
-          마이페이지
-        </Button>
-        <br />
-        <br />
-        <Button style={{ width: '330px', borderColor: 'black' }} onClick={handleLogOut}>
-          로그아웃
-        </Button>
+        <Button onClick={moveToMyPage}>마이페이지</Button>
+        <Button onClick={handleLogOut}>로그아웃</Button>
       </Drawer>
     </>
   );

@@ -8,7 +8,6 @@ import { getEntireTripList } from '@/application/api/main/getEntireTripList';
 import Weather from '@/lib/weather/weather';
 import SightImage from '@/lib/image/관광지.png';
 import SideBar from '@/ui/sidebar/sidebar';
-import styles from '@/ui/main/main.module.css';
 
 function MainPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -68,37 +67,22 @@ function MainPage() {
   }, [intersectionTarget, observerCallback]);
 
   return (
-    <div className={styles.mainContainer}>
-      <Row style={{ width: '100%', height: '100%' }}>
+    <div>
+      <Row>
         <SideBar />
-        <Col span={15} style={{ padding: '16px' }}>
+        <Col>
           {isError && <div>오류가 발생하였습니다.</div>}
-          <Card className={styles.imgCard}>
+          <Card>
             <img src={SightImage} width={200} />
           </Card>
           <List
             dataSource={travelList}
             renderItem={(item) => (
               <List.Item>
-                <Card className={styles.mainCard}>
-                  <h3
-                    style={{
-                      color: '#1890ff',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      fontSize: '1.5rem',
-                    }}
-                  >
-                    {item.title}
-                  </h3>
+                <Card>
+                  <h3>{item.title}</h3>
                   <hr />
-                  <div
-                    style={{
-                      color: '#666',
-                      marginBottom: '10px',
-                      fontSize: '1rem',
-                    }}
-                  >
+                  <div>
                     <strong>인원 현황: </strong> {item.currentNum} / {item.recruitNum}
                     <Progress
                       percent={
@@ -109,7 +93,7 @@ function MainPage() {
                       status='active'
                     />
                   </div>
-                  <div style={{ color: '#666', fontSize: '0.9rem' }}>
+                  <div>
                     <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
                   </div>
                   <br />

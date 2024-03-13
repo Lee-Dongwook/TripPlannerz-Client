@@ -13,7 +13,6 @@ import { SubmitUserInfoToServer } from '@/application/start/submitUserInfoToServ
 
 import sight from '@/lib/image/관광지.png';
 
-import styles from '@/ui/start/start.module.css';
 import { LoginModal } from '@/ui/start/modal/loginModal';
 import { SignUpModal } from '@/ui/start/modal/signUpModal';
 
@@ -100,12 +99,12 @@ function StartPage() {
   };
 
   return (
-    <div className={styles.startContainer}>
+    <div>
       <Image width={'calc(15vw)'} src={sight} alt='시작 이미지' />
-      <div className={styles.startTitle}>
+      <div>
         <h2>TripPlannerz</h2>
       </div>
-      <div className={styles.startButton}>
+      <div>
         <LoginModal
           onSubmit={handleAccessToService}
           onChange={{

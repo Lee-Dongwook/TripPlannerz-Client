@@ -3,8 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useQuery, useMutation } from 'react-query';
 import { Button, Card, Form, Input } from 'antd';
-import * as _ from 'lodash';
-
 import type { Comment } from '@/domain/Comment';
 
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
