@@ -1,4 +1,3 @@
-import { Menu } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { NavbarButton } from '@/ui/navbar/button/navbarButton';
 
@@ -18,16 +17,16 @@ export const InnerMenu = () => {
   };
 
   return (
-    <>
-      <Menu.Item>
+    <div className='mt-2 space-y-2'>
+      <div>
         <NavbarButton name='여행 생성' onClick={moveToCreate} />
-      </Menu.Item>
-      <Menu.Item>
+      </div>
+      <div>
         <NavbarButton name='일정 조회' onClick={moveToSearch} />
-      </Menu.Item>
-      <Menu.Item>
+      </div>
+      <div>
         <NavbarButton name='여행 경비' onClick={moveToBill} />
-      </Menu.Item>
-    </>
+      </div>
+    </div>
   );
 };

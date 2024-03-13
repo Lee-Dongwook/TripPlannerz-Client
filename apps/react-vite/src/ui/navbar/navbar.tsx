@@ -1,13 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Menu } from 'antd';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import debounce from 'lodash/debounce';
 
 import { Member } from '@/domain/Member';
 
-import { getEventSoruce } from '@/application/api/navbar/getEventSource';
+import { getEventSource } from '@/application/api/navbar/getEventSource';
 import { getMemberTripInfo } from '@/application/api/navbar/getMemberTripInfo';
 
 import { setNotification } from '@/store/notification';
@@ -71,7 +70,7 @@ function Navbar() {
   };
 
   const createEventSource = () => {
-    const eventSource = getEventSoruce(token);
+    const eventSource = getEventSource(token);
 
     eventSource.onmessage = (event) => {
       const message = JSON.parse(event.data);
@@ -111,39 +110,40 @@ function Navbar() {
   }, [dispatch, token]);
 
   return (
-    <Menu mode='horizontal' theme='light'>
-      <Menu.Item>
+    <nav className='flex justify-between items-center bg-gray-200 p-4'>
+      <div>
         <NavbarButton name='TripPlannerz' onClick={moveToMain} />
-      </Menu.Item>
-      <Menu.Item>
-        <NavbarButton name='여행 계획' onClick={toggleTravelButtonState} />
-        {travelButtonState && <InnerMenu />}
-      </Menu.Item>
-      <Menu.Item>
-        <NavbarInput
-          style={{ width: '400px', textAlign: 'center' }}
-          value={searchTerm}
-          placeholder='여행 일정을 검색하세요'
-          onChange={handleChangeSearchTerm}
-        />
-      </Menu.Item>
-      <Menu.Item>
-        <NoticeDrawer
-          onClick={openNoticeDrawer}
-          onClose={closeNoticeDrawer}
-          visible={noticeDrawerState}
-          messages={notifications}
-        />
-      </Menu.Item>
-      <Menu.Item>
-        <UserInfoDrawer
-          onClick={openUserInfoDrawer}
-          onClose={closeUserInfoDrawer}
-          visible={userInfoDrawerState}
-          info={memberInfo}
-        />
-      </Menu.Item>
-    </Menu>
+      </div>
+      <div className='flex space-x-4'>
+        <div>
+          <NavbarButton name='여행 계획' onClick={toggleTravelButtonState} />
+          {travelButtonState && <InnerMenu />}
+        </div>
+        <div>
+          <NavbarInput
+            value={searchTerm}
+            placeholder='여행 일정을 검색하세요'
+            onChange={handleChangeSearchTerm}
+          />
+        </div>
+        <div>
+          <NoticeDrawer
+            onClick={openNoticeDrawer}
+            onClose={closeNoticeDrawer}
+            visible={noticeDrawerState}
+            messages={notifications}
+          />
+        </div>
+        <div>
+          <UserInfoDrawer
+            onClick={openUserInfoDrawer}
+            onClose={closeUserInfoDrawer}
+            visible={userInfoDrawerState}
+            info={memberInfo}
+          />
+        </div>
+      </div>
+    </nav>
   );
 }
 

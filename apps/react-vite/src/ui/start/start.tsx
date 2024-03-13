@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Image } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -99,12 +98,12 @@ function StartPage() {
   };
 
   return (
-    <div>
-      <Image width={'calc(15vw)'} src={sight} alt='시작 이미지' />
-      <div>
-        <h2>TripPlannerz</h2>
+    <div className='flex flex-col items-center'>
+      <img src={sight} alt='시작 이미지' className='w-full max-w-xs mb-4' />
+      <div className='mb-4'>
+        <h2 className='text-2xl font-bold'>TripPlannerz</h2>
       </div>
-      <div>
+      <div className='flex justify-between'>
         <LoginModal
           onSubmit={handleAccessToService}
           onChange={{

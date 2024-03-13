@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useInfiniteQuery } from 'react-query';
-import { Row, Col, Card, List, Progress, Button, Spin } from 'antd';
+import 'tailwindcss/tailwind.css';
 
 import { getEntireTripList } from '@/application/api/main/getEntireTripList';
 import Weather from '@/lib/weather/weather';
@@ -67,50 +67,51 @@ function MainPage() {
   }, [intersectionTarget, observerCallback]);
 
   return (
-    <div>
-      <Row>
-        <SideBar />
-        <Col>
-          {isError && <div>오류가 발생하였습니다.</div>}
-          <Card>
-            <img src={SightImage} width={200} />
-          </Card>
-          <List
-            dataSource={travelList}
-            renderItem={(item) => (
-              <List.Item>
-                <Card>
-                  <h3>{item.title}</h3>
-                  <hr />
-                  <div>
-                    <strong>인원 현황: </strong> {item.currentNum} / {item.recruitNum}
-                    <Progress
-                      percent={
-                        item.currentNum && item.recruitNum
-                          ? Math.floor((item.currentNum / item.recruitNum) * 100)
-                          : 0
-                      }
-                      status='active'
-                    />
-                  </div>
-                  <div>
-                    <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
-                  </div>
-                  <br />
-                  <Button onClick={() => movetoSubPage(item.id ? item.id : 0)}>
-                    일정 상세 확인하기
-                  </Button>
-                </Card>
-              </List.Item>
-            )}
-          />
-          {isFetching && <Spin tip='Loading...' size='large' />}
-          <div ref={observeTarget} />
-        </Col>
-        <Weather />
-      </Row>
+    <div className='grid'>
+      <SideBar />
+      <div className='flex flex-col w-full p-4'>
+        {isError && <div className='text-red-600'>오류가 발생하였습니다.</div>}
+      </div>
+      <div className='card'>
+        <img src={SightImage} alt='Sight' className='w-48' />
+      </div>
+      <div className='grid grid-cols-1 gap-4'>
+        {travelList.map((item) => (
+          <div key={item.id} className='card'>
+            <h3>{item.title}</h3>
+            <hr className='my-2' />
+            <div>
+              <strong>인원 현황: </strong> {item.currentNum} / {item.recruitNum}
+            </div>
+            <div>
+              <progress
+                className='w-full h-3 bg-gray-300'
+                value={item.currentNum}
+                max={item.recruitNum}
+              ></progress>
+            </div>
+            <div>
+              <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
+            </div>
+            <div className='mt-4'>
+              <button
+                onClick={() => movetoSubPage(item.id ? item.id : 0)}
+                className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700'
+              >
+                일정 상세 확인하기
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      {isFetching && (
+        <div className='flex justify-center mt-4'>
+          <div className='spinner-border text-blue-500'></div>
+        </div>
+      )}
+      <div ref={observeTarget} />
+      <Weather />
     </div>
   );
 }
-
 export default MainPage;
