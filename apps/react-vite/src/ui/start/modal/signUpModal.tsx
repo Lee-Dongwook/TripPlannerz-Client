@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import 'tailwindcss/tailwind.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import type { SignUpModalProps } from '@/ui/start/modal/type/signUpModal.types';
 import { TagModal } from '@/ui/start/modal/tagModal';
 
@@ -11,6 +9,10 @@ export const SignUpModal = ({ onSubmit, onChange, onClick }: SignUpModalProps) =
 
   const openSignUpModal = () => {
     setToggleSignUpModal(true);
+  };
+
+  const closeSignUpModal = () => {
+    setToggleSignUpModal(false);
   };
 
   const openTagModal = () => {
@@ -125,7 +127,14 @@ export const SignUpModal = ({ onSubmit, onChange, onClick }: SignUpModalProps) =
                             onClick={closeTagModal}
                           />
                         )}
-                        <div className='flex justify-end mt-4'>
+                        <div className='flex justify-between mt-10'>
+                          <button
+                            type='button'
+                            onClick={closeSignUpModal}
+                            className='bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded'
+                          >
+                            닫기
+                          </button>
                           <button
                             type='submit'
                             className='bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded'
