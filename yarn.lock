@@ -3440,6 +3440,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@tripplannerz/kakao@workspace:shared/kakao":
+  version: 0.0.0-use.local
+  resolution: "@tripplannerz/kakao@workspace:shared/kakao"
+  dependencies:
+    "@types/react": "npm:^18.2.64"
+    "@types/react-dom": "npm:^18.2.21"
+    "@typescript-eslint/eslint-plugin": "npm:^7.1.1"
+    "@typescript-eslint/parser": "npm:^7.1.1"
+    "@vitejs/plugin-react": "npm:^4.2.1"
+    eslint: "npm:^8.57.0"
+    eslint-plugin-react-hooks: "npm:^4.6.0"
+    eslint-plugin-react-refresh: "npm:^0.4.5"
+    react: "npm:^18.2.0"
+    react-dom: "npm:^18.2.0"
+    typescript: "npm:^5.2.2"
+    vite: "npm:^5.1.6"
+  languageName: unknown
+  linkType: soft
+
 "@tripplannerz/ui@workspace:shared/ui":
   version: 0.0.0-use.local
   resolution: "@tripplannerz/ui@workspace:shared/ui"
