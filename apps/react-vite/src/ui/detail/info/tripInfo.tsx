@@ -3,9 +3,9 @@ import { Button, Card, Input } from 'antd';
 
 import type { TripPlaceInfo } from '@/domain/TripPlaceInfo';
 import { postTripLocationToServer } from '@/application/api/detail/postTripLocationToServer';
-import KakaoMap from '@/lib/kakao/kakaoMap';
 import type { TripInfoProp } from '@/ui/detail/info/tripInfoProp.types';
 import { TripTimeline } from '@/ui/detail/timeline/tripTimeline';
+import { Kakao } from '@tripplannerz/kakao';
 
 const { Meta } = Card;
 
@@ -67,7 +67,7 @@ export const TripInfo = ({ token, tripInfo, content, searchPlaceList }: TripInfo
           <Input placeholder='여행장소를 입력하세요' onChange={handleInputSearchPlace} />
           <Button onClick={handleSaveLocationToServer}>입력</Button>
         </div>
-        <KakaoMap searchKeyword={searchKeyword} />
+        <Kakao />
       </div>
     </Card>
   );
