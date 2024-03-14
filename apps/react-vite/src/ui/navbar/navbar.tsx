@@ -13,7 +13,6 @@ import { setNotification } from '@/store/notification';
 
 import { NavbarButton } from '@/ui/navbar/button/navbarButton';
 import { NavbarInput } from '@/ui/navbar/input/navbarInput';
-import { InnerMenu } from '@/ui/navbar/innerMenu/innerMenu';
 import { NoticeDrawer } from '@/ui/navbar/drawer/noticeDrawer';
 import { UserInfoDrawer } from '@/ui/navbar/drawer/userInfoDrawer';
 
@@ -27,7 +26,6 @@ function Navbar() {
   );
 
   const [eventSource, setEventSource] = useState<EventSourcePolyfill | null>(null);
-  const [travelButtonState, setTravelButtonState] = useState<boolean>(true);
   const [noticeDrawerState, setNoticeDrawerState] = useState<boolean>(false);
   const [userInfoDrawerState, setUserInfoDrawerState] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -37,8 +35,16 @@ function Navbar() {
     navigate('/main');
   };
 
-  const toggleTravelButtonState = () => {
-    setTravelButtonState(!travelButtonState);
+  const moveToCreate = () => {
+    navigate('/create');
+  };
+
+  const moveToSearch = () => {
+    navigate('/search');
+  };
+
+  const moveToBill = () => {
+    navigate('/bill');
   };
 
   const delayedSearch = useCallback(
@@ -110,31 +116,24 @@ function Navbar() {
   }, [dispatch, token]);
 
   return (
-    <nav className='flex justify-between items-center bg-gray-200 p-4'>
-      <div>
-        <NavbarButton name='TripPlannerz' onClick={moveToMain} />
-      </div>
-      <div className='flex space-x-4'>
-        <div>
-          <NavbarButton name='여행 계획' onClick={toggleTravelButtonState} />
-          {travelButtonState && <InnerMenu />}
-        </div>
-        <div>
+    <nav className='bg-white shadow' role='navigation'>
+      <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-8'>
+        <div className='relative flex items-center justify-between h-16'>
+          <NavbarButton name='TripPlannerz' onClick={moveToMain} />
+          <NavbarButton name='여행 생성' onClick={moveToCreate} />
+          <NavbarButton name='일정 조회' onClick={moveToSearch} />
+          <NavbarButton name='여행 경비' onClick={moveToBill} />
           <NavbarInput
             value={searchTerm}
             placeholder='여행 일정을 검색하세요'
             onChange={handleChangeSearchTerm}
           />
-        </div>
-        <div>
           <NoticeDrawer
             onClick={openNoticeDrawer}
             onClose={closeNoticeDrawer}
             visible={noticeDrawerState}
             messages={notifications}
           />
-        </div>
-        <div>
           <UserInfoDrawer
             onClick={openUserInfoDrawer}
             onClose={closeUserInfoDrawer}

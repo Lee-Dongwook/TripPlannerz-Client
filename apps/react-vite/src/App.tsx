@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Navbar from '@/ui/navbar/navbar';
-import SideBar from '@/ui/sidebar/sidebar';
-
 import StartPage from '@/ui/start/start';
 import MainPage from '@/ui/main/main';
 import CreatePage from '@/ui/create/create';
@@ -25,29 +23,23 @@ function App() {
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
         {token && <Navbar />}
-        <div className='flex'>
-          {token && <SideBar />}
-          <div className='flex-grow'>
-            <Routes>
-              <Route path='/' element={<StartPage />} />
-              {token && (
-                <>
-                  <Route path='/main' element={<MainPage />} />
-                  <Route path='/create' element={<CreatePage />} />
-                  <Route path='/search' element={<SearchPage />} />
-                  <Route path='/search/:postId' element={<DetailPage />} />
-                  <Route path='/my/profile' element={<ProfilePage />} />
-                  <Route path='/my/account' element={<AccountPage />} />
-                  <Route path='/my/schedule' element={<SchedulePage />} />
-                  <Route path='/my/withdraw' element={<WithdrawPage />} />
-                </>
-              )}
-            </Routes>
-          </div>
-        </div>
+        <Routes>
+          <Route path='/' element={<StartPage />} />
+          {token && (
+            <>
+              <Route path='/main' element={<MainPage />} />
+              <Route path='/create' element={<CreatePage />} />
+              <Route path='/search' element={<SearchPage />} />
+              <Route path='/search/:postId' element={<DetailPage />} />
+              <Route path='/my/profile' element={<ProfilePage />} />
+              <Route path='/my/account' element={<AccountPage />} />
+              <Route path='/my/schedule' element={<SchedulePage />} />
+              <Route path='/my/withdraw' element={<WithdrawPage />} />
+            </>
+          )}
+        </Routes>
       </Suspense>
     </Router>
   );
 }
-
 export default App;
