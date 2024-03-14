@@ -14,6 +14,7 @@ import sight from '@/lib/image/관광지.png';
 
 import { LoginModal } from '@/ui/start/modal/loginModal';
 import { SignUpModal } from '@/ui/start/modal/signUpModal';
+import { Button } from '@tripplannerz/kakao';
 
 function StartPage() {
   const dispatch = useDispatch();
@@ -99,6 +100,7 @@ function StartPage() {
 
   return (
     <div className='flex flex-col items-center'>
+      <Button />
       <img src={sight} alt='시작 이미지' className='w-full max-w-xs mb-4' />
       <div className='mb-4'>
         <h2 className='text-2xl font-bold'>TripPlannerz</h2>

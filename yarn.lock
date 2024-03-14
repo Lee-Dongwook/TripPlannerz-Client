@@ -3440,7 +3440,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@tripplannerz/kakao@workspace:shared/kakao":
+"@tripplannerz/kakao@npm:*, @tripplannerz/kakao@workspace:shared/kakao":
   version: 0.0.0-use.local
   resolution: "@tripplannerz/kakao@workspace:shared/kakao"
   dependencies:
@@ -3456,6 +3456,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     typescript: "npm:^5.2.2"
     vite: "npm:^5.1.6"
+    vite-plugin-dts: "npm:^3.7.3"
   languageName: unknown
   linkType: soft
 
@@ -10828,6 +10829,7 @@ __metadata:
     "@ant-design/icons": "npm:^5.2.6"
     "@playwright/test": "npm:^1.40.1"
     "@reduxjs/toolkit": "npm:^2.2.1"
+    "@tripplannerz/kakao": "npm:*"
     "@types/crypto-js": "npm:^4.2.1"
     "@types/lodash": "npm:^4.14.202"
     "@types/node": "npm:^20.9.4"
