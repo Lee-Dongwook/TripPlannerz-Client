@@ -5,7 +5,6 @@ import { Row, Col, Button, Form, Input } from 'antd';
 import { Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { deleteMemberInfo } from '@/application/my/deleteMemberInfo';
-import SideBar from '@/ui/sidebar/sidebar';
 
 function WithdrawPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -45,7 +44,6 @@ function WithdrawPage() {
   return (
     <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
       <Row style={{ width: '100%', height: '100%' }}>
-        <SideBar />
         <Col span={15} style={{ padding: '16px' }}>
           <h2>회원 탈퇴 안내</h2>
           <hr />

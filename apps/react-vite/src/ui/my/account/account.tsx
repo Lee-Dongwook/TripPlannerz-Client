@@ -4,7 +4,6 @@ import { Row, Col, Form, Input, Button } from 'antd';
 
 import { postVerifyMemberPassword } from '@/application/api/my/postVerifyMemberPassword';
 import { postChangeMemberPassword } from '@/application/api/my/postChangeMemberPassword';
-import SideBar from '@/ui/sidebar/sidebar';
 
 function AccountPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -52,7 +51,6 @@ function AccountPage() {
     <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
       <>
         <Row style={{ width: '100%', height: '100%' }}>
-          <SideBar />
           <Col span={15} style={{ padding: '16px' }}>
             {accountState ? (
               <div>

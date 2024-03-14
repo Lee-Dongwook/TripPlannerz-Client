@@ -23,7 +23,6 @@ import { SubmitTripInfoToServer } from '@/application/navbar/submitTripInfoToSer
 import { TripCategoryCascaderOption } from '@/lib/info/tripCategoryCascaderOption';
 import { majorCategories, minorCategories, subCategories } from '@/lib/info/tripCatergoryList';
 
-import SideBar from '@/ui/sidebar/sidebar';
 import { UserOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
@@ -300,7 +299,6 @@ function CreatePage() {
   return (
     <div>
       <Row>
-        <SideBar />
         {createSuccessState ? (
           <Col>
             <Result

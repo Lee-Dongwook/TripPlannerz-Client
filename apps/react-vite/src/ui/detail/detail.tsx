@@ -10,7 +10,6 @@ import type { TripPlaceInfo } from '@/domain/TripPlaceInfo';
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 
-import SideBar from '@/ui/sidebar/sidebar';
 import { TripInfo } from '@/ui/detail/info/tripInfo';
 import { CommentList } from '@/ui/detail/comment/comment';
 
@@ -74,7 +73,6 @@ function DetailPage() {
     <div>
       <>
         <Row>
-          <SideBar />
           <Col>
             <Card>
               <Meta

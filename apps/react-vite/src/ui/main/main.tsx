@@ -7,7 +7,6 @@ import 'tailwindcss/tailwind.css';
 import { getEntireTripList } from '@/application/api/main/getEntireTripList';
 import Weather from '@/lib/weather/weather';
 import SightImage from '@/lib/image/관광지.png';
-import SideBar from '@/ui/sidebar/sidebar';
 
 function MainPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -67,8 +66,7 @@ function MainPage() {
   }, [intersectionTarget, observerCallback]);
 
   return (
-    <div className='grid'>
-      <SideBar />
+    <div>
       <div className='flex flex-col w-full p-4'>
         {isError && <div className='text-red-600'>오류가 발생하였습니다.</div>}
       </div>

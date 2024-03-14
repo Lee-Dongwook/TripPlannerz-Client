@@ -25,8 +25,6 @@ import { postStartLocationToServer } from '@/application/api/detail/postStartLoc
 import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
 import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
 
-import SideBar from '@/ui/sidebar/sidebar';
-
 const { Meta } = Card;
 const { TextArea } = Input;
 
@@ -229,7 +227,6 @@ function SearchPage() {
       ) : (
         <>
           <Row>
-            <SideBar />
             <Col>
               <Table columns={tableColumns} dataSource={tableData} />{' '}
               <Drawer

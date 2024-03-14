@@ -10,8 +10,6 @@ import { getMemberTripInfo } from '@/application/api/my/getMemberTripInfo';
 import { postAssignAccompany } from '@/application/api/my/postAssignAccompany';
 import { postDenyAccompany } from '@/application/api/my/postDenyAccompany';
 
-import SideBar from '@/ui/sidebar/sidebar';
-
 function ProfilePage() {
   const token = useSelector((state: any) => state.token.token);
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -111,7 +109,6 @@ function ProfilePage() {
       ) : (
         <>
           <Row style={{ width: '100%', height: '100%' }}>
-            <SideBar />
             <Col span={15} style={{ padding: '16px' }}>
               <h3>내 정보</h3>
               <hr />
