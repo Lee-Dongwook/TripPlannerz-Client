@@ -8,6 +8,9 @@
         },
         {
             "path": "shared/e2e"
+        },
+        {
+            "path": "shared/kakao"
         }
     ]
 }
