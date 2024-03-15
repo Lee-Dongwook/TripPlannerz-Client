@@ -6,6 +6,11 @@ TripPlannerZ 프론트엔드 레포지토리입니다. [기존에 진행하였�
 
 여행을 좋아하는 사람들을 위한 여행 일정 계획 및 동행자 찾기 사이트 입니다.
 
+
+## ⚙️ 시스템 아키텍처
+![시스템 아키텍처](https://github.com/GraudationProject2023/Client/assets/97590636/2cff339f-ca4a-4928-9731-8c34397f2b6f)
+
+
 ## 🛠️ 기술적 도전
 
 ### pnpm에서 yarn berry 전환 및 yarn workspace 모노레포 구축
