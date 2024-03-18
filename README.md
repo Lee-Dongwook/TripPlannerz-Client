@@ -15,6 +15,7 @@
 ## 🛠️ 기술적 도전
 
 ### 사용자 인증 방식의 변경 (JWT 인증 방식)
+
 ![JWT](https://github.com/GraudationProject2023/Client/assets/97590636/566da63c-8cb3-4ba1-905b-34fbb0bbf549)
 
 - 보안 취약점 (CSRF, XSS) 개선과 시스템 확장성을 위해 JWT 인증 방식으로 변경하였습니다.
@@ -23,12 +24,12 @@
 - 사용자가 인증 과정에서 경험할 수 있는 지연 시간을 최소화하여 전반적인 사용자 경험을 크게 개선하였습니다.
 
 ### SSE(Server Sent Event) 통신 방식으로 동행 신청 실시간 알림 구현
+
 ![SSE](https://github.com/GraudationProject2023/Client/assets/97590636/84770ea4-8c12-41f6-9e94-cd71e63fd73e)
 
-
 ### useInfiniteQuery와 InterSectionObserver API로 여행 일정 목록 무한 스크롤 기능 구현
-![InfiniteScroll](https://github.com/GraudationProject2023/Client/assets/97590636/76ca9f9b-1888-4452-bc47-d28f9608358e)
 
+![InfiniteScroll](https://github.com/GraudationProject2023/Client/assets/97590636/76ca9f9b-1888-4452-bc47-d28f9608358e)
 
 ### Kakao Map SDK 활용 및 디바운싱 기술 적용
 
