@@ -1,17 +1,16 @@
-# TripPlannerz-Frontend
 
-TripPlannerZ 프론트엔드 레포지토리입니다. [기존에 진행하였던 프로젝트](https://github.com/GraudationProject2023/Tripplannerz)에서 구현하며 발생하였던 문제들을 해결하고, 새로운 기술들을 도입하여 재구성하였습니다.
+# ✈️ TripPlannerZ - Front-end
 
-## 👋 프로젝트 소개
+**여행 일정 관리 및 동행자 찾기 플랫폼, TripPlannerZ** 의 프론트엔드 레포지토리입니다.
 
-여행을 좋아하는 사람들을 위한 여행 일정 계획 및 동행자 찾기 사이트 입니다.
+`TripPlannerZ`는 함께 여행을 가고 싶어하는 사람들이 여행 일정을 조율하고, 비슷한 관심사를 가진 동행자를 찾을 수 있도록 도와주는 온라인 플랫폼입니다.
 
+[기존 레포지토리](https://github.com/GraudationProject2023/Tripplannerz)에서 발생하였던 문제들을 해결하고, 새로운 기술들을 도입하고자 재구성하였습니다.
 
 ## ⚙️ 시스템 아키텍처
+
 현재 추가 구현중 입니다! (2024.01 - )
 ![시스템 아키텍처 최종](https://github.com/GraudationProject2023/Client/assets/97590636/fd894fdf-fb06-4fae-99ca-feaaa075a1af)
-
-
 
 ## 🛠️ 기술적 도전
 
