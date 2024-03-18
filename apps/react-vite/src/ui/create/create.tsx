@@ -23,8 +23,6 @@ import { SubmitTripInfoToServer } from '@/application/navbar/submitTripInfoToSer
 import { TripCategoryCascaderOption } from '@/lib/info/tripCategoryCascaderOption';
 import { majorCategories, minorCategories, subCategories } from '@/lib/info/tripCatergoryList';
 
-import SideBar from '@/ui/sidebar/sidebar';
-import styles from '@/ui/create/create.module.css';
 import { UserOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
@@ -124,7 +122,7 @@ function CreatePage() {
     switch (currentStep) {
       case 0:
         return (
-          <Card style={{ width: '40%', height: '60%' }}>
+          <Card>
             <Meta
               title='여행 장소 선택'
               description={
@@ -153,7 +151,7 @@ function CreatePage() {
 
       case 1:
         return (
-          <Card style={{ width: '40%', height: '60%' }}>
+          <Card>
             <Meta
               title='여행 사진 업로드'
               description={
@@ -183,7 +181,7 @@ function CreatePage() {
       case 2:
       case 3:
         return (
-          <Card style={{ width: '40%', height: '60%' }}>
+          <Card>
             <Meta
               title={currentStep === 2 ? '3. 여행 제목' : '4. 모집 인원 수'}
               description={
@@ -216,7 +214,7 @@ function CreatePage() {
       case 5:
       case 6:
         return (
-          <Card style={{ width: '40%', height: '60%' }}>
+          <Card>
             <Meta
               title={
                 currentStep === 4
@@ -234,7 +232,7 @@ function CreatePage() {
                         ? '해당 여행 일정의 시작 날짜를 정해주세요. '
                         : '해당 여행 일정의 종료 날짜를 정해주세요. '}
                   </p>
-                  <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Form.Item>
                     <DatePicker
                       onChange={(_date, dateString) =>
                         currentStep === 4
@@ -260,7 +258,7 @@ function CreatePage() {
 
       case 7:
         return (
-          <Card style={{ width: '40%', height: '60%' }}>
+          <Card>
             <Meta
               title='여행 등록'
               description={
@@ -299,11 +297,10 @@ function CreatePage() {
   };
 
   return (
-    <div className={styles.createContainer}>
-      <Row style={{ width: '100%', height: '100%' }}>
-        <SideBar />
+    <div>
+      <Row>
         {createSuccessState ? (
-          <Col span={20} style={{ padding: '16px' }}>
+          <Col>
             <Result
               status='success'
               title={`${tripInfo.title} 여행 일정이 생성되었습니다!`}
@@ -312,22 +309,11 @@ function CreatePage() {
             />
           </Col>
         ) : (
-          <Col span={20} style={{ padding: '16px' }}>
-            <Row justify='center' align='middle' style={{ height: '10%' }}>
+          <Col>
+            <Row>
               <Steps current={currentStep} items={items} />
             </Row>
-            <Form
-              style={{
-                maxWidth: '100%',
-                height: '60%',
-                backgroundColor: '#EEEEEE',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              {renderStepContent(currentStep)}
-            </Form>
+            <Form>{renderStepContent(currentStep)}</Form>
             <Form.Item>
               <Row justify='center'>
                 {currentStep < 7 ? (

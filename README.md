@@ -1,19 +1,21 @@
-# TripPlannerz-Frontend
 
-TripPlannerZ 프론트엔드 레포지토리입니다. [기존에 진행하였던 프로젝트](https://github.com/GraudationProject2023/Tripplannerz)에서 구현하며 발생하였던 문제들을 해결하고, 새로운 기술들을 도입하여 재구성하였습니다.
+# ✈️ TripPlannerZ - Front-end
 
-## 👋 프로젝트 소개
+**여행 일정 관리 및 동행자 찾기 플랫폼, TripPlannerZ** 의 프론트엔드 레포지토리입니다.
 
-여행을 좋아하는 사람들을 위한 여행 일정 계획 및 동행자 찾기 사이트 입니다.
+`TripPlannerZ`는 함께 여행을 가고 싶어하는 사람들이 여행 일정을 조율하고, 비슷한 관심사를 가진 동행자를 찾을 수 있도록 도와주는 온라인 플랫폼입니다.
 
+[기존 레포지토리](https://github.com/GraudationProject2023/Tripplannerz)에서 발생하였던 문제들을 해결하고, 새로운 기술들을 도입하고자 재구성하였습니다.
 
 ## ⚙️ 시스템 아키텍처
+
 현재 추가 구현중 입니다! (2024.01 - )
 ![시스템 아키텍처 최종](https://github.com/GraudationProject2023/Client/assets/97590636/fd894fdf-fb06-4fae-99ca-feaaa075a1af)
 
 ## 🛠️ 기술적 도전
 
 ### 사용자 인증 방식의 변경 (JWT 인증 방식)
+
 ![JWT](https://github.com/GraudationProject2023/Client/assets/97590636/566da63c-8cb3-4ba1-905b-34fbb0bbf549)
 
 - 보안 취약점 (CSRF, XSS) 개선과 시스템 확장성을 위해 JWT 인증 방식으로 변경하였습니다.
@@ -22,12 +24,12 @@ TripPlannerZ 프론트엔드 레포지토리입니다. [기존에 진행하였�
 - 사용자가 인증 과정에서 경험할 수 있는 지연 시간을 최소화하여 전반적인 사용자 경험을 크게 개선하였습니다.
 
 ### SSE(Server Sent Event) 통신 방식으로 동행 신청 실시간 알림 구현
+
 ![SSE](https://github.com/GraudationProject2023/Client/assets/97590636/84770ea4-8c12-41f6-9e94-cd71e63fd73e)
 
-
 ### useInfiniteQuery와 InterSectionObserver API로 여행 일정 목록 무한 스크롤 기능 구현
-![InfiniteScroll](https://github.com/GraudationProject2023/Client/assets/97590636/76ca9f9b-1888-4452-bc47-d28f9608358e)
 
+![InfiniteScroll](https://github.com/GraudationProject2023/Client/assets/97590636/76ca9f9b-1888-4452-bc47-d28f9608358e)
 
 ### Kakao Map SDK 활용 및 디바운싱 기술 적용
 

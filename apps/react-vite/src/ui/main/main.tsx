@@ -2,13 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useInfiniteQuery } from 'react-query';
-import { Row, Col, Card, List, Progress, Button, Spin } from 'antd';
+import 'tailwindcss/tailwind.css';
 
 import { getEntireTripList } from '@/application/api/main/getEntireTripList';
 import Weather from '@/lib/weather/weather';
-import SightImage from '@/lib/image/관광지.png';
-import SideBar from '@/ui/sidebar/sidebar';
-import styles from '@/ui/main/main.module.css';
 
 function MainPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -68,65 +65,61 @@ function MainPage() {
   }, [intersectionTarget, observerCallback]);
 
   return (
-    <div className={styles.mainContainer}>
-      <Row style={{ width: '100%', height: '100%' }}>
-        <SideBar />
-        <Col span={15} style={{ padding: '16px' }}>
-          {isError && <div>오류가 발생하였습니다.</div>}
-          <Card className={styles.imgCard}>
-            <img src={SightImage} width={200} />
-          </Card>
-          <List
-            dataSource={travelList}
-            renderItem={(item) => (
-              <List.Item>
-                <Card className={styles.mainCard}>
-                  <h3
-                    style={{
-                      color: '#1890ff',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      fontSize: '1.5rem',
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-                  <hr />
-                  <div
-                    style={{
-                      color: '#666',
-                      marginBottom: '10px',
-                      fontSize: '1rem',
-                    }}
-                  >
-                    <strong>인원 현황: </strong> {item.currentNum} / {item.recruitNum}
-                    <Progress
-                      percent={
-                        item.currentNum && item.recruitNum
-                          ? Math.floor((item.currentNum / item.recruitNum) * 100)
-                          : 0
-                      }
-                      status='active'
-                    />
-                  </div>
-                  <div style={{ color: '#666', fontSize: '0.9rem' }}>
-                    <strong>여행 기간:</strong> {item.startingDate} ~ {item.comingDate}
-                  </div>
-                  <br />
-                  <Button onClick={() => movetoSubPage(item.id ? item.id : 0)}>
-                    일정 상세 확인하기
-                  </Button>
-                </Card>
-              </List.Item>
-            )}
-          />
-          {isFetching && <Spin tip='Loading...' size='large' />}
-          <div ref={observeTarget} />
-        </Col>
+    <div>
+      <div className='flex justify-between items-center p-4'>
+        <img src='https://source.unsplash.com/random/1600x900' alt='Sight' className='w-3/5' />
         <Weather />
-      </Row>
+      </div>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
+        {travelList.map((item) => (
+          <div key={item.id} className='max-w-1/3 rounded overflow-hidden shadow-lg'>
+            <img
+              className='w-full'
+              src='https://source.unsplash.com/random/1600x900'
+              alt='Sight'
+            ></img>
+            <div className='px-6 py-4'>
+              <div className='font-bold text-xl mb-2'>{item.title}</div>
+              <span className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>
+                #photography
+              </span>
+              <span className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>
+                #travel
+              </span>
+              <span className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700'>
+                #winter
+              </span>
+            </div>
+            <div className='text-gray-700 text-base mt-2'>
+              인원 현황: {item.currentNum} / {item.recruitNum}
+            </div>
+            <progress
+              className='w-full h-3 bg-gray-300 mt-1'
+              value={item.currentNum}
+              max={item.recruitNum}
+            ></progress>
+            <div className='text-gray-700 text-base mt-2'>
+              여행 기간: {item.startingDate} ~ {item.comingDate}
+            </div>
+            <div className='mt-4'>
+              <button
+                onClick={() => movetoSubPage(item.id ? item.id : 0)}
+                className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700'
+              >
+                일정 상세 확인하기
+              </button>
+            </div>
+          </div>
+        ))}
+        {isFetching && (
+          <div className='flex justify-center mt-4'>
+            <div className='spinner-border text-blue-500'></div>
+          </div>
+        )}
+        {isError && <div className='text-red-600'>오류가 발생하였습니다.</div>}
+        <div ref={observeTarget} />
+      </div>
     </div>
   );
 }
-
 export default MainPage;

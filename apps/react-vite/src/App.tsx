@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Navbar from '@/ui/navbar/navbar';
-
 import StartPage from '@/ui/start/start';
 import MainPage from '@/ui/main/main';
 import CreatePage from '@/ui/create/create';
@@ -43,5 +42,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;

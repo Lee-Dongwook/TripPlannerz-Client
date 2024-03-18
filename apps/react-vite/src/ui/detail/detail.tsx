@@ -10,7 +10,6 @@ import type { TripPlaceInfo } from '@/domain/TripPlaceInfo';
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 
-import SideBar from '@/ui/sidebar/sidebar';
 import { TripInfo } from '@/ui/detail/info/tripInfo';
 import { CommentList } from '@/ui/detail/comment/comment';
 
@@ -71,16 +70,15 @@ function DetailPage() {
   }, []);
 
   return (
-    <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
+    <div>
       <>
-        <Row style={{ width: '100%', height: '100%' }}>
-          <SideBar />
-          <Col span={20} style={{ padding: '16px' }}>
+        <Row>
+          <Col>
             <Card>
               <Meta
                 description={
                   <>
-                    <div style={{ display: 'flex' }}>
+                    <div>
                       <TripInfo
                         token={token}
                         tripInfo={detailTripInfo}

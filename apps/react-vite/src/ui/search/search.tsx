@@ -25,8 +25,6 @@ import { postStartLocationToServer } from '@/application/api/detail/postStartLoc
 import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
 import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
 
-import SideBar from '@/ui/sidebar/sidebar';
-
 const { Meta } = Card;
 const { TextArea } = Input;
 
@@ -37,7 +35,7 @@ function SearchPage() {
   const searchedKeyword = searchParams.get('keyword');
 
   const [tripList, setTripList] = useState<Trip[]>([]);
-  const [sortType, setSortType] = useState<string>('new');
+  const [sortType] = useState<string>('new');
 
   const [selectedTrip, setSelectedTrip] = useState<any>(null);
   const [selectedTripUuid, setSelectedTripUuid] = useState<string>('');
@@ -221,30 +219,16 @@ function SearchPage() {
   }));
 
   return (
-    <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
+    <div>
       {loading ? (
         <Spin tip='loading...' size='large'>
           <Table />
         </Spin>
       ) : (
         <>
-          <Row style={{ width: '100%', height: '100%' }}>
-            <SideBar />
-            <Col span={15} style={{ padding: '16px' }}>
-              <Table
-                title={() => (
-                  <Segmented
-                    options={[
-                      { label: '최신 순', value: 'new' },
-                      { label: '조회수 순', value: 'hits' },
-                    ]}
-                    value={sortType}
-                    onChange={() => setSortType}
-                  />
-                )}
-                columns={tableColumns}
-                dataSource={tableData}
-              />{' '}
+          <Row>
+            <Col>
+              <Table columns={tableColumns} dataSource={tableData} />{' '}
               <Drawer
                 title='일정 상세 정보'
                 placement='right'
@@ -278,7 +262,7 @@ function SearchPage() {
                         }
                       />
                     </Card>
-                    <Card style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                    <Card>
                       <Meta
                         title='TimeLine'
                         description={

@@ -11,7 +11,7 @@ export const TripTimeline = ({ searchPlaceList }: TripTimeLineProp) => {
 
   return (
     <>
-      <h4 style={{ textAlign: 'center' }}>
+      <h4>
         <strong>TimeLine</strong>
       </h4>
       <hr />

@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Row, Col, Button, Form, Input } from 'antd';
-import { Modal } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'tailwindcss/tailwind.css';
+import { Row, Col, Button, Input } from 'antd';
 import { deleteMemberInfo } from '@/application/my/deleteMemberInfo';
-import SideBar from '@/ui/sidebar/sidebar';
 
 function WithdrawPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -13,7 +11,7 @@ function WithdrawPage() {
 
   const [withdrawModalState, setWithdrawModalState] = useState<boolean>(false);
   const [withdrawCheckboxState, setWithdrawCheckboxState] = useState<boolean>(false);
-  const [userPassword, setUserPassword] = useState<string>();
+  const [userPassword, setUserPassword] = useState<string>('');
 
   const handleOpenWithdrawModal = () => {
     setWithdrawModalState(true);
@@ -31,9 +29,7 @@ function WithdrawPage() {
     setUserPassword(event.target.value);
   };
 
-  const handleDeleteMemberInfo = async (event) => {
-    event.preventDefault();
-
+  const handleDeleteMemberInfo = async () => {
     try {
       await deleteMemberInfo(token, userPassword);
       navigate('/');
@@ -45,7 +41,6 @@ function WithdrawPage() {
   return (
     <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
       <Row style={{ width: '100%', height: '100%' }}>
-        <SideBar />
         <Col span={15} style={{ padding: '16px' }}>
           <h2>회원 탈퇴 안내</h2>
           <hr />
@@ -69,27 +64,50 @@ function WithdrawPage() {
             </td>
           </table>
           <Button onClick={handleOpenWithdrawModal}>탈퇴하기</Button>
+          {/* Modal */}
           {withdrawModalState && (
-            <Modal show={withdrawModalState} onHide={handleCloseWithdrawModal}>
-              <Modal.Header closeButton onClick={handleCloseWithdrawModal}>
-                <Modal.Title>비밀번호 입력</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <h6>서비스 이용시 사용하였던 비밀번호를 입력해주세요.</h6>
-              </Modal.Body>
-              <Modal.Body>
-                <Form>
-                  <Input
-                    type='text'
-                    placeholder='비밀번호를 입력해주세요.'
-                    onChange={handleInputPassword}
-                  />
-                </Form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button onClick={handleDeleteMemberInfo}>탈퇴하기</Button>
-              </Modal.Footer>
-            </Modal>
+            <div className='fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex justify-center items-center'>
+              <div className='bg-white rounded-lg w-80 p-6'>
+                <div className='flex justify-between items-center mb-4'>
+                  <h2 className='text-xl font-bold'>비밀번호 입력</h2>
+                  <button
+                    onClick={handleCloseWithdrawModal}
+                    className='text-gray-600 focus:outline-none'
+                  >
+                    <svg
+                      className='w-6 h-6'
+                      fill='none'
+                      stroke='currentColor'
+                      viewBox='0 0 24 24'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M6 18L18 6M6 6l12 12'
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <p className='text-sm mb-4'>서비스 이용시 사용하였던 비밀번호를 입력해주세요.</p>
+                <input
+                  type='password'
+                  placeholder='비밀번호를 입력해주세요.'
+                  value={userPassword}
+                  onChange={handleInputPassword}
+                  className='w-full border border-gray-300 rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-500'
+                />
+                <div className='flex justify-end'>
+                  <button
+                    onClick={handleDeleteMemberInfo}
+                    className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none'
+                  >
+                    탈퇴하기
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
         </Col>
       </Row>
