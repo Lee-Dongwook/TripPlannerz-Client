@@ -2008,6 +2008,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@heroicons/react@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "@heroicons/react@npm:2.1.1"
+  peerDependencies:
+    react: ">= 16"
+  checksum: 10c0/c85f76d4ccb5bdad9e6ffaa62bfdcde1c1f9ebaf3287908a7be0994c2d0f6151b9017f6e41d0a1ec9ba1eb1c53ab88f30704b0d25c72adc59896882b0a60147e
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.14":
   version: 0.11.14
   resolution: "@humanwhocodes/config-array@npm:0.11.14"
@@ -2267,7 +2276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.40.1, @playwright/test@npm:^1.42.1":
+"@playwright/test@npm:^1.42.1":
   version: 1.42.1
   resolution: "@playwright/test@npm:1.42.1"
   dependencies:
@@ -4573,21 +4582,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"antd-img-crop@npm:^4.17.0":
-  version: 4.21.0
-  resolution: "antd-img-crop@npm:4.21.0"
-  dependencies:
-    compare-versions: "npm:6.1.0"
-    react-easy-crop: "npm:^5.0.4"
-    tslib: "npm:^2.6.2"
-  peerDependencies:
-    antd: ">=4.0.0"
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 10c0/b23ab22c6a4a21dddb4f62473b44b4c638555be24814159d2a114e9a9961f9d84069a8949fd6675b017f8d6018b3494d678197a0f4cbc85853bb1b0e25f98603
-  languageName: node
-  linkType: hard
-
 "antd@npm:^5.15.2":
   version: 5.15.2
   resolution: "antd@npm:5.15.2"
@@ -5502,13 +5496,6 @@ __metadata:
   version: 1.0.1
   resolution: "commondir@npm:1.0.1"
   checksum: 10c0/33a124960e471c25ee19280c9ce31ccc19574b566dc514fe4f4ca4c34fa8b0b57cf437671f5de380e11353ea9426213fca17687dd2ef03134fea2dbc53809fd6
-  languageName: node
-  linkType: hard
-
-"compare-versions@npm:6.1.0":
-  version: 6.1.0
-  resolution: "compare-versions@npm:6.1.0"
-  checksum: 10c0/5378edc8a53ac98ed907da463e1d6c26f1ed2664006d6a0d54bbdf7f046a36c43e244740854fc0edfc1e09253b9a0b7c98d1282dfee9f6f1a87199599f611218
   languageName: node
   linkType: hard
 
@@ -9218,13 +9205,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"normalize-wheel@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "normalize-wheel@npm:1.0.1"
-  checksum: 10c0/5daf4c97e39f36658a5263a6499bbc148676ae2bd85f12c8d03c46ffe7bc3c68d44564c00413d88d0457ac0d94450559bb1c24c2ce7ae0c107031f82d093ac06
-  languageName: node
-  linkType: hard
-
 "npm-run-path@npm:^4.0.1":
   version: 4.0.1
   resolution: "npm-run-path@npm:4.0.1"
@@ -10678,19 +10658,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-easy-crop@npm:^5.0.4":
-  version: 5.0.5
-  resolution: "react-easy-crop@npm:5.0.5"
-  dependencies:
-    normalize-wheel: "npm:^1.0.1"
-    tslib: "npm:2.0.1"
-  peerDependencies:
-    react: ">=16.4.0"
-    react-dom: ">=16.4.0"
-  checksum: 10c0/fd08dbdcbcb3cd99e4b90c2b10b5a97c8684b54f49f81129c4a880c218420beb7b1173731acff8f044ae95898b901361ad228b7d162ec7f59d2c60079061f588
-  languageName: node
-  linkType: hard
-
 "react-element-to-jsx-string@npm:^15.0.0":
   version: 15.0.0
   resolution: "react-element-to-jsx-string@npm:15.0.0"
@@ -10828,7 +10795,7 @@ __metadata:
   resolution: "react-vite@workspace:apps/react-vite"
   dependencies:
     "@ant-design/icons": "npm:^5.2.6"
-    "@playwright/test": "npm:^1.40.1"
+    "@heroicons/react": "npm:^2.1.1"
     "@reduxjs/toolkit": "npm:^2.2.1"
     "@tripplannerz/kakao": "npm:*"
     "@types/crypto-js": "npm:^4.2.1"
@@ -10841,7 +10808,6 @@ __metadata:
     "@typescript-eslint/parser": "npm:^6.10.0"
     "@vitejs/plugin-react": "npm:^4.2.0"
     antd: "npm:^5.15.2"
-    antd-img-crop: "npm:^4.17.0"
     autoprefixer: "npm:^10.4.16"
     axios: "npm:^1.6.2"
     crypto-js: "npm:^4.2.0"
@@ -12296,13 +12262,6 @@ __metadata:
     minimist: "npm:^1.2.6"
     strip-bom: "npm:^3.0.0"
   checksum: 10c0/09a5877402d082bb1134930c10249edeebc0211f36150c35e1c542e5b91f1047b1ccf7da1e59babca1ef1f014c525510f4f870de7c9bda470c73bb4e2721b3ea
-  languageName: node
-  linkType: hard
-
-"tslib@npm:2.0.1":
-  version: 2.0.1
-  resolution: "tslib@npm:2.0.1"
-  checksum: 10c0/5f370da8ac0e9c7f2440a3fd8013682c042a8eeace93849a44a8d4252770e4830fce3201b0bc5a6045c7e28b80eaebe3a3b48e656aa7b4f9681b9a9d7263cfaf
   languageName: node
   linkType: hard
 
