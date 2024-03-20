@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Row, Col, Form, Input, Button } from 'antd';
 
 import { postVerifyMemberPassword } from '@/application/api/my/postVerifyMemberPassword';
 import { postChangeMemberPassword } from '@/application/api/my/postChangeMemberPassword';
@@ -48,39 +47,37 @@ function AccountPage() {
   };
 
   return (
-    <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
-      <>
-        <Row style={{ width: '100%', height: '100%' }}>
-          <Col span={15} style={{ padding: '16px' }}>
-            {accountState ? (
-              <div>
-                <h2>정보 수정</h2>
-                <h4>비밀번호 변경</h4>
-                <Form>
-                  <Input
-                    type='password'
-                    placeholder='새로운 비밀번호를 입력해주세요'
-                    onChange={handleInputNewPassword}
-                  />
-                </Form>
-                <Button onClick={handleSendNewPasswordToServer}>변경하기</Button>
-              </div>
-            ) : (
-              <div>
-                <h4>정보 수정을 위해 본인을 인증해주세요.</h4>
-                <Form>
-                  <Input
-                    type='password'
-                    placeholder='현재 비밀번호를 입력해주세요'
-                    onChange={handleInputCurrentPassword}
-                  />
-                </Form>
-                <Button onClick={handleSendCurrentPasswordToServer}>인증하기</Button>
-              </div>
-            )}
-          </Col>
-        </Row>
-      </>
+    <div className='flex w-full h-screen items-center justify-center'>
+      <div className='w-full max-w-xs'>
+        {accountState ? (
+          <>
+            <h2 className='text-2xl font-bold mb-4'>정보 수정</h2>
+            <h4 className='text-xl mb-4'>비밀번호 변경</h4>
+            <input
+              type='password'
+              placeholder='새로운 비밀번호를 입력해주세요'
+              onChange={handleInputNewPassword}
+              className='input input-bordered w-full mb-4'
+            />
+            <button className='btn btn-primary w-full' onClick={handleSendNewPasswordToServer}>
+              변경하기
+            </button>
+          </>
+        ) : (
+          <>
+            <h4 className='mb-4'>정보 수정을 위해 본인을 인증해주세요.</h4>
+            <input
+              type='password'
+              placeholder='현재 비밀번호를 입력해주세요'
+              onChange={handleInputCurrentPassword}
+              className='input input-bordered w-full mb-4'
+            />
+            <button className='btn btn-primary w-full' onClick={handleSendCurrentPasswordToServer}>
+              인증하기
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

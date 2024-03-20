@@ -1,35 +1,20 @@
 import { useState } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
-
-import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
 import { useSelector } from 'react-redux';
-
-const { TextArea } = Input;
+import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
 
 export const RequestAccompany = ({ tripUuid }) => {
   const token = useSelector((state: any) => state.token.token);
 
-  const [requsetAccompanyModalState, setRequestAccompanyModalState] = useState<boolean>(false);
+  const [requestAccompanyModalState, setRequestAccompanyModalState] = useState(false);
+  const [requestContent, setRequestContent] = useState('');
 
-  const [requestContent, setRequestContent] = useState<string>('');
+  const handleOpenRequestAccompanyModal = () => setRequestAccompanyModalState(true);
+  const handleCloseRequestAccompanyModal = () => setRequestAccompanyModalState(false);
 
-  const handleOpenRequestAccompanyModal = () => {
-    setRequestAccompanyModalState(true);
-  };
-
-  const handleCloseRequestAccompanyModal = () => {
-    setRequestAccompanyModalState(false);
-  };
-
-  const handleRequestContent = (event) => {
-    setRequestContent(event.target.value);
-  };
+  const handleRequestContent = (event) => setRequestContent(event.target.value);
 
   const handleRequestAccompany = async () => {
-    const postToServer = {
-      review: requestContent,
-      tripUUID: tripUuid,
-    };
+    const postToServer = { review: requestContent, tripUUID: tripUuid };
 
     const response = await postRequestAccompanyToServer(token, postToServer);
     console.log(response);
@@ -37,26 +22,41 @@ export const RequestAccompany = ({ tripUuid }) => {
 
   return (
     <>
-      <Button onClick={handleOpenRequestAccompanyModal}>동행 신청</Button>
-      <Modal
-        open={requsetAccompanyModalState}
-        onCancel={handleCloseRequestAccompanyModal}
-        title='동행 신청'
-        footer={[
-          <Button onClick={handleCloseRequestAccompanyModal}>닫기</Button>,
-          <Button onClick={handleRequestAccompany}>신청하기</Button>,
-        ]}
+      <button
+        onClick={handleOpenRequestAccompanyModal}
+        className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors'
       >
-        <Form>
-          <Form.Item>
-            <TextArea
-              style={{ height: '300px' }}
+        동행 신청
+      </button>
+
+      {requestAccompanyModalState && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
+          <div className='bg-white p-6 rounded shadow-lg w-96'>
+            <h3 className='text-lg font-medium'>동행 신청</h3>
+            <textarea
+              className='mt-4 w-full p-2 border rounded'
               placeholder='신청서를 작성해주세요'
+              value={requestContent}
               onChange={handleRequestContent}
+              style={{ height: '300px' }}
             />
-          </Form.Item>
-        </Form>
-      </Modal>
+            <div className='flex justify-end gap-2 mt-4'>
+              <button
+                className='py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors'
+                onClick={handleCloseRequestAccompanyModal}
+              >
+                닫기
+              </button>
+              <button
+                className='py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors'
+                onClick={handleRequestAccompany}
+              >
+                신청하기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
