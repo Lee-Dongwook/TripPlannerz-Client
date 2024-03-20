@@ -1,25 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Drawer, Table } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-
-import { Member } from '@/domain/Member';
 import { postLogout } from '@/application/api/navbar/postLogout';
 import { setToken } from '@/store/token';
-
-const { Column } = Table;
 
 export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {
   const token = useSelector((state: any) => state.token.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const memberInfo: Member = {
-    name: info.name,
-    gender: info.gender,
-    email: info.email,
-    types: info.prefereneces,
-  };
 
   const moveToMyPage = () => {
     navigate('/my/profile');
@@ -38,20 +25,44 @@ export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {
 
   return (
     <>
-      <UserOutlined onClick={onClick} />
-      <Drawer title='사용자 정보' onClose={onClose} open={visible} width={370}>
-        {memberInfo && (
-          <Table dataSource={[memberInfo]}>
-            <Column title='이름' dataIndex='name' key='name' />
-            <Column title='성별' dataIndex='gender' key='gender' />
-            <Column title='이메일' dataIndex='email' key='email' />
-            <Column title='선호도' dataIndex='types' key='types' />
-          </Table>
-        )}
-        <hr />
-        <Button onClick={moveToMyPage}>마이페이지</Button>
-        <Button onClick={handleLogOut}>로그아웃</Button>
-      </Drawer>
+      <button onClick={onClick} className='text-xl'></button>
+      {visible && (
+        <div
+          className='fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full'
+          onClick={onClose}
+        >
+          <div className='relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white'>
+            <div className='mt-3 text-center'>
+              <h3 className='text-lg leading-6 font-medium text-gray-900'>사용자 정보</h3>
+              <div className='mt-2 px-7 py-3'>
+                <p className='text-sm text-gray-500'>
+                  이름: {info.name}
+                  <br />
+                  성별: {info.gender}
+                  <br />
+                  이메일: {info.email}
+                  <br />
+                  선호도: {info.preferences?.join(', ')}
+                </p>
+              </div>
+              <div className='items-center px-4 py-3'>
+                <button
+                  onClick={moveToMyPage}
+                  className='px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300'
+                >
+                  마이페이지
+                </button>
+                <button
+                  onClick={handleLogOut}
+                  className='mt-3 px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300'
+                >
+                  로그아웃
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

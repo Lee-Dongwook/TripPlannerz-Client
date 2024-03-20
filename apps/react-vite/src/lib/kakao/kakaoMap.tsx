@@ -1,5 +1,4 @@
-import { type MutableRefObject, useState, useEffect, useRef } from 'react';
-import { Table } from 'antd';
+import { useState, useEffect, useRef, type MutableRefObject } from 'react';
 
 interface Marker {
   position: {
@@ -9,13 +8,13 @@ interface Marker {
   content: string;
 }
 
-interface kakaoMapProps {
+interface KakaoMapProps {
   width?: string;
   height?: string;
   searchKeyword: string;
 }
 
-function KakaoMap({ width = 'calc(20vw)', height = 'calc(40vh)', searchKeyword }: kakaoMapProps) {
+function KakaoMap({ width = 'calc(20vw)', height = 'calc(40vh)', searchKeyword }: KakaoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [markers, setMarkers] = useState<Marker[]>([]);
 
@@ -35,7 +34,6 @@ function KakaoMap({ width = 'calc(20vw)', height = 'calc(40vh)', searchKeyword }
         searchPlaces(map, searchKeyword);
       }
     };
-
     // 검색어를 적용하는 함수
     const searchPlaces = (map: any, keyword: string) => {
       const ps = new window.kakao.maps.services.Places();
@@ -105,38 +103,25 @@ function KakaoMap({ width = 'calc(20vw)', height = 'calc(40vh)', searchKeyword }
   }, [searchKeyword]);
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div className='flex'>
       <div
         id='map'
         ref={mapRef}
-        style={{
-          width: width,
-          height: height,
-          borderRadius: '10px',
-          border: '2px solid skyblue',
-        }}
+        className='rounded-lg border-2 border-sky-500'
+        style={{ width: width, height: height }}
       ></div>
-      <div style={{ flex: 1 }}>
-        {markers ? (
-          <Table
-            dataSource={markers.slice(0, 6)}
-            columns={[
-              {
-                title: '여행하실 장소들',
-                dataIndex: 'content',
-                key: 'content',
-                render: (text: string, _, index: number) => (
-                  <h6 style={{ margin: '0', fontSize: '20px', color: '#333' }}>
-                    {index + 1 + '. ' + text}
-                  </h6>
-                ),
-              },
-            ]}
-            pagination={false}
-            style={{ minHeight: '400px' }}
-          />
+      <div className='flex-1'>
+        {markers.length > 0 ? (
+          <div className='min-h-[400px]'>
+            <div className='text-xl font-semibold mb-2'>여행하실 장소들</div>
+            {markers.slice(0, 6).map((marker, index) => (
+              <div key={index} className='text-base text-gray-800 py-2'>
+                {index + 1}. {marker.content}
+              </div>
+            ))}
+          </div>
         ) : (
-          '검색어를 입력해주세요'
+          <div className='text-base'>검색어를 입력해주세요</div>
         )}
       </div>
     </div>

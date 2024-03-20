@@ -1,31 +1,17 @@
-import { useState } from 'react';
+import { type ChangeEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  Button,
-  Cascader,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Upload,
-  Result,
-  Row,
-  Col,
-  Steps,
-  Card,
-} from 'antd';
-import ImgCrop from 'antd-img-crop';
 
 import { Trip } from '@/domain/TripList';
 import { updateTripInfo } from '@/application/navbar/updateTripInfo';
 import { SubmitTripInfoToServer } from '@/application/navbar/submitTripInfoToServer';
-import { TripCategoryCascaderOption } from '@/lib/info/tripCategoryCascaderOption';
 import { majorCategories, minorCategories, subCategories } from '@/lib/info/tripCatergoryList';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 
-import { UserOutlined } from '@ant-design/icons';
-
-const { Meta } = Card;
+interface ImageFileWithPreview {
+  file: File;
+  preview: string;
+}
 
 function CreatePage() {
   const navigate = useNavigate();
@@ -33,46 +19,26 @@ function CreatePage() {
   const totalSteps = 8;
 
   const [tripInfo, setTripInfo] = useState<Trip>({});
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState<ImageFileWithPreview[]>([]);
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [createSuccessState, setCreateSucessState] = useState<boolean>(false);
 
-  const steps = [
-    {
-      id: 1,
-      title: '여행 장소 선택',
-    },
-    {
-      id: 2,
-      title: '여행 사진 업로드',
-    },
-    {
-      id: 3,
-      title: '여행 제목',
-    },
-    {
-      id: 4,
-      title: '모집 인원 수',
-    },
-    {
-      id: 5,
-      title: '모집 마감 날짜',
-    },
-    {
-      id: 6,
-      title: '여행 시작 날짜',
-    },
-    {
-      id: 7,
-      title: '여행 종료 날짜',
-    },
-    {
-      id: 8,
-      title: '여행 등록',
-    },
-  ];
+  const [selectedMajor, setSelectedMajor] = useState('');
+  const [selectedMinor, setSelectedMinor] = useState('');
+  const [minorOptions, setMinorOptions] = useState([]);
+  const [subOptions, setSubOptions] = useState([]);
 
-  const items = steps.map((item) => ({ key: item.id, title: item.title }));
+  useEffect(() => {
+    if (selectedMajor) {
+      setMinorOptions(minorCategories[selectedMajor] || []);
+    }
+  }, [selectedMajor]);
+
+  useEffect(() => {
+    if (selectedMinor) {
+      setSubOptions(subCategories[selectedMinor] || []);
+    }
+  }, [selectedMinor]);
 
   const handleStepChangeToPrev = () => {
     if (currentStep === 0) {
@@ -88,24 +54,24 @@ function CreatePage() {
     }
   };
 
-  const handleCascaderChange = (selectedOptions: any) => {
-    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'area', selectedOptions[1]));
-    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'sigungu', selectedOptions[2]));
-  };
-
-  const onImageChange = (info) => {
-    setImage(info.fileList);
-  };
-
-  const onImagePreview = (file) => {
-    const imgWindow = window.open(file.url);
-    imgWindow?.document.write(`<img src="${file.url}" alt="Preview" />`);
-  };
-
   const handleTripTitleChange = (event) => {
     setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'title', event.target.value));
   };
-  const handleTripRecuritNumChange = (event) => {
+
+  const handleTripImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const files = Array.from(event.target.files).slice(0, 5 - image.length);
+
+      const newImageFilesWithPreview = files.map((file) => ({
+        file,
+        preview: URL.createObjectURL(file),
+      }));
+
+      setImage((prevImages) => [...prevImages, ...newImageFilesWithPreview]);
+    }
+  };
+
+  const handleTripRecruitNumChange = (event) => {
     setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'recruitNum', event));
   };
   const handleTripCloseRecruitDateChange = (event) => {
@@ -122,163 +88,172 @@ function CreatePage() {
     switch (currentStep) {
       case 0:
         return (
-          <Card>
-            <Meta
-              title='여행 장소 선택'
-              description={
-                <>
-                  <p>방문하실 여행 장소를 선택합니다.</p>
-                  <p>대분류(특별시/광역시/도)</p>
-                  <p>중분류(특별시,광역시 : 시 이름/ 도: 도 이름)</p>
-                  <p>소분류(특별시,광역시 : 구 이름 / 도: 시 이름)</p>
-                  <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Cascader
-                      onChange={handleCascaderChange}
-                      size='large'
-                      placeholder='지역을 선택하세요'
-                      options={TripCategoryCascaderOption(
-                        majorCategories,
-                        minorCategories,
-                        subCategories
-                      )}
-                    />
-                  </Form.Item>
-                </>
-              }
-            />
-          </Card>
+          <div className='max-w-md mx-auto rounded-lg overflow-hidden shadow-lg my-5 bg-white p-8'>
+            <h1 className='font-bold text-xl mb-4'>여행 장소 선택</h1>
+            <p className='text-gray-700 text-base mb-2'>방문하실 여행 장소를 선택합니다.</p>
+            <select
+              className='block w-full mt-3'
+              onChange={(e) => setSelectedMajor(e.target.value)}
+            >
+              <option value=''>대분류 선택</option>
+              {majorCategories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <select
+              className='block w-full mt-3'
+              onChange={(e) => setSelectedMinor(e.target.value)}
+              disabled={!selectedMajor}
+            >
+              <option value=''>중분류 선택</option>
+              {minorOptions.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <select className='block w-full mt-3' disabled={!selectedMinor}>
+              <option value=''>소분류 선택</option>
+              {subOptions.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
         );
 
       case 1:
         return (
-          <Card>
-            <Meta
-              title='여행 사진 업로드'
-              description={
-                <>
-                  <p>
-                    해당 여행 일정을 대표하는 사진을 올려 다른 사용자들이 확인 할 수 있게 합니다.
-                  </p>
-                  <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
-                    <ImgCrop rotationSlider>
-                      <Upload
-                        action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
-                        listType='picture-card'
-                        fileList={image}
-                        onChange={onImageChange}
-                        onPreview={onImagePreview}
-                      >
-                        {image.length < 5 && '+ Upload'}
-                      </Upload>
-                    </ImgCrop>
-                  </Form.Item>
-                </>
-              }
-            />
-          </Card>
+          <div className='max-w-md mx-auto rounded-lg overflow-hidden shadow-lg my-5 bg-white p-8'>
+            <h1 className='font-bold text-xl mb-4'>여행 사진 업로드</h1>
+            <p className='text-gray-700 text-base mb-4'>
+              해당 여행 일정을 대표하는 사진을 올려 다른 사용자들이 확인 할 수 있게 합니다.
+            </p>
+            <div className='flex justify-center'>
+              {image.length < 5 && (
+                <label className='cursor-pointer flex flex-col items-center justify-center bg-gray-100 p-4'>
+                  <p className='text-gray-400'>+ Upload</p>
+                  <input
+                    type='file'
+                    multiple
+                    onChange={handleTripImageChange}
+                    className='opacity-0 absolute'
+                    accept='image/*'
+                  />
+                </label>
+              )}
+              <div className='flex flex-wrap justify-center gap-4 mt-4'>
+                {image.map((img, idx) => (
+                  <img key={idx} src={img.preview} alt={`preview ${idx}`} className='max-w-xs' />
+                ))}
+              </div>
+            </div>
+          </div>
         );
 
       case 2:
       case 3:
         return (
-          <Card>
-            <Meta
-              title={currentStep === 2 ? '3. 여행 제목' : '4. 모집 인원 수'}
-              description={
-                <>
-                  <p>
-                    {currentStep === 2
-                      ? '해당 여행 일정의 제목을 작성해주세요'
-                      : '해당 여행 일정에 함께할 인원 수를 제한하여 주세요'}
-                  </p>
-                  <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
-                    {currentStep === 2 ? (
-                      <Input style={{ width: '200px' }} onChange={handleTripTitleChange} />
-                    ) : (
-                      <InputNumber
-                        addonBefore={<UserOutlined />}
-                        addonAfter='명'
-                        min={1}
-                        max={10}
-                        onChange={handleTripRecuritNumChange}
-                      />
-                    )}
-                  </Form.Item>
-                </>
-              }
-            />
-          </Card>
+          <div className='max-w-md mx-auto rounded-lg overflow-hidden shadow-lg my-5 bg-white p-8'>
+            <h1 className='font-bold text-xl mb-4'>
+              {currentStep === 2 ? '3. 여행 제목' : '4. 모집 인원 수'}
+            </h1>
+            <p className='text-gray-700 text-base mb-4'>
+              {currentStep === 2
+                ? '해당 여행 일정의 제목을 작성해주세요.'
+                : '해당 여행 일정에 함께할 인원 수를 제한하여 주세요.'}
+            </p>
+            <div className='flex justify-center'>
+              {currentStep === 2 ? (
+                <input
+                  type='text'
+                  className='input input-bordered w-48'
+                  onChange={handleTripTitleChange}
+                />
+              ) : (
+                <div className='flex items-center'>
+                  <UserCircleIcon className='w-5 h-5 mr-2 text-gray-500' />
+                  <input
+                    type='number'
+                    className='input input-bordered'
+                    min={1}
+                    max={10}
+                    onChange={(e) => handleTripRecruitNumChange(Number(e.target.value))}
+                    placeholder='명'
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         );
 
       case 4:
       case 5:
       case 6:
         return (
-          <Card>
-            <Meta
-              title={
-                currentStep === 4
-                  ? '5. 모집 마감날짜'
-                  : currentStep === 5
-                    ? '6. 여행 시작 날짜'
-                    : '7. 여행 종료 날짜'
-              }
-              description={
-                <>
-                  <p>
-                    {currentStep === 4
-                      ? '동행할 인원 모집의 마감 날짜를 정해주세요. '
-                      : currentStep === 5
-                        ? '해당 여행 일정의 시작 날짜를 정해주세요. '
-                        : '해당 여행 일정의 종료 날짜를 정해주세요. '}
-                  </p>
-                  <Form.Item>
-                    <DatePicker
-                      onChange={(_date, dateString) =>
-                        currentStep === 4
-                          ? handleTripCloseRecruitDateChange(dateString)
-                          : currentStep === 5
-                            ? handleTripGoingDateChange(dateString)
-                            : handleTripComingDateChange(dateString)
-                      }
-                      placeholder={
-                        currentStep === 4
-                          ? '모집 마감 날짜'
-                          : currentStep === 5
-                            ? '가는 날 선택'
-                            : '오는 날 선택'
-                      }
-                    />
-                  </Form.Item>
-                </>
-              }
-            />
-          </Card>
+          <div className='max-w-md mx-auto rounded-lg overflow-hidden shadow-lg my-5 bg-white p-8'>
+            <h1 className='font-bold text-xl mb-4'>
+              {currentStep === 4
+                ? '5. 모집 마감날짜'
+                : currentStep === 5
+                  ? '6. 여행 시작 날짜'
+                  : '7. 여행 종료 날짜'}
+            </h1>
+            <p className='text-gray-700 text-base mb-4'>
+              {currentStep === 4
+                ? '동행할 인원 모집의 마감 날짜를 정해주세요.'
+                : currentStep === 5
+                  ? '해당 여행 일정의 시작 날짜를 정해주세요.'
+                  : '해당 여행 일정의 종료 날짜를 정해주세요.'}
+            </p>
+            <div className='flex justify-center'>
+              <input
+                type='date'
+                onChange={(e) => {
+                  const dateString = e.target.value;
+                  if (currentStep === 4) {
+                    handleTripCloseRecruitDateChange(dateString);
+                  } else if (currentStep === 5) {
+                    handleTripGoingDateChange(dateString);
+                  } else {
+                    handleTripComingDateChange(dateString);
+                  }
+                }}
+                className='input input-bordered'
+                placeholder={
+                  currentStep === 4
+                    ? '모집 마감 날짜'
+                    : currentStep === 5
+                      ? '가는 날 선택'
+                      : '오는 날 선택'
+                }
+              />
+            </div>
+          </div>
         );
 
       case 7:
         return (
-          <Card>
-            <Meta
-              title='여행 등록'
-              description={
-                <>
-                  <p>생성할 여행 일정의 정보들을 확인합니다.</p>
-                  <hr />
-                  <p>여행 제목: {tripInfo.title}</p>
-                  <p>
-                    여행 장소: {tripInfo.area} {tripInfo.sigungu}
-                  </p>
-                  <p>모집 인원 수 : {tripInfo.recruitNum} </p>
-                  <p>모집 마감 날짜: {new Date(tripInfo.closeRecruitDate!).toLocaleDateString()}</p>
-                  <p>
-                    여행 날짜 : {new Date(tripInfo.startingDate!).toLocaleDateString()}~{' '}
-                    {new Date(tripInfo.comingDate!).toLocaleDateString()}
-                  </p>
-                </>
-              }
-            />
-          </Card>
+          <div className='max-w-md mx-auto rounded-lg overflow-hidden shadow-lg my-5 bg-white'>
+            <h1 className='font-bold text-xl mb-4'>여행 등록</h1>
+            <p className='text-gray-700 text-base'>생성할 여행 일정의 정보들을 확인합니다.</p>
+            <hr className='my-4' />
+            <p className='text-gray-700 text-base'>여행 제목: {tripInfo.title}</p>
+            <p className='text-gray-700 text-base'>
+              여행 장소: {tripInfo.area} {tripInfo.sigungu}
+            </p>
+            <p className='text-gray-700 text-base'>모집 인원 수: {tripInfo.recruitNum}</p>
+            <p className='text-gray-700 text-base'>
+              모집 마감 날짜: {new Date(tripInfo.closeRecruitDate!).toLocaleDateString()}
+            </p>
+            <p className='text-gray-700 text-base'>
+              여행 날짜: {new Date(tripInfo.startingDate!).toLocaleDateString()}~
+              {new Date(tripInfo.comingDate!).toLocaleDateString()}
+            </p>
+          </div>
         );
 
       default:
@@ -297,49 +272,62 @@ function CreatePage() {
   };
 
   return (
-    <div>
-      <Row>
-        {createSuccessState ? (
-          <Col>
-            <Result
-              status='success'
-              title={`${tripInfo.title} 여행 일정이 생성되었습니다!`}
-              subTitle='동행자들을 모집하고, 즐거운 여행 되세요!'
-              extra={<Button onClick={() => navigate('/main')}>Home</Button>}
-            />
-          </Col>
-        ) : (
-          <Col>
-            <Row>
-              <Steps current={currentStep} items={items} />
-            </Row>
-            <Form>{renderStepContent(currentStep)}</Form>
-            <Form.Item>
-              <Row justify='center'>
-                {currentStep < 7 ? (
-                  currentStep > 0 ? (
-                    <>
-                      <Button onClick={handleStepChangeToPrev}>이전</Button>
-                      <Button onClick={handleStepChangeToNext}>다음</Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button onClick={handleStepChangeToNext}>다음</Button>
-                    </>
-                  )
-                ) : (
-                  <>
-                    <Button onClick={handleStepChangeToPrev}>이전</Button>
-                    <Button type='primary' htmlType='submit' onClick={handleSubmitTripInfoToServer}>
-                      등록
-                    </Button>
-                  </>
+    <div className='flex flex-col items-center justify-center'>
+      {createSuccessState ? (
+        <div className='text-center p-4'>
+          <div className='text-green-500 text-xl font-bold'>{`${tripInfo.title} 여행 일정이 생성되었습니다!`}</div>
+          <div className='text-gray-700 mt-2'>동행자들을 모집하고, 즐거운 여행 되세요!</div>
+          <button
+            className='mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+            onClick={() => navigate('/main')}
+          >
+            Home
+          </button>
+        </div>
+      ) : (
+        <div>
+          <div className='flex justify-center p-4'>
+            <div>Step {currentStep + 1} of X</div>
+          </div>
+          <div>{renderStepContent(currentStep)}</div>
+          <div className='flex justify-center space-x-2 mt-4'>
+            {currentStep < 7 && (
+              <>
+                {currentStep > 0 && (
+                  <button
+                    className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l'
+                    onClick={handleStepChangeToPrev}
+                  >
+                    이전
+                  </button>
                 )}
-              </Row>
-            </Form.Item>
-          </Col>
-        )}
-      </Row>
+                <button
+                  className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r'
+                  onClick={handleStepChangeToNext}
+                >
+                  다음
+                </button>
+              </>
+            )}
+            {currentStep === 7 && (
+              <>
+                <button
+                  className='bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l'
+                  onClick={handleStepChangeToPrev}
+                >
+                  이전
+                </button>
+                <button
+                  className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-r'
+                  onClick={handleSubmitTripInfoToServer}
+                >
+                  등록
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

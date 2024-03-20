@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv } from 'vite';
+import { visualizer } from 'rollup-plugin-visualizer';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import dts from 'vite-plugin-dts';
@@ -37,7 +38,16 @@ export default ({ mode }) => {
     define: {
       'process.env': isProduction ? prodEnv : devEnv,
     },
-    plugins: [react(), tsconfigPaths(), dts({ rollupTypes: true })],
+    plugins: [
+      react(),
+      tsconfigPaths(),
+      dts({ rollupTypes: true }),
+      visualizer({
+        filename: './dist/report.html',
+        open: true,
+        brotliSize: true,
+      }),
+    ],
     server: {
       host: true,
       port: 3000,

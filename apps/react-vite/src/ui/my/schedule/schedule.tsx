@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Row, Col, Table, Spin, Input } from 'antd';
 
 import { Trip } from '@/domain/TripList';
 import { getPaginatedTripList } from '@/application/api/my/getPaginatedTripList';
@@ -37,83 +36,55 @@ function SchedulePage() {
     fetchData();
   }, [searchedKeyword]);
 
-  const tableColumns = [
-    {
-      title: '일정 제목',
-      dataIndex: 'title',
-      key: 'title',
-      render: (text, record) => (
-        <span onClick={() => handleMoveToCertainTrip(record.id)} className='list-key'>
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: '마감날짜',
-      dataIndex: 'deadline',
-      key: 'deadline',
-      render: (text, record) => (
-        <span onClick={() => handleMoveToCertainTrip(record.id)} className='list-key'>
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: '인원 수',
-      dataIndex: 'participants',
-      key: 'participants',
-      render: (text, record) => (
-        <span onClick={() => handleMoveToCertainTrip(record.id)} className='list-key'>
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: '일정 날짜',
-      dataIndex: 'date',
-      key: 'date',
-      render: (text, record) => (
-        <span onClick={() => handleMoveToCertainTrip(record.id)} className='list-key'>
-          {text}
-        </span>
-      ),
-    },
-  ];
-
-  const tableData = tripList.map((trip) => ({
-    id: trip.id ? trip.id : '',
-    title: trip.title ? trip.title : '',
-    deadline:
-      trip.startingDate && trip.comingDate
-        ? trip.startingDate < trip.comingDate
-          ? trip.startingDate
-          : trip.comingDate
-        : '',
-    participants:
-      trip.currentNum && trip.recruitNum ? trip.currentNum + ' / ' + trip.recruitNum : '',
-    date:
-      trip.startingDate && trip.comingDate
-        ? trip.startingDate < trip.comingDate
-          ? trip.startingDate + ' ~ ' + trip.comingDate
-          : trip.comingDate + ' ~ ' + trip.startingDate
-        : '',
-  }));
-
   return (
-    <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
+    <div className='w-full h-screen flex justify-center items-center'>
       {loading ? (
-        <Spin tip='loading...' size='large'>
-          <Table />
-        </Spin>
+        <div className='flex justify-center items-center'>
+          <div
+            className='spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full'
+            role='status'
+          >
+            <span className='visually-hidden'>Loading...</span>
+          </div>
+        </div>
       ) : (
-        <>
-          <Row style={{ width: '100%', height: '100%' }}>
-            <Col span={15} style={{ padding: '16px' }}>
-              <Input type='text' placeholder='검색어를 입력하세요' />
-              <Table columns={tableColumns} dataSource={tableData} pagination={false} />
-            </Col>
-          </Row>
-        </>
+        <div className='w-full max-w-4xl px-4'>
+          <div className='mb-4'>
+            <input
+              type='text'
+              placeholder='검색어를 입력하세요'
+              className='input input-bordered w-full'
+            />
+          </div>
+          <div className='overflow-x-auto w-full'>
+            <table className='table w-full'>
+              <thead>
+                <tr>
+                  <th>일정 제목</th>
+                  <th>마감 날짜</th>
+                  <th>인원 수</th>
+                  <th>일정 날짜</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tripList.map((trip, index) => (
+                  <tr
+                    key={index}
+                    className='cursor-pointer'
+                    onClick={() => handleMoveToCertainTrip}
+                  >
+                    <td>{trip.title}</td>
+                    <td>{trip.closeRecruitDate}</td>
+                    <td>{trip.capacity}</td>
+                    <td>
+                      {trip.startingDate} ~ {trip.comingDate}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -1,73 +1,63 @@
 import { useState, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useQuery, useMutation } from 'react-query';
-import { Button, Card, Form, Input } from 'antd';
-import type { Comment } from '@/domain/Comment';
 
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
 import { CommentProp } from '@/ui/detail/comment/commentProp.types';
 
-const { TextArea } = Input;
-
 export const CommentList = ({ tripUUID }: CommentProp) => {
   const token = useSelector((state: any) => state.token.token);
-  const location = useLocation();
-  const arr = location.pathname.split('/');
 
   const [review, setReview] = useState<string>('');
 
   const handleGetCommentList = useCallback(async () => {
-    const response = await getDetailTripInfo(token, arr);
+    const response = await getDetailTripInfo(token, [tripUUID]);
     return response.data.commentList || [];
-  }, [token, arr]);
+  }, [token, tripUUID]);
 
   const handleReviewChange = (event) => {
     setReview(event.target.value);
   };
 
-  const { data: commentList } = useQuery({
-    queryKey: ['comments'],
-    queryFn: handleGetCommentList,
-  });
+  const { data: commentList } = useQuery(['comments', tripUUID], handleGetCommentList);
 
-  const mutation = useMutation({
-    mutationFn: (postToServer: any) => {
-      return postCommentToServer(token, postToServer);
-    },
-  });
+  const mutation = useMutation((postToServer: any) => postCommentToServer(token, postToServer));
 
-  const handleAddComment = async () => {
-    const postToServer = {
-      review: review,
-      tripUUID: tripUUID,
-    };
-
-    mutation.mutate(postToServer, {
-      onSuccess: () => {
-        alert('댓글이 등록되었습니다.');
-      },
-    });
+  const handleAddComment = () => {
+    mutation.mutate(
+      { review, tripUUID },
+      {
+        onSuccess: () => {
+          alert('댓글이 등록되었습니다.');
+        },
+      }
+    );
   };
 
   return (
     <div>
-      <Form>
-        <TextArea rows={3} value={review} onChange={handleReviewChange} />
-      </Form>
-      <Button onClick={handleAddComment} loading={mutation.isLoading}>
+      <div className='mb-4'>
+        <textarea
+          className='textarea textarea-bordered w-full'
+          rows={3}
+          value={review}
+          onChange={handleReviewChange}
+        />
+      </div>
+      <button className={`btn ${mutation.isLoading ? 'loading' : ''}`} onClick={handleAddComment}>
         댓글 추가
-      </Button>
-      {console.log(commentList)}
+      </button>
       {commentList &&
-        commentList.map((comment: Comment, idx) => (
-          <div>
-            <Card key={idx}>
-              <p>날짜: {comment.postDate}</p>
-              <p>글쓴이: {comment.senderName}</p>
-              <p>댓글: {comment.review}</p>
-            </Card>
+        commentList.map((comment, idx) => (
+          <div key={idx} className='mt-4'>
+            <div className='card bordered'>
+              <div className='card-body'>
+                <p>날짜: {new Date(comment.postDate).toLocaleDateString()}</p>
+                <p>글쓴이: {comment.senderName}</p>
+                <p>댓글: {comment.review}</p>
+              </div>
+            </div>
           </div>
         ))}
     </div>

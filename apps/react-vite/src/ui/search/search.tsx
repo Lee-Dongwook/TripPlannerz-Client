@@ -1,32 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import {
-  Button,
-  Col,
-  Card,
-  Drawer,
-  Input,
-  Modal,
-  Radio,
-  Row,
-  Space,
-  Spin,
-  Table,
-  Timeline,
-} from 'antd';
 
 import type { Trip } from '@/domain/TripList';
-import type { Comment } from '@/domain/Comment';
+// import type { Comment } from '@/domain/Comment';
 
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
 import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
 import { postStartLocationToServer } from '@/application/api/detail/postStartLocationToServer';
 import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
-import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
-
-const { Meta } = Card;
-const { TextArea } = Input;
+// import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
 
 function SearchPage() {
   const location = useLocation();
@@ -37,7 +20,7 @@ function SearchPage() {
   const [tripList, setTripList] = useState<Trip[]>([]);
   const [sortType] = useState<string>('new');
 
-  const [selectedTrip, setSelectedTrip] = useState<any>(null);
+  const [, setSelectedTrip] = useState<any>(null);
   const [selectedTripUuid, setSelectedTripUuid] = useState<string>('');
   const [selectedTripRoute, setSelectedTripRoute] = useState<any[]>();
 
@@ -49,12 +32,12 @@ function SearchPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [calculateRouteLoading, setCalculateRouteLoading] = useState<boolean>(false);
 
-  const [optimizeTime, setOptimizeTime] = useState<number>(0);
+  const [, setOptimizeTime] = useState<number>(0);
 
   const [review, setReview] = useState<string>('');
-  const [requestContent, setRequestContent] = useState<string>('');
+  // const [, setRequestContent] = useState<string>('');
 
-  const [tripCommentList] = useState<Comment[]>([]);
+  // const [tripCommentList] = useState<Comment[]>([]);
 
   const handleOpenDrawer = async (record) => {
     const selectedDetailTrip = tripList.find((trip) => trip.id === record.id);
@@ -77,9 +60,9 @@ function SearchPage() {
     setOptimizeModalState(true);
   };
 
-  const handleCloseOptimizeModal = () => {
-    setOptimizeModalState(false);
-  };
+  // const handleCloseOptimizeModal = () => {
+  //   setOptimizeModalState(false);
+  // };
 
   const handleSaveStartLocation = (e) => {
     setStartLocation(e.target.value);
@@ -118,22 +101,22 @@ function SearchPage() {
     }
   };
 
-  const handleChangeRequestContent = (e) => {
-    setRequestContent(e.target.value);
-  };
+  // const handleChangeRequestContent = (e) => {
+  //   setRequestContent(e.target.value);
+  // };
 
-  const handleRequestAccompany = async () => {
-    const postToServer = {
-      review: requestContent,
-      tripUUID: selectedTripUuid,
-    };
+  // const handleRequestAccompany = async () => {
+  //   const postToServer = {
+  //     review: requestContent,
+  //     tripUUID: selectedTripUuid,
+  //   };
 
-    const response = await postRequestAccompanyToServer(token, postToServer);
-    if (response) {
-      alert('동행 신청이 완료되었습니다.');
-      setRequestContent('');
-    }
-  };
+  //   const response = await postRequestAccompanyToServer(token, postToServer);
+  //   if (response) {
+  //     alert('동행 신청이 완료되었습니다.');
+  //     setRequestContent('');
+  //   }
+  // };
 
   const handleGetPaginatedTripList = async () => {
     if (searchedKeyword) {
@@ -156,227 +139,96 @@ function SearchPage() {
     fetchData();
   }, [searchedKeyword, sortType]);
 
-  const tableColumns = [
-    {
-      title: '일정 제목',
-      dataIndex: 'title',
-      key: 'title',
-      render: (text, record) => (
-        <span onClick={() => handleOpenDrawer(record)} className='list-key'>
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: '마감날짜',
-      dataIndex: 'deadline',
-      key: 'deadline',
-      render: (text, record) => (
-        <span onClick={() => handleOpenDrawer(record)} className='list-key'>
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: '인원 수',
-      dataIndex: 'participants',
-      key: 'participants',
-      render: (text, record) => (
-        <span onClick={() => handleOpenDrawer(record)} className='list-key'>
-          {text}
-        </span>
-      ),
-    },
-    {
-      title: '일정 날짜',
-      dataIndex: 'date',
-      key: 'date',
-      render: (text, record) => (
-        <span onClick={() => handleOpenDrawer(record)} className='list-key'>
-          {text}
-        </span>
-      ),
-    },
-  ];
-
-  const tableData = tripList.map((trip) => ({
-    id: trip.id ? trip.id : '',
-    title: trip.title ? trip.title : '',
-    deadline:
-      trip.startingDate && trip.comingDate
-        ? trip.startingDate < trip.comingDate
-          ? trip.startingDate
-          : trip.comingDate
-        : '',
-    participants:
-      trip.currentNum && trip.recruitNum ? trip.currentNum + ' / ' + trip.recruitNum : '',
-    date:
-      trip.startingDate && trip.comingDate
-        ? trip.startingDate < trip.comingDate
-          ? trip.startingDate + ' ~ ' + trip.comingDate
-          : trip.comingDate + ' ~ ' + trip.startingDate
-        : '',
-  }));
-
   return (
-    <div>
+    <div className='p-4'>
       {loading ? (
-        <Spin tip='loading...' size='large'>
-          <Table />
-        </Spin>
+        <div className='flex justify-center items-center'>
+          <div className='loader'></div>
+        </div>
       ) : (
         <>
-          <Row>
-            <Col>
-              <Table columns={tableColumns} dataSource={tableData} />{' '}
-              <Drawer
-                title='일정 상세 정보'
-                placement='right'
-                closable={true}
-                onClose={handleCloseDrawer}
-                open={drawerState}
-                width={1000}
-              >
-                {selectedTrip && (
-                  <>
-                    <Card>
-                      <Meta
-                        title={selectedTrip.title}
-                        description={
-                          <>
-                            <h5>
-                              모집 마감 날짜: {selectedTrip.deadline ? selectedTrip.deadline : ''}
-                            </h5>
-                            <h5>
-                              여행 기간: {selectedTrip.date ? selectedTrip.date : '일정 없음'}
-                            </h5>
-                            <h5>
-                              내용:{' '}
-                              {selectedTrip.content ? selectedTrip.content : '예시 여행입니다.'}
-                            </h5>
-                            <h5>
-                              현 인원 / 총 인원 :{' '}
-                              {selectedTrip.participants ? selectedTrip.participants : ''}
-                            </h5>
-                          </>
-                        }
-                      />
-                    </Card>
-                    <Card>
-                      <Meta
-                        title='TimeLine'
-                        description={
-                          selectedTripRoute!.length === 0 ? (
-                            '타임라인이 없습니다.'
-                          ) : (
-                            <>
-                              <Timeline>
-                                {selectedTripRoute?.map((route, index) => (
-                                  <Timeline.Item key={index}>{route.name}</Timeline.Item>
-                                ))}
-                              </Timeline>
-                              <Button onClick={handleOpenOptimizeModal}>최단경로</Button>
-                              <Modal
-                                title='시작점 선택'
-                                open={optimizeModalState}
-                                onCancel={handleCloseOptimizeModal}
-                                footer={[
-                                  <Button key='cancel' onClick={handleCloseOptimizeModal}>
-                                    취소
-                                  </Button>,
-                                  <Button
-                                    key='confirm'
-                                    type='primary'
-                                    onClick={handleSendStartLocationToServer}
-                                  >
-                                    확인
-                                  </Button>,
-                                ]}
-                              >
-                                {optimizeModalState && (
-                                  <Radio.Group
-                                    onChange={handleSaveStartLocation}
-                                    value={startLocation}
-                                  >
-                                    {selectedTripRoute!.map((route, index) => (
-                                      <Space direction='vertical' key={index}>
-                                        <Radio value={route.name}>{route.name}</Radio>
-                                      </Space>
-                                    ))}
-                                  </Radio.Group>
-                                )}
+          <div className='mb-4'>
+            <input
+              className='input input-bordered w-full'
+              placeholder='Search for trips...'
+              value={searchedKeyword || ''}
+            />
+          </div>
 
-                                {calculateRouteLoading && (
-                                  <>
-                                    <br />
-                                    <Spin tip='이동시간을 계산중입니다...' size='large'>
-                                      <></>
-                                    </Spin>
-                                  </>
-                                )}
-                              </Modal>
-                              {optimizeTime > 0
-                                ? optimizeTime.toString() +
-                                  '분 (' +
-                                  (optimizeTime / 60).toString() +
-                                  ' 시간 ' +
-                                  (optimizeTime - (optimizeTime / 60) * 60) +
-                                  ' 분)'
-                                : '최단 경로 버튼을 누르면 최단 경로를 계산할 수 있습니다.'}
-                            </>
-                          )
-                        }
-                      />
-                    </Card>
-                    <Card>
-                      <Meta
-                        title='동행 신청'
-                        description={
-                          <>
-                            <TextArea
-                              rows={3}
-                              placeholder='신청서를 작성해주세요'
-                              onChange={handleChangeRequestContent}
-                            />
-                            <Button onClick={handleRequestAccompany}>신청하기</Button>
-                          </>
-                        }
-                      />
-                    </Card>
-                    <Card>
-                      <Meta
-                        title='댓글 목록'
-                        description={
-                          <>
-                            {' '}
-                            <TextArea rows={3} value={review} onChange={handleReviewChange} />
-                            <Button onClick={handleAddComment}>댓글 추가</Button>
-                            {tripCommentList.length > 0 ? (
-                              tripCommentList.map((comment, index) => (
-                                <div>
-                                  <Card key={index}>
-                                    <p>날짜: {comment.postDate}</p>
-                                    <p>글쓴이: {comment.senderName}</p>
-                                    <p>댓글: {comment.review}</p>
-                                  </Card>
-                                </div>
-                              ))
-                            ) : (
-                              <Card>
-                                <p>날짜: </p>
-                                <p>글쓴이: 관리자</p>
-                                <p>댓글: 예시 댓글입니다.</p>
-                              </Card>
-                            )}
-                          </>
-                        }
-                      />
-                    </Card>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {tripList.map((trip, index) => (
+              <div
+                key={index}
+                className='card bg-white p-4 shadow rounded cursor-pointer'
+                onClick={() => handleOpenDrawer(trip)}
+              >
+                <h3 className='text-lg font-semibold'>{trip.title}</h3>
+                <p>Participants: {trip.capacity}</p>
+                <p>
+                  Date: {trip.startingDate} ~ {trip.comingDate}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {drawerState && (
+            <div
+              className={`fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full`}
+            >
+              <div className='relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white'>
+                <div className='flex justify-between items-center mb-4'>
+                  <h2 className='text-lg font-semibold'>Trip Details</h2>
+                  <button onClick={handleCloseDrawer}>X</button>
+                </div>
+
+                <div>
+                  <p>
+                    <strong>Route:</strong>
+                  </p>
+                  <ul>
+                    {selectedTripRoute!.map((route, idx) => (
+                      <li key={idx}>{route.name}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <button className='btn btn-primary my-2' onClick={handleOpenOptimizeModal}>
+                  Optimize Route
+                </button>
+
+                {optimizeModalState && (
+                  <>
+                    <input
+                      type='text'
+                      placeholder='Enter start location'
+                      value={startLocation}
+                      onChange={handleSaveStartLocation}
+                      className='input input-bordered w-full my-2'
+                    />
+                    <button
+                      className={`btn ${calculateRouteLoading ? 'loading' : ''}`}
+                      onClick={handleSendStartLocationToServer}
+                    >
+                      Calculate Route
+                    </button>
                   </>
                 )}
-              </Drawer>
-            </Col>
-          </Row>
+
+                <div className='mt-4'>
+                  <textarea
+                    rows={4}
+                    placeholder='Leave a comment...'
+                    className='textarea textarea-bordered w-full'
+                    value={review}
+                    onChange={handleReviewChange}
+                  ></textarea>
+                  <button className='btn btn-secondary mt-2' onClick={handleAddComment}>
+                    Add Comment
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>

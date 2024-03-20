@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Row, Col, Card } from 'antd';
 
 import type { Member } from '@/domain/Member';
 import type { Trip } from '@/domain/TripList';
@@ -12,8 +11,6 @@ import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute'
 
 import { TripInfo } from '@/ui/detail/info/tripInfo';
 import { CommentList } from '@/ui/detail/comment/comment';
-
-const { Meta } = Card;
 
 function DetailPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -70,30 +67,22 @@ function DetailPage() {
   }, []);
 
   return (
-    <div>
-      <>
-        <Row>
-          <Col>
-            <Card>
-              <Meta
-                description={
-                  <>
-                    <div>
-                      <TripInfo
-                        token={token}
-                        tripInfo={detailTripInfo}
-                        content={tripContent}
-                        searchPlaceList={searchPlaceList}
-                      />
-                    </div>
-                    {detailTripInfo.uuid && <CommentList tripUUID={detailTripInfo.uuid} />}
-                  </>
-                }
-              ></Meta>
-            </Card>
-          </Col>
-        </Row>
-      </>
+    <div className='container mx-auto px-4'>
+      <div className='bg-white shadow-md rounded-lg overflow-hidden my-4'>
+        <div className='p-4'>
+          <TripInfo
+            token={token}
+            tripInfo={detailTripInfo}
+            content={tripContent}
+            searchPlaceList={searchPlaceList}
+          />
+        </div>
+        {detailTripInfo.uuid && (
+          <div className='border-t border-gray-200'>
+            <CommentList tripUUID={detailTripInfo.uuid} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

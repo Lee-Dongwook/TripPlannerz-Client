@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Row, Col, Button, Card, Spin, Table } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
 
 import type { Member } from '@/domain/Member';
 import type { AccompanyList } from '@/domain/AccompanyList';
@@ -12,7 +10,6 @@ import { postDenyAccompany } from '@/application/api/my/postDenyAccompany';
 
 function ProfilePage() {
   const token = useSelector((state: any) => state.token.token);
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   const [memberInfo, setMemberInfo] = useState<Member>();
   const [accompanyList] = useState<AccompanyList[]>([
@@ -69,78 +66,58 @@ function ProfilePage() {
     handleGetMemberInfo();
   }, []);
 
-  const data = [
-    {
-      key: '1',
-      name: memberInfo?.name,
-      gender: memberInfo?.gender,
-      email: memberInfo?.email,
-      ranklist: memberInfo?.types,
-    },
-  ];
-
-  const columns = [
-    {
-      title: '이름',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '성별',
-      dataIndex: 'gender',
-      key: 'gender',
-    },
-    {
-      title: '이메일',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: '선호태그',
-      dataIndex: 'ranklist',
-      key: 'ranklist',
-    },
-  ];
-
   return (
-    <div style={{ width: '100%', height: 'calc(100vh)', display: 'flex' }}>
+    <div className='w-full h-screen flex justify-center items-center'>
       {loading ? (
-        <Spin tip='Loading...' size='large' indicator={antIcon} />
+        <div className='text-center'>
+          <svg
+            className='animate-spin -ml-1 mr-3 h-5 w-5 text-gray-900 inline'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+          >
+            <circle
+              className='opacity-25'
+              cx='12'
+              cy='12'
+              r='10'
+              stroke='currentColor'
+              strokeWidth='4'
+            ></circle>
+            <path
+              className='opacity-75'
+              fill='currentColor'
+              d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+            ></path>
+          </svg>
+          Loading...
+        </div>
       ) : (
-        <>
-          <Row style={{ width: '100%', height: '100%' }}>
-            <Col span={15} style={{ padding: '16px' }}>
-              <h3>내 정보</h3>
-              <hr />
-              <Table columns={columns} dataSource={data} bordered pagination={false} />
-              <hr />
-              <h3>동행 신청 현황</h3>
-              {accompanyList.length > 0 &&
-                accompanyList.map((item, idx) => (
-                  <Card key={idx}>
-                    <h6>신청자 : {item.senderName}</h6>
-                    <h6>여행: {item.tripName}</h6>
-                    <h6>
-                      신청 내용 :{' '}
-                      {item.comment.length <= 50 ? item.comment : item.comment.slice(0, 50) + '...'}
-                    </h6>
-                    <table>
-                      <td>
-                        <Button onClick={() => handleResponseAccompanyTrue(item.comment_id)}>
-                          O
-                        </Button>
-                      </td>
-                      <td>
-                        <Button onClick={() => handleResponseAccompanyFalse(item.comment_id)}>
-                          X
-                        </Button>
-                      </td>
-                    </table>
-                  </Card>
-                ))}
-            </Col>
-          </Row>
-        </>
+        <div className='w-full px-4'>
+          <h3 className='text-lg font-semibold'>내 정보</h3>
+          <div className='bg-white shadow rounded-lg p-4 mb-6'>
+            <p>이름: {memberInfo!.name}</p>
+            <p>성별: {memberInfo!.gender}</p>
+            <p>이메일: {memberInfo!.email}</p>
+            <p>선호 태그: {memberInfo!.types?.join(', ')}</p>
+          </div>
+          <h3 className='text-lg font-semibold'>동행 신청 현황</h3>
+          <div className='space-y-4'>
+            <div className='bg-white shadow rounded-lg p-4'>
+              <p>신청자: 테스트 사용자</p>
+              <p>여행: 부산</p>
+              <p>신청 내용: 안녕하세요. 해당 여행에 동행을 하고 싶어서 연락드렸습니다.</p>
+              <div className='flex justify-end space-x-2'>
+                <button className='btn btn-success' onClick={handleResponseAccompanyTrue}>
+                  승인
+                </button>
+                <button className='btn btn-error' onClick={handleResponseAccompanyFalse}>
+                  거절
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
