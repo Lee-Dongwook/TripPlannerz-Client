@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import store from '@/store/store.ts';
 import App from './App.tsx';
 import './main.css';
+import reportWebVitals from './reportWebVitals.ts';
 
 const persistor = persistStore(store);
 const queryClient = new QueryClient();
@@ -19,3 +20,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </PersistGate>
   </Provider>
 );
+
+reportWebVitals(console.log);
