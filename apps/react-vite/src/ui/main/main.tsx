@@ -67,7 +67,12 @@ function MainPage() {
   return (
     <div>
       <div className='flex justify-between items-center p-4'>
-        <img src='https://source.unsplash.com/random/1600x900' alt='Sight' className='w-3/5' />
+        <img
+          src='https://source.unsplash.com/random/1600x900'
+          alt='Sight'
+          className='w-3/5'
+          loading='lazy'
+        />
         <Weather />
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
@@ -77,6 +82,7 @@ function MainPage() {
               className='w-full'
               src='https://source.unsplash.com/random/1600x900'
               alt='Sight'
+              loading='lazy'
             ></img>
             <div className='px-6 py-4'>
               <div className='font-bold text-xl mb-2'>{item.title}</div>
