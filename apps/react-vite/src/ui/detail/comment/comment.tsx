@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { getDetailTripInfo } from '@/application/api/detail/getDetailTripInfo';
 import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
@@ -8,6 +8,7 @@ import { CommentProp } from '@/ui/detail/comment/commentProp.types';
 
 export const CommentList = ({ tripUUID }: CommentProp) => {
   const token = useSelector((state: any) => state.token.token);
+  const queryClient = useQueryClient();
 
   const [review, setReview] = useState<string>('');
 
@@ -22,17 +23,33 @@ export const CommentList = ({ tripUUID }: CommentProp) => {
 
   const { data: commentList } = useQuery(['comments', tripUUID], handleGetCommentList);
 
-  const mutation = useMutation((postToServer: any) => postCommentToServer(token, postToServer));
+  const mutation = useMutation((postToServer: any) => postCommentToServer(token, postToServer), {
+    onMutate: async (newComment) => {
+      await queryClient.cancelQueries(['comments', tripUUID]);
 
-  const handleAddComment = () => {
-    mutation.mutate(
-      { review, tripUUID },
-      {
-        onSuccess: () => {
-          alert('댓글이 등록되었습니다.');
-        },
-      }
-    );
+      const previousComments = queryClient.getQueryData(['comments', tripUUID]);
+
+      queryClient.setQueryData(['comments', tripUUID], (old: any) => [...old, newComment]);
+
+      return { previousComments };
+    },
+
+    onError: (err, newComment, context) => {
+      queryClient.setQueryData(['comments', tripUUID], context?.previousComments);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries(['comments', tripUUID]);
+    },
+  });
+
+  const handleAddComment = async (review, tripUUID) => {
+    const postToServer = {
+      review,
+      tripUUID,
+    };
+
+    mutation.mutate(postToServer);
   };
 
   return (
@@ -45,7 +62,10 @@ export const CommentList = ({ tripUUID }: CommentProp) => {
           onChange={handleReviewChange}
         />
       </div>
-      <button className={`btn ${mutation.isLoading ? 'loading' : ''}`} onClick={handleAddComment}>
+      <button
+        className={`btn ${mutation.isLoading ? 'loading' : ''}`}
+        onClick={() => handleAddComment(review, tripUUID)}
+      >
         댓글 추가
       </button>
       {commentList &&
