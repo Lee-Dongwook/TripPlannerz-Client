@@ -41,7 +41,7 @@ export default ({ mode }) => {
     plugins: [
       react(),
       tsconfigPaths(),
-      dts({ rollupTypes: true }),
+      dts(),
       visualizer({
         filename: './dist/report.html',
         open: true,
