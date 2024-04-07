@@ -42,6 +42,7 @@
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.16",
     "kakao.maps.d.ts": "^0.1.39",
+    "msw": "^2.2.13",
     "postcss": "^8.4.32",
     "postcss-loader": "^7.3.3",
     "postcss-nesting": "^12.0.1",
@@ -51,5 +52,10 @@
     "vite": "^5.0.0",
     "vite-plugin-dts": "^3.7.3",
     "vite-tsconfig-paths": "^4.3.1"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

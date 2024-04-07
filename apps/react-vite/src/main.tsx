@@ -11,6 +11,11 @@ import reportWebVitals from './reportWebVitals.ts';
 const persistor = persistStore(store);
 const queryClient = new QueryClient();
 
+if (import.meta.env.DEV) {
+  const { worker } = await import('./mocks/browser.js');
+  worker.start();
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
