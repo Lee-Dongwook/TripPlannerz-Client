@@ -42,7 +42,7 @@
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.16",
     "kakao.maps.d.ts": "^0.1.39",
-    "msw": "^2.2.13",
+    "msw": "1.0.0",
     "postcss": "^8.4.32",
     "postcss-loader": "^7.3.3",
     "postcss-nesting": "^12.0.1",
