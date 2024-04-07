@@ -11,6 +11,7 @@ import { accessToService } from '@/application/start/accessToService';
 import { SubmitUserInfoToServer } from '@/application/start/submitUserInfoToServer';
 
 import { SignUpModal } from '@/ui/start/modal/signUpModal';
+import KakaoLogin from '@/ui/start/kakaoLogin';
 
 function StartPage() {
   const dispatch = useDispatch();
@@ -151,12 +152,7 @@ function StartPage() {
               handleSendEmailCodeToServer,
             }}
           />
-          <button
-            type='button'
-            className='w-full block bg-yellow-200 hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 mt-6 border border-gray-300'
-          >
-            카카오 소셜 로그인
-          </button>
+          <KakaoLogin />
         </div>
       </div>
     </section>
