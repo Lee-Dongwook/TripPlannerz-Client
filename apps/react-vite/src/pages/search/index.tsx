@@ -130,13 +130,13 @@ function SearchPage() {
         </div>
       ) : (
         <>
-          <div className='mb-4'>
+          {/* <div className='mb-4'>
             <input
               className='input input-bordered w-full'
               placeholder='Search for trips...'
               value={searchedKeyword || ''}
             />
-          </div>
+          </div> */}
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
             {tripList.map((trip, index) => (
