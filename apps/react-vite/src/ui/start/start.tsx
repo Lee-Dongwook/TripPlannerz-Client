@@ -10,9 +10,6 @@ import { sendEmailCodeToServer } from '@/application/start/sendEmailCodeToServer
 import { accessToService } from '@/application/start/accessToService';
 import { SubmitUserInfoToServer } from '@/application/start/submitUserInfoToServer';
 
-import sight from '@/lib/image/관광지.png';
-
-import { LoginModal } from '@/ui/start/modal/loginModal';
 import { SignUpModal } from '@/ui/start/modal/signUpModal';
 
 function StartPage() {
@@ -98,37 +95,65 @@ function StartPage() {
   };
 
   return (
-    <div className='flex flex-col items-center'>
-      <img src={sight} alt='시작 이미지' className='w-full max-w-xs mb-4' />
-      <div className='mb-4'>
-        <h2 className='text-2xl font-bold'>TripPlannerz</h2>
-      </div>
-      <div className='flex justify-between'>
-        <LoginModal
-          onSubmit={handleAccessToService}
-          onChange={{
-            handleEmailChange,
-            handlePasswordChange,
-          }}
-          onClick={handleAccessToService}
-        />
-        <SignUpModal
-          onSubmit={handleSubmitUserInfoToServer}
-          onChange={{
-            handleNameChange,
-            handleGenderChange,
-            handleEmailChange,
-            handleEmailCodeChange,
-            handlePasswordChange,
-            handleConfirmPasswordChange,
-          }}
-          onClick={{
-            handleSendEmailToServer,
-            handleSendEmailCodeToServer,
-          }}
+    <section className='flex flex-col md:flex-row h-screen items-center'>
+      <div className='bg-blue-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen'>
+        <img
+          src='https://images.unsplash.com/photo-1444313431167-e7921088a9d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1441&q=100'
+          alt='시작 이미지'
+          className='w-full h-full object-cover'
         />
       </div>
-    </div>
+      <div className='bg-white w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12 flex items-center justify-center'>
+        <div className='w-full h-100'>
+          <h1 className='text-xl font-bold'>TripPlannerZ</h1>
+          <input
+            type='email'
+            name=''
+            id=''
+            placeholder='이메일을 입력하세요.'
+            onChange={handleEmailChange}
+            className='w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none'
+            required
+          />
+          <div className='mt-4'>
+            <input
+              type='password'
+              name=''
+              id=''
+              placeholder='비밀번호를 입력하세요.'
+              onChange={handlePasswordChange}
+              className='w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
+                focus:bg-white focus:outline-none'
+              required
+            />
+          </div>
+          <button
+            type='submit'
+            className='w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg
+              px-4 py-3 mt-6'
+            onClick={handleAccessToService}
+          >
+            로그인
+          </button>
+          <hr />
+          <SignUpModal
+            onSubmit={handleSubmitUserInfoToServer}
+            onChange={{
+              handleNameChange,
+              handleGenderChange,
+              handleEmailChange,
+              handleEmailCodeChange,
+              handlePasswordChange,
+              handleConfirmPasswordChange,
+            }}
+            onClick={{
+              handleSendEmailToServer,
+              handleSendEmailCodeToServer,
+            }}
+          />
+        </div>
+      </div>
+    </section>
   );
 }
 
