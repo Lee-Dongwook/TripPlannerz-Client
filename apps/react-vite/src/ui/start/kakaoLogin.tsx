@@ -38,7 +38,7 @@ const KakaoLogin = () => {
 
   const handleKakaoLogin = () => {
     const REST_API_KEY: string = import.meta.env.VITE_KAKAO_REST_API_KEY;
-    const REDIRECT_URI: string = import.meta.env.VITE_REDIRECT_URI;
+    const REDIRECT_URI: string = import.meta.env.VITE_KAKAO_REDIRECT_URI;
     const link: string = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
     window.location.href = link;
   };
