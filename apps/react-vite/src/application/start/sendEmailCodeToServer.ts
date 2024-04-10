@@ -1,4 +1,4 @@
-import type { Member } from '@/domain/Member';
+import type { Member } from '@/types/Member';
 import { postEmailConfirm } from '@/application/api/start/postEmailConfirm';
 
 export const sendEmailCodeToServer = async (user: Member, emailCode: string) => {

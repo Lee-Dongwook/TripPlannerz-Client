@@ -1,4 +1,4 @@
-import type { Member } from '@/domain/Member';
+import type { Member } from '@/types/Member';
 import { postLoginJwt } from '@/application/api/start/postLoginJwt';
 import { createRandomKey } from '@/lib/crypto/createRandomKey';
 import { createEncryptToken } from '@/lib/crypto/createEncryptToken';

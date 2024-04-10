@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Trip } from '@/domain/TripList';
+import { Trip } from '@/types/TripList';
 import { getPaginatedTripList } from '@/application/api/my/getPaginatedTripList';
 
 function SchedulePage() {

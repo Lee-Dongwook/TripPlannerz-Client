@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { Member } from '@/domain/Member';
-import type { AccompanyList } from '@/domain/AccompanyList';
+import type { Member } from '@/types/Member';
+import type { AccompanyList } from '@/types/AccompanyList';
 
 import { getMemberTripInfo } from '@/application/api/my/getMemberTripInfo';
 import { postAssignAccompany } from '@/application/api/my/postAssignAccompany';

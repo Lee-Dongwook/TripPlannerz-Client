@@ -1,4 +1,4 @@
-import type { PreferenceName } from '@/domain/Preference';
+import type { PreferenceName } from '@/types/Preference';
 
 export interface Member {
   name?: string;

@@ -2,7 +2,7 @@ import { type ChangeEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Trip } from '@/domain/TripList';
+import { Trip } from '@/types/TripList';
 import { updateTripInfo } from '@/application/navbar/updateTripInfo';
 import { SubmitTripInfoToServer } from '@/application/navbar/submitTripInfoToServer';
 import { majorCategories, minorCategories, subCategories } from '@/lib/info/tripCatergoryList';

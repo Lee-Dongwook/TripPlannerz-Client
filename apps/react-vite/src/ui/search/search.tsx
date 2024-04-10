@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import type { Trip } from '@/domain/TripList';
+import type { Trip } from '@/types/TripList';
 // import type { Comment } from '@/domain/Comment';
 
 import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';

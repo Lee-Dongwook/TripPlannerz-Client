@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import type { Member } from '@/domain/Member';
+import type { Member } from '@/types/Member';
 
 import { updateUserInfo } from '@/application/start/updateUserInfo';
 import { sendEmailToServer } from '@/application/start/sendEmailToServer';

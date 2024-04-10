@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import debounce from 'lodash/debounce';
 
-import { Member } from '@/domain/Member';
+import { Member } from '@/types/Member';
 
 import { getEventSource } from '@/application/api/navbar/getEventSource';
 import { getMemberTripInfo } from '@/application/api/navbar/getMemberTripInfo';

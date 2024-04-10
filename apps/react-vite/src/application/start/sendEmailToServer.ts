@@ -1,4 +1,4 @@
-import type { Member } from '@/domain/Member';
+import type { Member } from '@/types/Member';
 import { postEmailSend } from '@/application/api/start/postEmailSend';
 
 export const sendEmailToServer = async (user: Member) => {

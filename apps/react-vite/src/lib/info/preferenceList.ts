@@ -5,7 +5,7 @@ import surfing from '@/assets/image/서핑.png';
 import hotel from '@/assets/image/호텔.png';
 import shopping from '@/assets/image/쇼핑.png';
 import restaurant from '@/assets/image/레스토랑.png';
-import type { Preference } from '@/domain/Preference';
+import type { Preference } from '@/types/Preference';
 
 export const preferenceList: Preference[] = [
   { id: 1, name: '관광지', code: 'SIGHTSEEING', image: sight },
