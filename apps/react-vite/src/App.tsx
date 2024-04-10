@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import Navbar from '@/ui/navbar/navbar';
 import StartPage from '@/ui/start/start';
-import MainPage from '@/ui/main/main';
+import MainPage from '@/pages/main';
 import CreatePage from '@/ui/create/create';
 import SearchPage from '@/ui/search/search';
 import DetailPage from '@/ui/detail/detail';
