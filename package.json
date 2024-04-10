@@ -11,6 +11,8 @@
   "scripts": {
     "dev:react-vite": "yarn workspace react-vite dev",
     "build:react-vite": "yarn workspace react-vite build",
+    "dev:express": "yarn workspace express dev",
+    "start:express": "yarn workspace express start",
     "storybook": "yarn workspace @tripplannerz/ui storybook",
     "e2e": "yarn workspace @tripplannerz/e2e test:dev"
   },
