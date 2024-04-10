@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/modal';
-import { RadioGroup, Radio } from '@/components/radio';
+import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/common/modal';
+import { RadioGroup, Radio } from '@/components/common/radio';
 import KakaoMap from '@/lib/kakao/kakaoMap';
 
 interface Place {
