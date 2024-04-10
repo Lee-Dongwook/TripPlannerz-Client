@@ -1,5 +1,5 @@
 import type { Member } from '@/types/Member';
-import { postEmailConfirm } from '@/application/api/start/postEmailConfirm';
+import { postEmailConfirm } from '@/services/postEmailConfirm';
 
 export const sendEmailCodeToServer = async (user: Member, emailCode: string) => {
   if (user.email) {

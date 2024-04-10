@@ -1,5 +1,5 @@
 import type { Member } from '@/types/Member';
-import { postLoginJwt } from '@/application/api/start/postLoginJwt';
+import { postLoginJwt } from '@/services/postLoginJwt';
 import { createRandomKey } from '@/lib/crypto/createRandomKey';
 import { createEncryptToken } from '@/lib/crypto/createEncryptToken';
 import { setToken } from '@/store/token';

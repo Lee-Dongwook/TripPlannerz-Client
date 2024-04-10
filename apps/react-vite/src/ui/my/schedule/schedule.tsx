@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { Trip } from '@/types/TripList';
-import { getPaginatedTripList } from '@/application/api/my/getPaginatedTripList';
+import { getPaginatedTripList } from '@/services/getPaginatedTripList';
 
 function SchedulePage() {
   const token = useSelector((state: any) => state.token.token);

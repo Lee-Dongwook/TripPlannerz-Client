@@ -1,5 +1,5 @@
 import type { Member } from '@/types/Member';
-import { postMemberRegister } from '@/application/api/start/postMemberRegister';
+import { postMemberRegister } from '@/services/postMemberRegister';
 
 export const SubmitUserInfoToServer = async (user: Member, selectedPreferenceList) => {
   user.types = selectedPreferenceList;

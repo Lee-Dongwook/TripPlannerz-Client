@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import type { Member } from '@/types/Member';
 import type { AccompanyList } from '@/types/AccompanyList';
 
-import { getMemberTripInfo } from '@/application/api/my/getMemberTripInfo';
-import { postAssignAccompany } from '@/application/api/my/postAssignAccompany';
-import { postDenyAccompany } from '@/application/api/my/postDenyAccompany';
+import { getMemberTripInfo } from '@/services/getMemberTripInfo';
+import { postAssignAccompany } from '@/services/postAssignAccompany';
+import { postDenyAccompany } from '@/services/postDenyAccompany';
 
 function ProfilePage() {
   const token = useSelector((state: any) => state.token.token);

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { postVerifyMemberPassword } from '@/application/api/my/postVerifyMemberPassword';
-import { postChangeMemberPassword } from '@/application/api/my/postChangeMemberPassword';
+import { postVerifyMemberPassword } from '@/services/postVerifyMemberPassword';
+import { postChangeMemberPassword } from '@/services/postChangeMemberPassword';
 
 function AccountPage() {
   const token = useSelector((state: any) => state.token.token);

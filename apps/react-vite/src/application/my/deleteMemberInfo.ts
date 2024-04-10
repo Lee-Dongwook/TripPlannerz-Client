@@ -1,4 +1,4 @@
-import { postDeleteMemberInfo } from '@/application/api/my/postDeleteMemberInfo';
+import { postDeleteMemberInfo } from '@/services/postDeleteMemberInfo';
 
 export const deleteMemberInfo = async (token, password) => {
   if (token && password) {

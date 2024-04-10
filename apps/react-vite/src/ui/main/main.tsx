@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useInfiniteQuery } from 'react-query';
 import 'tailwindcss/tailwind.css';
 
-import { getEntireTripList } from '@/application/api/main/getEntireTripList';
+import { getEntireTripList } from '@/services/getEntireTripList';
 import Weather from '@/lib/weather/weather';
 
 function MainPage() {

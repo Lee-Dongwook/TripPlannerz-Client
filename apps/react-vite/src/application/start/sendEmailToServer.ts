@@ -1,5 +1,5 @@
 import type { Member } from '@/types/Member';
-import { postEmailSend } from '@/application/api/start/postEmailSend';
+import { postEmailSend } from '@/services/postEmailSend';
 
 export const sendEmailToServer = async (user: Member) => {
   if (user.email) {

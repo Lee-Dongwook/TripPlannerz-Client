@@ -5,10 +5,10 @@ import { useLocation } from 'react-router-dom';
 import type { Trip } from '@/types/TripList';
 // import type { Comment } from '@/domain/Comment';
 
-import { getPaginatedTripList } from '@/application/api/search/getPaginatedTripList';
-import { getDetailTripRoute } from '@/application/api/detail/getDetailTripRoute';
-import { postStartLocationToServer } from '@/application/api/detail/postStartLocationToServer';
-import { postCommentToServer } from '@/application/api/detail/postCommentToServer';
+import { getPaginatedTripList } from '@/services/getPaginatedTripList';
+import { getDetailTripRoute } from '@/services/getDetailTripRoute';
+import { postStartLocationToServer } from '@/services/postStartLocationToServer';
+import { postCommentToServer } from '@/services/postCommentToServer';
 // import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
 
 function SearchPage() {
@@ -120,11 +120,10 @@ function SearchPage() {
 
   const handleGetPaginatedTripList = async () => {
     if (searchedKeyword) {
-      const encodedKey = encodeURIComponent(searchedKeyword);
-      const response = getPaginatedTripList(token, 0, sortType, encodedKey);
+      const response = getPaginatedTripList(token, 0, sortType);
       return response;
     } else {
-      const response = getPaginatedTripList(token, 0, sortType, '');
+      const response = getPaginatedTripList(token, 0, sortType);
       return response;
     }
   };

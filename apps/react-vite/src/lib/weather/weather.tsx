@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import Timer from '../timer/timer';
-import { getWeatherInfo } from '@/application/api/getWeatherInfo';
+import { getWeatherInfo } from '@/services/getWeatherInfo';
 import { convertWeatherInfo } from '@/application/convertWeatherInfo';
 
 const Weather = () => {

@@ -1,4 +1,4 @@
-import { postTripInfo } from '@/application/api/navbar/postTripInfo';
+import { postTripInfo } from '@/services/postTripInfo';
 
 export const SubmitTripInfoToServer = async (token, image, contentsData) => {
   const formData = new FormData();

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { postLogout } from '@/application/api/navbar/postLogout';
+import { postLogout } from '@/services/postLogout';
 import { setToken } from '@/store/token';
 
 export const UserInfoDrawer = ({ onClick, onClose, visible, info }) => {

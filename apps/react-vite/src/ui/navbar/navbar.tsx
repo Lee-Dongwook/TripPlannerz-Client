@@ -6,8 +6,8 @@ import debounce from 'lodash/debounce';
 
 import { Member } from '@/types/Member';
 
-import { getEventSource } from '@/application/api/navbar/getEventSource';
-import { getMemberTripInfo } from '@/application/api/navbar/getMemberTripInfo';
+import { getEventSource } from '@/services/getEventSource';
+import { getMemberTripInfo } from '@/services/getMemberTripInfo';
 
 import { setNotification } from '@/store/notification';
 
