@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '@/components/modal';
 import { RadioGroup, Radio } from '@/components/radio';
+import KakaoMap from '@/lib/kakao/kakaoMap';
 
 interface Place {
   name: string;
@@ -231,7 +232,7 @@ function DetailPage() {
   };
 
   const handleDeleteCertainComment = (index) => {
-    const newComment = comments.filter((comment, idx) => idx !== index);
+    const newComment = comments.filter((_, idx) => idx !== index);
     setComments(newComment);
 
     alert('댓글이 삭제되었습니다.');
@@ -249,66 +250,65 @@ function DetailPage() {
           : `${comingDate} ~ ${startingDate}`}
       </h5>
       <h5 className='text-center'>내용: {content || '예시 여행입니다.'}</h5>
-      <h4>
-        <strong>TimeLine</strong>
-      </h4>
-      <div className='flex flex-col relative'>
-        <div className='flex relative pl-4'>
-          <div className='w-4 h-4 bg-blue-500 rounded-full mt-1 -left-2.5 absolute'></div>
-          {timeLineItem &&
-            timeLineItem.map((item, idx) => {
-              return <div className='ml-4' key={idx}></div>;
-            })}
-        </div>
-      </div>
+      <hr />
       <table>
         <td>
-          <button
-            style={{ width: '200px', backgroundColor: 'white', color: 'black' }}
-            onClick={handleChangeTimeLineItem}
-          >
-            경로 최적화
-          </button>
-          <Modal show={optimizeModal} onHide={handleCloseOptimizeModal}>
-            <ModalHeader>
-              <ModalTitle>시작점 선택</ModalTitle>
-            </ModalHeader>
-            <ModalBody>
-              {optimizeModal && (
-                <RadioGroup>
-                  {searchPlaceForOptimize.map((searchPlace, index) => (
-                    <div key={index} className='mb-2'>
-                      <Radio
-                        value={searchPlace.name}
-                        onChange={handleSaveStartLocation}
-                        checkedValue={startLocation}
-                      >
-                        {searchPlace.name}
-                      </Radio>
-                    </div>
-                  ))}
-                </RadioGroup>
-              )}
-            </ModalBody>
-            <ModalFooter>
-              <button
-                onClick={sendStartLocationToServer}
-                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-              >
-                확인
-              </button>
-            </ModalFooter>
-          </Modal>
+          <KakaoMap searchKeyword={searchPlaceInput} />
         </td>
-        <td style={{ padding: '75px' }}>
-          <button
-            style={{ width: '200px', backgroundColor: 'white', color: 'black' }}
-            onClick={handleOpenModal}
-          >
-            동행 신청
-          </button>
+        <td>
+          <h4>
+            <strong>TimeLine</strong>
+            <div className='flex flex-col relative'>
+              <div className='flex relative pl-4'>
+                {timeLineItem &&
+                  timeLineItem.map((_, idx) => {
+                    return (
+                      <>
+                        <div className='w-4 h-4 bg-blue-500 rounded-full mt-1 -left-2.5 absolute'></div>
+                        <div className='ml-4' key={idx}></div>
+                      </>
+                    );
+                  })}
+              </div>
+            </div>
+          </h4>
         </td>
       </table>
+
+      <button onClick={handleChangeTimeLineItem}>경로 최적화</button>
+      <Modal show={optimizeModal} onHide={handleCloseOptimizeModal}>
+        <ModalHeader>
+          <ModalTitle>시작점 선택</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+          {optimizeModal && (
+            <RadioGroup>
+              {searchPlaceForOptimize.map((searchPlace, index) => (
+                <div key={index} className='mb-2'>
+                  <Radio
+                    value={searchPlace.name}
+                    onChange={handleSaveStartLocation}
+                    checkedValue={startLocation}
+                  >
+                    {searchPlace.name}
+                  </Radio>
+                </div>
+              ))}
+            </RadioGroup>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <button
+            onClick={sendStartLocationToServer}
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+          >
+            확인
+          </button>
+        </ModalFooter>
+      </Modal>
+
+      <button onClick={handleOpenModal}>동행 신청</button>
+
       <Modal show={requestAccompanyModal} onHide={handleCloseModal}>
         <ModalHeader>
           <ModalTitle>동행 신청</ModalTitle>
@@ -316,42 +316,36 @@ function DetailPage() {
         <ModalBody>
           <input
             type='textarea'
-            style={{ height: '300px' }}
             placeholder='신청서를 작성해주세요'
             onChange={handleRequestContent}
           />
           <button onClick={handleRequestAccompany}>신청하기</button>
         </ModalBody>
       </Modal>
-      <div style={{ marginTop: '-25px', marginLeft: '20px', flex: '2' }}>
+      <div>
         <h3>여행 장소</h3>
-        <input
-          style={{ width: '400px' }}
-          placeholder='여행장소를 입력하세요'
-          onChange={handleSearchInput}
-        />
+        <input placeholder='여행장소를 입력하세요' onChange={handleSearchInput} />
         <button onClick={handleUpdateSearchInput}>입력</button>
       </div>
-      <div className='CommentList'>
-        <input value={review} onChange={handleReviewChange} onKeyDown={keyDown} />
-        <button onClick={handleAddComment}>댓글 추가</button>
-        {comments.length === 0
-          ? ''
-          : comments.map((comment, index) => (
-              <div>
-                <>
-                  <p>날짜: {comment.postDate}</p>
-                  <p>글쓴이: {comment.senderName}</p>
-                  <p>댓글: {comment.review}</p>
-                </>
-                {comment.senderName === userName ? (
-                  <button onClick={() => handleDeleteCertainComment(index)}>삭제</button>
-                ) : (
-                  ''
-                )}
-              </div>
-            ))}
-      </div>
+
+      <input value={review} onChange={handleReviewChange} onKeyDown={keyDown} />
+      <button onClick={handleAddComment}>댓글 추가</button>
+      {comments.length === 0
+        ? ''
+        : comments.map((comment, index) => (
+            <div>
+              <>
+                <p>날짜: {comment.postDate}</p>
+                <p>글쓴이: {comment.senderName}</p>
+                <p>댓글: {comment.review}</p>
+              </>
+              {comment.senderName === userName ? (
+                <button onClick={() => handleDeleteCertainComment(index)}>삭제</button>
+              ) : (
+                ''
+              )}
+            </div>
+          ))}
     </div>
   );
 }
