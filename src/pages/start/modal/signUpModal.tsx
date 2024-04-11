@@ -3,7 +3,6 @@ import "tailwindcss/tailwind.css";
 import type { SignUpModalProps } from "@/pages/start/modal/type/signUpModal.types";
 import { TagModal } from "@/pages/start/modal/tagModal";
 import ConfirmButton from "@/components/common/button/ConfirmButton";
-import UndoButton from "@/components/common/button/UndoButton";
 
 export const SignUpModal = ({
   onSubmit,
