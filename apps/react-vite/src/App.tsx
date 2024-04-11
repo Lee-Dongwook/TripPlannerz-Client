@@ -1,17 +1,17 @@
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import Navbar from '@/ui/navbar/navbar';
-import StartPage from '@/pages/start';
-import MainPage from '@/pages/main';
-import CreatePage from '@/pages/create';
-import SearchPage from '@/pages/search';
-import DetailPage from '@/pages/detail';
-import ProfilePage from '@/pages/my/profile';
-import AccountPage from '@/pages/my/account';
-import SchedulePage from '@/pages/my/schedule';
-import WithdrawPage from '@/pages/my/withdraw';
+const Navbar = lazy(() => import('@/ui/navbar/navbar'));
+const StartPage = lazy(() => import('@/pages/start'));
+const MainPage = lazy(() => import('@/pages/main'));
+const CreatePage = lazy(() => import('@/pages/create'));
+const SearchPage = lazy(() => import('@/pages/search'));
+const DetailPage = lazy(() => import('@/pages/detail'));
+const ProfilePage = lazy(() => import('@/pages/my/profile'));
+const AccountPage = lazy(() => import('@/pages/my/account'));
+const SchedulePage = lazy(() => import('@/pages/my/schedule'));
+const WithdrawPage = lazy(() => import('@/pages/my/withdraw'));
 
 function App() {
   const token: string | null = useSelector((state: any) => {
