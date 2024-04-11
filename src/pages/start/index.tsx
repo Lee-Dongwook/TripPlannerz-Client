@@ -1,18 +1,20 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import type { Member } from '@/types/Member';
-import { SignUpModal } from '@/pages/start/modal/signUpModal';
-import KakaoLogin from '@/pages/start/kakaoLogin';
-import { postLoginJwt } from '@/services/postLoginJwt';
-import { createEncryptToken } from '@/lib/crypto/createEncryptToken';
-import { createRandomKey } from '@/lib/crypto/createRandomKey';
+import type { Member } from "@/types/Member";
+import { SignUpModal } from "@/pages/start/modal/signUpModal";
+import KakaoLogin from "@/pages/start/kakaoLogin";
+import { postLoginJwt } from "@/services/postLoginJwt";
+import { createEncryptToken } from "@/lib/crypto/createEncryptToken";
+import { createRandomKey } from "@/lib/crypto/createRandomKey";
 
-import { setToken } from '@/store/token';
-import { postEmailConfirm } from '@/services/postEmailConfirm';
-import { postEmailSend } from '@/services/postEmailSend';
-import { postMemberRegister } from '@/services/postMemberRegister';
+import { setToken } from "@/store/token";
+import { postEmailConfirm } from "@/services/postEmailConfirm";
+import { postEmailSend } from "@/services/postEmailSend";
+import { postMemberRegister } from "@/services/postMemberRegister";
+
+import LoginButton from "@/components/common/button/LoginButton";
 
 function StartPage() {
   const dispatch = useDispatch();
@@ -21,15 +23,15 @@ function StartPage() {
   const secretKey: string = createRandomKey();
 
   const [user, setUser] = useState<Member>({
-    name: '',
-    gender: '',
-    email: '',
-    pw: '',
+    name: "",
+    gender: "",
+    email: "",
+    pw: "",
     types: [],
   });
 
-  const [emailCode, setEmailCode] = useState<string>(''); //이메일 인증 코드
-  const [, setConfirmPassword] = useState<string>(''); // 비밀번호 확인
+  const [emailCode, setEmailCode] = useState<string>(""); //이메일 인증 코드
+  const [, setConfirmPassword] = useState<string>(""); // 비밀번호 확인
 
   const handleNameChange = (event) => {
     setUser((prevUser) => ({
@@ -102,7 +104,7 @@ function StartPage() {
           console.log(encryptedToken);
           dispatch(setToken(token));
           alert(`${user.name}님. 반갑습니다!`);
-          navigate('/main');
+          navigate("/main");
         }
       }
     } catch (error) {
@@ -117,7 +119,13 @@ function StartPage() {
       user.types = selectedPreferenceList;
 
       if (user.name && user.gender && user.email && user.pw && user.types) {
-        await postMemberRegister(user.name, user.gender, user.email, user.pw, user.types);
+        await postMemberRegister(
+          user.name,
+          user.gender,
+          user.email,
+          user.pw,
+          user.types
+        );
       }
     } catch (error) {
       console.log(error);
@@ -125,46 +133,39 @@ function StartPage() {
   };
 
   return (
-    <section className='flex flex-col md:flex-row h-screen items-center'>
-      <div className='bg-blue-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen'>
+    <section className="flex flex-col md:flex-row h-screen items-center">
+      <div className="bg-blue-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
         <img
-          src='https://images.unsplash.com/photo-1444313431167-e7921088a9d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1441&q=100'
-          alt='시작 이미지'
-          className='w-full h-full object-cover'
+          src="https://images.unsplash.com/photo-1444313431167-e7921088a9d3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1441&q=100"
+          alt="시작 이미지"
+          className="w-full h-full object-cover"
         />
       </div>
-      <div className='bg-white w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12 flex items-center justify-center'>
-        <div className='w-full h-100'>
-          <h1 className='text-xl font-bold'>TripPlannerZ</h1>
+      <div className="bg-white w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12 flex items-center justify-center">
+        <div className="w-full h-100">
+          <h1 className="text-xl font-bold">TripPlannerZ</h1>
           <input
-            type='email'
-            name=''
-            id=''
-            placeholder='이메일을 입력하세요.'
+            type="email"
+            name=""
+            id=""
+            placeholder="이메일을 입력하세요."
             onChange={handleEmailChange}
-            className='w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none'
+            className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
             required
           />
-          <div className='mt-4'>
+          <div className="mt-4">
             <input
-              type='password'
-              name=''
-              id=''
-              placeholder='비밀번호를 입력하세요.'
+              type="password"
+              name=""
+              id=""
+              placeholder="비밀번호를 입력하세요."
               onChange={handlePasswordChange}
-              className='w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
-                focus:bg-white focus:outline-none'
+              className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
+                focus:bg-white focus:outline-none"
               required
             />
           </div>
-          <button
-            type='submit'
-            className='w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg
-              px-4 py-3 mt-6'
-            onClick={handleAccessToService}
-          >
-            로그인
-          </button>
+          <LoginButton onClick={handleAccessToService} />
           <hr />
           <SignUpModal
             onSubmit={handleSubmitUserInfoToServer}

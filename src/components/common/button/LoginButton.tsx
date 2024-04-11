@@ -1,7 +1,7 @@
 import React from "react";
 
 interface LoginButtonProps {
-  onClick: () => void;
+  onClick: (event: any) => Promise<void>;
 }
 
 const LoginButton: React.FC<LoginButtonProps> = ({ onClick }) => {
