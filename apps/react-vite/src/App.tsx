@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Navbar from '@/ui/navbar/navbar';
-import StartPage from '@/ui/start/start';
+import StartPage from '@/pages/start';
 import MainPage from '@/pages/main';
-import CreatePage from '@/ui/create/create';
+import CreatePage from '@/pages/create';
 import SearchPage from '@/pages/search';
-import DetailPage from '@/ui/detail/detail';
-import ProfilePage from '@/ui/my/profile/profile';
-import AccountPage from '@/ui/my/account/account';
-import SchedulePage from '@/ui/my/schedule/schedule';
-import WithdrawPage from '@/ui/my/withdraw/withdraw';
+import DetailPage from '@/pages/detail';
+import ProfilePage from '@/pages/my/profile';
+import AccountPage from '@/pages/my/account';
+import SchedulePage from '@/pages/my/schedule';
+import WithdrawPage from '@/pages/my/withdraw';
 
 function App() {
   const token: string | null = useSelector((state: any) => {

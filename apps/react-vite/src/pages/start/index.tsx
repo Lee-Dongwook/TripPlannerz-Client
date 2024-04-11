@@ -10,8 +10,8 @@ import { sendEmailCodeToServer } from '@/application/start/sendEmailCodeToServer
 import { accessToService } from '@/application/start/accessToService';
 import { SubmitUserInfoToServer } from '@/application/start/submitUserInfoToServer';
 
-import { SignUpModal } from '@/ui/start/modal/signUpModal';
-import KakaoLogin from '@/ui/start/kakaoLogin';
+import { SignUpModal } from '@/pages/start/modal/signUpModal';
+import KakaoLogin from '@/pages/start/kakaoLogin';
 
 function StartPage() {
   const dispatch = useDispatch();

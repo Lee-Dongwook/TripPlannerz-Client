@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import 'tailwindcss/tailwind.css';
-import type { SignUpModalProps } from '@/ui/start/modal/type/signUpModal.types';
-import { TagModal } from '@/ui/start/modal/tagModal';
+import type { SignUpModalProps } from '@/pages/start/modal/type/signUpModal.types';
+import { TagModal } from '@/pages/start/modal/tagModal';
 
 export const SignUpModal = ({ onSubmit, onChange, onClick }: SignUpModalProps) => {
   const [toggleSignUpModal, setToggleSignUpModal] = useState<boolean>(false);

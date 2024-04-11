@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import 'tailwindcss/tailwind.css';
-import type { TagModalProps } from '@/ui/start/modal/type/tagModal.types';
-import { SelectPreference } from '@/ui/start/preference/selectPreference';
+import type { TagModalProps } from '@/pages/start/modal/type/tagModal.types';
+import { SelectPreference } from '@/pages/start/preference/selectPreference';
 
 export const TagModal = ({ show, onHide, onClick }: TagModalProps) => {
   return (
