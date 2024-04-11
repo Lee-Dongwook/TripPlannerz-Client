@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Button = ({ className, onClick, children, color = 'blue', size = 'medium' }) => {
   const baseStyle = 'font-bold py-2 px-4 rounded-r focus:outline-none focus:shadow-outline';
 
