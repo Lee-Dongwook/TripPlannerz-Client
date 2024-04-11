@@ -103,27 +103,23 @@ function KakaoMap({ width = 'calc(20vw)', height = 'calc(40vh)', searchKeyword }
   }, [searchKeyword]);
 
   return (
-    <div className='flex'>
+    <div className='flex items-center'>
       <div
         id='map'
         ref={mapRef}
         className='rounded-lg border-2 border-sky-500'
         style={{ width: width, height: height }}
       ></div>
-      <div className='flex-1'>
-        {markers.length > 0 ? (
-          <div className='min-h-[400px]'>
-            <div className='text-xl font-semibold mb-2'>여행하실 장소들</div>
-            {markers.slice(0, 6).map((marker, index) => (
-              <div key={index} className='text-base text-gray-800 py-2'>
-                {index + 1}. {marker.content}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className='text-base'>검색어를 입력해주세요</div>
-        )}
-      </div>
+      {markers.length > 0 ? (
+        <div className='bg-gray-100 w-1/3 p-2'>
+          <div className='text-xl font-semibold mb-2'>여행하실 장소들</div>
+          {markers.slice(0, 6).map((marker, index) => (
+            <li key={index} className='text-base text-gray-800 py-2'>
+              {marker.content}
+            </li>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }

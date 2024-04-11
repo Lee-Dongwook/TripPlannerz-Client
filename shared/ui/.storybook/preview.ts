@@ -10,6 +10,11 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    layout: 'centered',
+    styles: {
+      width: '100%',
+      height: '100%',
+    },
   },
 };
 
