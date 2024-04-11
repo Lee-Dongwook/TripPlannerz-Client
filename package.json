@@ -3,12 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "yarn@4.1.1",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
@@ -51,7 +58,9 @@
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.16",
+    "husky": "^9.0.11",
     "kakao.maps.d.ts": "^0.1.39",
+    "lint-staged": "^15.2.2",
     "msw": "1.0.0",
     "postcss": "^8.4.32",
     "postcss-loader": "^7.3.3",

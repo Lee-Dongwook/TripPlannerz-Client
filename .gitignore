@@ -31,3 +31,13 @@ dist-ssr
 /playwright/.cache/
 
 *storybook.log
+
+# yarn berry setting
+.pnp.*
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
