@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import Timer from '../timer/timer';
 import { getWeatherInfo } from '@/services/getWeatherInfo';
-import { convertWeatherInfo } from '@/application/convertWeatherInfo';
+import { convertWeatherInfo } from '@/lib/weather/convertWeatherInfo';
 
 const Weather = () => {
   const [cityName, setCityName] = useState<string>('');

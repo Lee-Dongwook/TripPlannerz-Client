@@ -3,20 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import type { Member } from '@/types/Member';
-
-import { updateUserInfo } from '@/application/start/updateUserInfo';
-import { sendEmailToServer } from '@/application/start/sendEmailToServer';
-import { sendEmailCodeToServer } from '@/application/start/sendEmailCodeToServer';
-import { accessToService } from '@/application/start/accessToService';
-import { SubmitUserInfoToServer } from '@/application/start/submitUserInfoToServer';
-
 import { SignUpModal } from '@/pages/start/modal/signUpModal';
 import KakaoLogin from '@/pages/start/kakaoLogin';
+import { postLoginJwt } from '@/services/postLoginJwt';
+import { createEncryptToken } from '@/lib/crypto/createEncryptToken';
+import { createRandomKey } from '@/lib/crypto/createRandomKey';
+
+import { setToken } from '@/store/token';
+import { postEmailConfirm } from '@/services/postEmailConfirm';
+import { postEmailSend } from '@/services/postEmailSend';
+import { postMemberRegister } from '@/services/postMemberRegister';
 
 function StartPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const selectedPreferenceList = useSelector((state: any) => state.types.types);
+  const secretKey: string = createRandomKey();
 
   const [user, setUser] = useState<Member>({
     name: '',
@@ -30,19 +32,31 @@ function StartPage() {
   const [, setConfirmPassword] = useState<string>(''); // 비밀번호 확인
 
   const handleNameChange = (event) => {
-    setUser((prevUser) => updateUserInfo(prevUser, 'name', event.target.value));
+    setUser((prevUser) => ({
+      ...prevUser,
+      name: event.target.value,
+    }));
   };
 
   const handleGenderChange = (event) => {
-    setUser((prevUser) => updateUserInfo(prevUser, 'gender', event.target.value));
+    setUser((prevUser) => ({
+      ...prevUser,
+      gender: event.target.value,
+    }));
   };
 
   const handleEmailChange = (event) => {
-    setUser((prevUser) => updateUserInfo(prevUser, 'email', event.target.value));
+    setUser((prevUser) => ({
+      ...prevUser,
+      email: event.target.value,
+    }));
   };
 
   const handlePasswordChange = (event) => {
-    setUser((prevUser) => updateUserInfo(prevUser, 'pw', event.target.value));
+    setUser((prevUser) => ({
+      ...prevUser,
+      pw: event.target.value,
+    }));
   };
 
   const handleEmailCodeChange = (event) => {
@@ -56,7 +70,9 @@ function StartPage() {
   const handleSendEmailToServer = async (event) => {
     event.preventDefault();
     try {
-      await sendEmailToServer(user);
+      if (user.email) {
+        await postEmailSend(user.email);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -66,7 +82,9 @@ function StartPage() {
     event.preventDefault();
 
     try {
-      await sendEmailCodeToServer(user, emailCode);
+      if (user.email) {
+        await postEmailConfirm(user.email, emailCode);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -76,9 +94,16 @@ function StartPage() {
     event.preventDefault();
 
     try {
-      const response = await accessToService(user, dispatch);
-      if (response.status === 200) {
-        navigate('/main');
+      if (user.email && user.pw) {
+        const response = await postLoginJwt(user.email, user.pw);
+        const token: string | null = response.data.token;
+        if (token) {
+          const encryptedToken = createEncryptToken(token, secretKey);
+          console.log(encryptedToken);
+          dispatch(setToken(token));
+          alert(`${user.name}님. 반갑습니다!`);
+          navigate('/main');
+        }
       }
     } catch (error) {
       console.error(error);
@@ -89,7 +114,11 @@ function StartPage() {
     event.preventDefault();
 
     try {
-      await SubmitUserInfoToServer(user, selectedPreferenceList);
+      user.types = selectedPreferenceList;
+
+      if (user.name && user.gender && user.email && user.pw && user.types) {
+        await postMemberRegister(user.name, user.gender, user.email, user.pw, user.types);
+      }
     } catch (error) {
       console.log(error);
     }

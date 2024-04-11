@@ -1,4 +1,4 @@
-import type { NavbarButtonProps } from '@/ui/navbar/button/navbarButton.types';
+import type { NavbarButtonProps } from '@/components/layout/navbar/button/navbarButton.types';
 
 export const NavbarButton = ({ name, style, onClick }: NavbarButtonProps) => {
   return (

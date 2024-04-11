@@ -11,10 +11,10 @@ import { getMemberTripInfo } from '@/services/getMemberTripInfo';
 
 import { setNotification } from '@/store/notification';
 
-import { NavbarButton } from '@/ui/navbar/button/navbarButton';
-import { NavbarInput } from '@/ui/navbar/input/navbarInput';
-import { NoticeDrawer } from '@/ui/navbar/drawer/noticeDrawer';
-import { UserInfoDrawer } from '@/ui/navbar/drawer/userInfoDrawer';
+import { NavbarButton } from '@/components/layout/navbar/button/navbarButton';
+import { NavbarInput } from '@/components/layout/navbar/input/navbarInput';
+import { NoticeDrawer } from '@/components/layout/navbar/drawer/noticeDrawer';
+import { UserInfoDrawer } from '@/components/layout/navbar/drawer/userInfoDrawer';
 
 function Navbar() {
   const navigate = useNavigate();

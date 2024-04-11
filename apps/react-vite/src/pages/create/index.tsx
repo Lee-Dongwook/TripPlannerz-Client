@@ -3,15 +3,9 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Trip } from '@/types/TripList';
-import { updateTripInfo } from '@/application/navbar/updateTripInfo';
-import { SubmitTripInfoToServer } from '@/application/navbar/submitTripInfoToServer';
 import { majorCategories, minorCategories, subCategories } from '@/lib/info/tripCatergoryList';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
-
-interface ImageFileWithPreview {
-  file: File;
-  preview: string;
-}
+import { postTripInfo } from '@/services/postTripInfo';
 
 function CreatePage() {
   const navigate = useNavigate();
@@ -19,7 +13,7 @@ function CreatePage() {
   const totalSteps = 8;
 
   const [tripInfo, setTripInfo] = useState<Trip>({});
-  const [image, setImage] = useState<ImageFileWithPreview[]>([]);
+  const [image, setImage] = useState<any[]>([]);
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [createSuccessState, setCreateSucessState] = useState<boolean>(false);
 
@@ -55,7 +49,10 @@ function CreatePage() {
   };
 
   const handleTripTitleChange = (event) => {
-    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'title', event.target.value));
+    setTripInfo((prevInfo) => ({
+      ...prevInfo,
+      title: event.target.value,
+    }));
   };
 
   const handleTripImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -72,16 +69,31 @@ function CreatePage() {
   };
 
   const handleTripRecruitNumChange = (event) => {
-    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'recruitNum', event));
+    setTripInfo((prevInfo) => ({
+      ...prevInfo,
+      recruitNum: event,
+    }));
   };
+
   const handleTripCloseRecruitDateChange = (event) => {
-    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'closeRecruitDate', event));
+    setTripInfo((prevInfo) => ({
+      ...prevInfo,
+      closeRecruitDate: event,
+    }));
   };
+
   const handleTripGoingDateChange = (event) => {
-    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'startingDate', event));
+    setTripInfo((prevInfo) => ({
+      ...prevInfo,
+      startingDate: event,
+    }));
   };
+
   const handleTripComingDateChange = (event) => {
-    setTripInfo((prevInfo) => updateTripInfo(prevInfo, 'comingDate', event));
+    setTripInfo((prevInfo) => ({
+      ...prevInfo,
+      comingDate: event,
+    }));
   };
 
   const renderStepContent = (currentStep: number) => {
@@ -262,7 +274,14 @@ function CreatePage() {
   };
 
   const handleSubmitTripInfoToServer = async () => {
-    const response = await SubmitTripInfoToServer(token, image, tripInfo);
+    const formData = new FormData();
+    formData.append('image', image[0].originFileObj);
+    formData.append(
+      'contentsData',
+      new Blob([JSON.stringify(tripInfo)], { type: 'application/json' })
+    );
+
+    const response = await postTripInfo(token, formData);
 
     if (response) {
       setCreateSucessState(true);

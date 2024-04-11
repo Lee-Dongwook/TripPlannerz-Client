@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import 'tailwindcss/tailwind.css';
-import { deleteMemberInfo } from '@/application/my/deleteMemberInfo';
+import { postDeleteMemberInfo } from '@/services/postDeleteMemberInfo';
 
 function WithdrawPage() {
   const token = useSelector((state: any) => state.token.token);
@@ -21,9 +20,20 @@ function WithdrawPage() {
 
   const handleDeleteMemberInfo = async () => {
     try {
-      await deleteMemberInfo(token, userPassword);
-      navigate('/');
+      if (token && userPassword) {
+        const postToServer = {
+          pw: userPassword,
+        };
+
+        const response = await postDeleteMemberInfo(token, postToServer);
+
+        if (response) {
+          alert('회원 탈퇴가 완료되었습니다.');
+          navigate('/');
+        }
+      }
     } catch (error) {
+      alert('오류가 발생하였습니다. 비밀번호를 다시 입력해주세요.');
       console.log(error);
     }
   };

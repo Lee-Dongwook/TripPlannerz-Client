@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const Navbar = lazy(() => import('@/ui/navbar/navbar'));
+const Navbar = lazy(() => import('@/components/layout/navbar/navbar'));
 const StartPage = lazy(() => import('@/pages/start'));
 const MainPage = lazy(() => import('@/pages/main'));
 const CreatePage = lazy(() => import('@/pages/create'));
