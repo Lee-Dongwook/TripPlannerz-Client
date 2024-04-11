@@ -1,7 +1,7 @@
 import { Radio } from ".";
 
 export default {
-  components: Radio,
+  component: Radio,
   title: "라디오",
   tags: ["autodocs"],
 };
