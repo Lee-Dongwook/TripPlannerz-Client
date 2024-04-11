@@ -12,7 +12,51 @@
 현재 추가 구현중 입니다! (2024.01 - )
 ![시스템 아키텍처 최종](https://github.com/GraudationProject2023/Client/assets/97590636/fd894fdf-fb06-4fae-99ca-feaaa075a1af)
 
-## 🛠️ 기술적 도전
+## 😅 기술적 고민
+
+### 1. 아키텍처 관련 변경
+
+#### Before
+
+[블로그 - 적용과정](https://velog.io/@dlehddnr99/Domain-Driven-Development)
+
+```
+.
+└── src/
+    ├── domain/
+    ├── application/
+    ├── lib/
+    ├── store/
+    ├── ui/
+    └── ...
+```
+
+#### After
+
+```
+.
+└── src/
+    ├── assets/
+    ├── components/
+    │   ├── common/
+    │   └── layout/
+    ├── lib/
+    ├── mocks/
+    ├── pages/
+    ├── services/
+    ├── store/
+    └── types/
+```
+
+프로젝트 초기에는 도메인 주도 개발 (DDD) 아키텍처를 적용하여 백엔드와의 도메인을 일치시키며 개발하고자 하였습니다. 하지만, 구현 능력과 효율성을 고려하여 기능 개발에 집중하기 위해 React-Vite 프로젝트에 더 적합한 기본 구조로 아키텍처를 수정하였습니다.
+
+### 2. 모노레포 적용 관련
+
+[블로그 - 적용 과정](https://velog.io/@dlehddnr99/Yarn-Workspace-%EB%AA%A8%EB%85%B8%EB%A0%88%ED%8F%AC-%EA%B5%AC%EC%B6%95%EA%B8%B0)
+
+프로젝트의 빌드 크기 개선과 효율적인 자원 관리를 위해 yarn workspace를 사용한 모노레포 구조를 도입하려 했습니다. 이 구조는 StoryBook, Playwright, Kakao Map SDK 등의 테스팅, 문서화 도구 및 기능적 컴포넌트를 shared 폴더에 중앙화하여 관리하는 방식입니다. 하지만 현재 기능 개발의 우선순위를 고려하여 모노레포 설정을 일시적으로 해제하고 기존 구조를 유지하기로 결정하였습니다. 향후 기능 개발이 완료된 후에 모노레포 구조를 재적용할 계획입니다.
+
+## 🛠️ 주요 구현 내용
 
 ### 사용자 인증 방식의 변경 (JWT 인증 방식)
 
