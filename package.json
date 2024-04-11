@@ -45,6 +45,8 @@
     "@storybook/addon-links": "^8.0.6",
     "@storybook/addon-onboarding": "^8.0.6",
     "@storybook/blocks": "^8.0.6",
+    "@storybook/client-logger": "^8.0.6",
+    "@storybook/core-events": "^8.0.6",
     "@storybook/react": "^8.0.6",
     "@storybook/react-vite": "^8.0.6",
     "@storybook/test": "^8.0.6",
