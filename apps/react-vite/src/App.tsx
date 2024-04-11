@@ -6,7 +6,7 @@ import Navbar from '@/ui/navbar/navbar';
 import StartPage from '@/ui/start/start';
 import MainPage from '@/pages/main';
 import CreatePage from '@/ui/create/create';
-import SearchPage from '@/ui/search/search';
+import SearchPage from '@/pages/search';
 import DetailPage from '@/ui/detail/detail';
 import ProfilePage from '@/ui/my/profile/profile';
 import AccountPage from '@/ui/my/account/account';

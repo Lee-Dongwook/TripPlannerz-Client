@@ -8,8 +8,10 @@ import type { Trip } from '@/types/TripList';
 import { getPaginatedTripList } from '@/services/getPaginatedTripList';
 import { getDetailTripRoute } from '@/services/getDetailTripRoute';
 import { postStartLocationToServer } from '@/services/postStartLocationToServer';
-import { postCommentToServer } from '@/services/postCommentToServer';
 // import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
+import Layout from '@/components/layout';
+import TravelCard from './TravelCard';
+import TravelDetailDrawer from './TravelDetailDrawer';
 
 function SearchPage() {
   const location = useLocation();
@@ -34,7 +36,6 @@ function SearchPage() {
 
   const [, setOptimizeTime] = useState<number>(0);
 
-  const [review, setReview] = useState<string>('');
   // const [, setRequestContent] = useState<string>('');
 
   // const [tripCommentList] = useState<Comment[]>([]);
@@ -84,23 +85,6 @@ function SearchPage() {
     }
   };
 
-  const handleReviewChange = (event) => {
-    setReview(event.target.value);
-  };
-
-  const handleAddComment = async () => {
-    const postToServer = {
-      review: review,
-      tripUUID: selectedTripUuid,
-    };
-
-    const response = await postCommentToServer(token, postToServer);
-
-    if (response) {
-      alert('댓글이 등록되었습니다.');
-    }
-  };
-
   // const handleChangeRequestContent = (e) => {
   //   setRequestContent(e.target.value);
   // };
@@ -139,7 +123,7 @@ function SearchPage() {
   }, [searchedKeyword, sortType]);
 
   return (
-    <div className='p-4'>
+    <Layout>
       {loading ? (
         <div className='flex justify-center items-center'>
           <div className='loader'></div>
@@ -156,81 +140,25 @@ function SearchPage() {
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
             {tripList.map((trip, index) => (
-              <div
-                key={index}
-                className='card bg-white p-4 shadow rounded cursor-pointer'
-                onClick={() => handleOpenDrawer(trip)}
-              >
-                <h3 className='text-lg font-semibold'>{trip.title}</h3>
-                <p>Participants: {trip.capacity}</p>
-                <p>
-                  Date: {trip.startingDate} ~ {trip.comingDate}
-                </p>
-              </div>
+              <TravelCard key={index} trip={trip} onClick={handleOpenDrawer} />
             ))}
           </div>
 
           {drawerState && (
-            <div
-              className={`fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full`}
-            >
-              <div className='relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white'>
-                <div className='flex justify-between items-center mb-4'>
-                  <h2 className='text-lg font-semibold'>Trip Details</h2>
-                  <button onClick={handleCloseDrawer}>X</button>
-                </div>
-
-                <div>
-                  <p>
-                    <strong>Route:</strong>
-                  </p>
-                  <ul>
-                    {selectedTripRoute!.map((route, idx) => (
-                      <li key={idx}>{route.name}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <button className='btn btn-primary my-2' onClick={handleOpenOptimizeModal}>
-                  Optimize Route
-                </button>
-
-                {optimizeModalState && (
-                  <>
-                    <input
-                      type='text'
-                      placeholder='Enter start location'
-                      value={startLocation}
-                      onChange={handleSaveStartLocation}
-                      className='input input-bordered w-full my-2'
-                    />
-                    <button
-                      className={`btn ${calculateRouteLoading ? 'loading' : ''}`}
-                      onClick={handleSendStartLocationToServer}
-                    >
-                      Calculate Route
-                    </button>
-                  </>
-                )}
-
-                <div className='mt-4'>
-                  <textarea
-                    rows={4}
-                    placeholder='Leave a comment...'
-                    className='textarea textarea-bordered w-full'
-                    value={review}
-                    onChange={handleReviewChange}
-                  ></textarea>
-                  <button className='btn btn-secondary mt-2' onClick={handleAddComment}>
-                    Add Comment
-                  </button>
-                </div>
-              </div>
-            </div>
+            <TravelDetailDrawer
+              handleCloseDrawer={handleCloseDrawer}
+              selectedTripRoute={selectedTripRoute}
+              handleOpenOptimizeModal={handleOpenOptimizeModal}
+              optimizeModalState={optimizeModalState}
+              startLocation={startLocation}
+              handleSaveStartLocation={handleSaveStartLocation}
+              calculateRouteLoading={calculateRouteLoading}
+              handleSendStartLocationToServer={handleSendStartLocationToServer}
+            />
           )}
         </>
       )}
-    </div>
+    </Layout>
   );
 }
 
