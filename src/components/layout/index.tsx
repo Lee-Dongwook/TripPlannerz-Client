@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import jeju from "@/assets/image/jeju.png";
+import kyeongbok from "@/assets/image/kyeongbok.png";
+import seolak from "@/assets/image/seolak.png";
+import haewoondae from "@/assets/image/haewoondae.png";
 
 interface HoveredPlace {
   id: number;
@@ -19,61 +22,26 @@ const Layout = ({ children }) => {
     {
       id: 2,
       title: "경복궁",
-      image: "https://example.com/gyeongbokgung.jpg",
+      image: kyeongbok,
       directions: "지하철 3호선 경복궁역 5번 출구에서 도보 5분",
     },
     {
       id: 3,
       title: "설악산 국립공원",
-      image: "https://example.com/seoraksan.jpg",
+      image: seolak,
       directions: "서울에서 고속버스로 2시간 30분",
     },
     {
       id: 4,
       title: "부산 해운대 해수욕장",
-      image: "https://example.com/haeundae.jpg",
+      image: haewoondae,
       directions: "부산역에서 지하철로 30분",
-    },
-    {
-      id: 5,
-      title: "전주 한옥마을",
-      image: "https://example.com/jeonju.jpg",
-      directions: "전주역에서 택시로 15분",
-    },
-    {
-      id: 6,
-      title: "남산서울타워",
-      image: "https://example.com/namsan.jpg",
-      directions: "명동역 3번 출구에서 도보 20분",
-    },
-    {
-      id: 7,
-      title: "경주 불국사",
-      image: "https://example.com/bulguksa.jpg",
-      directions: "경주역에서 버스로 40분",
-    },
-    {
-      id: 8,
-      title: "속초 해수욕장",
-      image: "https://example.com/sokcho.jpg",
-      directions: "서울에서 버스로 2시간 40분",
-    },
-    {
-      id: 9,
-      title: "강릉 경포대",
-      image: "https://example.com/gyongpodae.jpg",
-      directions: "강릉역에서 버스로 15분",
-    },
-    {
-      id: 10,
-      title: "안동 하회마을",
-      image: "https://example.com/hahoe.jpg",
-      directions: "안동역에서 버스로 1시간",
     },
   ];
 
-  // 현재 마우스가 올라간 관광지를 저장하는 상태
-  const [hoveredPlace, setHoveredPlace] = useState<HoveredPlace | null>(null);
+  const [hoveredPlace, setHoveredPlace] = useState<HoveredPlace>(
+    travelPlans[0]
+  );
 
   return (
     <div className="min-h-screen bg-gray-100">
