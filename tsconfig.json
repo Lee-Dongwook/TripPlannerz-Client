@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
+    "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
     /* Bundler mode */
-    "esModuleInterop": true,
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -25,6 +29,9 @@
     "types":[
       "kakao.maps.d.ts",
     ],
+
+    /* StoryBook */
+    "esModuleInterop": true
   },
   "include": ["src", "**/*.ts", "**/*.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
