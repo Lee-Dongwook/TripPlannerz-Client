@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -8,333 +8,117 @@ import {
   minorCategories,
   subCategories,
 } from "@/lib/info/tripCatergoryList";
-import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { postTripInfo } from "@/services/postTripInfo";
 
-import SelectPlaceComponent from "./SelectPlaceComponent";
+import ImageUploadStep from "./ImageUploadStep";
+import SelectPlaceStep from "./SelectPlaceStep";
 
 function CreatePage() {
   const navigate = useNavigate();
   const token = useSelector((state: any) => state.token.token);
-  const totalSteps = 8;
 
   const [tripInfo, setTripInfo] = useState<Trip>({});
   const [image, setImage] = useState<any[]>([]);
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [createSuccessState, setCreateSucessState] = useState<boolean>(false);
 
   const [selectedMajor, setSelectedMajor] = useState("");
   const [selectedMinor, setSelectedMinor] = useState("");
   const [minorOptions, setMinorOptions] = useState<string[]>([]);
   const [subOptions, setSubOptions] = useState<string[]>([]);
 
-  const handleStepChangeToPrev = () => {
-    if (currentStep === 0) {
-      alert("처음 부분입니다.");
-    } else {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
-  const handleStepChangeToNext = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const handleTripTitleChange = (event) => {
-    setTripInfo((prevInfo) => ({
-      ...prevInfo,
-      title: event.target.value,
-    }));
-  };
+  const handleStepChangeToPrev = () =>
+    currentStep > 0 && setCurrentStep(currentStep - 1);
+  const handleStepChangeToNext = () =>
+    currentStep < 7 && setCurrentStep(currentStep + 1);
 
   const handleTripImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
+    if (event.target.files?.length) {
       const files = Array.from(event.target.files).slice(0, 5 - image.length);
-
-      const newImageFilesWithPreview = files.map((file) => ({
+      const newImages = files.map((file) => ({
         file,
         preview: URL.createObjectURL(file),
       }));
-
-      setImage((prevImages) => [...prevImages, ...newImageFilesWithPreview]);
+      setImage((prev) => [...prev, ...newImages]);
     }
   };
 
-  const handleTripRecruitNumChange = (event) => {
-    setTripInfo((prevInfo) => ({
-      ...prevInfo,
-      recruitNum: event,
-    }));
+  const handleInputChanges = (key: keyof Trip, value: any) => {
+    setTripInfo((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleTripCloseRecruitDateChange = (event) => {
-    setTripInfo((prevInfo) => ({
-      ...prevInfo,
-      closeRecruitDate: event,
-    }));
-  };
-
-  const handleTripGoingDateChange = (event) => {
-    setTripInfo((prevInfo) => ({
-      ...prevInfo,
-      startingDate: event,
-    }));
-  };
-
-  const handleTripComingDateChange = (event) => {
-    setTripInfo((prevInfo) => ({
-      ...prevInfo,
-      comingDate: event,
-    }));
-  };
-
-  const renderStepContent = (currentStep: number) => {
+  const renderStepContent = () => {
     switch (currentStep) {
       case 0:
         return (
-          <SelectPlaceComponent
-            selectedMajor={selectedMajor}
-            setSelectedMajor={setSelectedMajor}
-            selectedMinor={selectedMinor}
-            setSelectedMinor={setSelectedMinor}
-            minorOptions={minorOptions}
-            setMinorOptions={setMinorOptions}
-            subOptions={subOptions}
-            setSubOptions={setSubOptions}
+          <SelectPlaceStep
+            {...{
+              selectedMajor,
+              setSelectedMajor,
+              selectedMinor,
+              setSelectedMinor,
+              minorOptions,
+              setMinorOptions,
+              subOptions,
+              setSubOptions,
+            }}
           />
         );
-
       case 1:
         return (
-          <div className="max-w-md mx-auto rounded-lg overflow-hidden shadow-lg my-5 bg-white p-8">
-            <h1 className="font-bold text-xl mb-4">여행 사진 업로드</h1>
-            <p className="text-gray-700 text-base mb-4">
-              해당 여행 일정을 대표하는 사진을 올려 다른 사용자들이 확인 할 수
-              있게 합니다.
-            </p>
-            <div className="flex justify-center">
-              {image.length < 5 && (
-                <label className="cursor-pointer flex flex-col items-center justify-center bg-gray-100 p-4">
-                  <p className="text-gray-400">+ Upload</p>
-                  <input
-                    type="file"
-                    multiple
-                    onChange={handleTripImageChange}
-                    className="opacity-0 absolute"
-                    accept="image/*"
-                  />
-                </label>
-              )}
-              <div className="flex flex-wrap justify-center gap-4 mt-4">
-                {image.map((img, idx) => (
-                  <img
-                    key={idx}
-                    src={img.preview}
-                    alt={`preview ${idx}`}
-                    className="max-w-xs"
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+          <ImageUploadStep
+            image={image}
+            handleTripImageChange={handleTripImageChange}
+          />
         );
-
-      case 2:
-      case 3:
-        return (
-          <div className="max-w-md mx-auto rounded-lg overflow-hidden shadow-lg my-5 bg-white p-8">
-            <h1 className="font-bold text-xl mb-4">
-              {currentStep === 2 ? "3. 여행 제목" : "4. 모집 인원 수"}
-            </h1>
-            <p className="text-gray-700 text-base mb-4">
-              {currentStep === 2
-                ? "해당 여행 일정의 제목을 작성해주세요."
-                : "해당 여행 일정에 함께할 인원 수를 제한하여 주세요."}
-            </p>
-            <div className="flex justify-center">
-              {currentStep === 2 ? (
-                <input
-                  type="text"
-                  className="input input-bordered w-48"
-                  onChange={handleTripTitleChange}
-                />
-              ) : (
-                <div className="flex items-center">
-                  <UserCircleIcon className="w-5 h-5 mr-2 text-gray-500" />
-                  <input
-                    type="number"
-                    className="input input-bordered"
-                    min={1}
-                    max={10}
-                    onChange={(e) =>
-                      handleTripRecruitNumChange(Number(e.target.value))
-                    }
-                    placeholder="명"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        );
-
-      case 4:
-      case 5:
-      case 6:
-        return (
-          <div className="max-w-md mx-auto rounded-lg overflow-hidden shadow-lg my-5 bg-white p-8">
-            <h1 className="font-bold text-xl mb-4">
-              {currentStep === 4
-                ? "5. 모집 마감날짜"
-                : currentStep === 5
-                ? "6. 여행 시작 날짜"
-                : "7. 여행 종료 날짜"}
-            </h1>
-            <p className="text-gray-700 text-base mb-4">
-              {currentStep === 4
-                ? "동행할 인원 모집의 마감 날짜를 정해주세요."
-                : currentStep === 5
-                ? "해당 여행 일정의 시작 날짜를 정해주세요."
-                : "해당 여행 일정의 종료 날짜를 정해주세요."}
-            </p>
-            <div className="flex justify-center">
-              <input
-                type="date"
-                onChange={(e) => {
-                  const dateString = e.target.value;
-                  if (currentStep === 4) {
-                    handleTripCloseRecruitDateChange(dateString);
-                  } else if (currentStep === 5) {
-                    handleTripGoingDateChange(dateString);
-                  } else {
-                    handleTripComingDateChange(dateString);
-                  }
-                }}
-                className="input input-bordered"
-                placeholder={
-                  currentStep === 4
-                    ? "모집 마감 날짜"
-                    : currentStep === 5
-                    ? "가는 날 선택"
-                    : "오는 날 선택"
-                }
-              />
-            </div>
-          </div>
-        );
-
-      case 7:
-        return (
-          <div className="max-w-md mx-auto rounded-lg overflow-hidden shadow-lg my-5 bg-white">
-            <h1 className="font-bold text-xl mb-4">여행 등록</h1>
-            <p className="text-gray-700 text-base">
-              생성할 여행 일정의 정보들을 확인합니다.
-            </p>
-            <hr className="my-4" />
-            <p className="text-gray-700 text-base">
-              여행 제목: {tripInfo.title}
-            </p>
-            <p className="text-gray-700 text-base">
-              여행 장소: {tripInfo.area} {tripInfo.sigungu}
-            </p>
-            <p className="text-gray-700 text-base">
-              모집 인원 수: {tripInfo.recruitNum}
-            </p>
-            <p className="text-gray-700 text-base">
-              모집 마감 날짜:{" "}
-              {new Date(tripInfo.closeRecruitDate!).toLocaleDateString()}
-            </p>
-            <p className="text-gray-700 text-base">
-              여행 날짜: {new Date(tripInfo.startingDate!).toLocaleDateString()}
-              ~{new Date(tripInfo.comingDate!).toLocaleDateString()}
-            </p>
-          </div>
-        );
-
       default:
-        return null;
+        return <div>Other Steps...</div>; // Placeholder for other steps
     }
   };
 
-  const handleSubmitTripInfoToServer = async () => {
-    console.log(tripInfo);
-
+  const handleSubmit = async () => {
     const formData = new FormData();
-    formData.append("image", image[0].originFileObj);
-    formData.append(
-      "contentsData",
-      new Blob([JSON.stringify(tripInfo)], { type: "application/json" })
-    );
+    image.forEach((img) => formData.append("images", img.file));
+    formData.append("tripInfo", JSON.stringify(tripInfo));
 
     const response = await postTripInfo(token, formData);
-
     if (response) {
-      setCreateSucessState(true);
+      navigate("/main");
     } else {
-      alert("여행 생성에 오류가 발생하였습니다.");
+      alert("Failed to create the trip.");
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center">
-      {createSuccessState ? (
-        <div className="text-center p-4">
-          <div className="text-green-500 text-xl font-bold">{`${tripInfo.title} 여행 일정이 생성되었습니다!`}</div>
-          <div className="text-gray-700 mt-2">
-            동행자들을 모집하고, 즐거운 여행 되세요!
-          </div>
-          <button
-            className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => navigate("/main")}
-          >
-            Home
-          </button>
+      <div className="text-center p-4">
+        <div>{`Step ${currentStep + 1} of 8`}</div>
+        {renderStepContent()}
+        <div className="flex justify-center space-x-2 mt-4">
+          {currentStep > 0 && (
+            <button
+              className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+              onClick={handleStepChangeToPrev}
+            >
+              Prev
+            </button>
+          )}
+          {currentStep < 7 ? (
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r"
+              onClick={handleStepChangeToNext}
+            >
+              Next
+            </button>
+          ) : (
+            <button
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-r"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          )}
         </div>
-      ) : (
-        <div>
-          <div className="flex justify-center p-4">
-            <div>Step {currentStep + 1} of X</div>
-          </div>
-          <div>{renderStepContent(currentStep)}</div>
-          <div className="flex justify-center space-x-2 mt-4">
-            {currentStep < 7 && (
-              <>
-                {currentStep > 0 && (
-                  <button
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                    onClick={handleStepChangeToPrev}
-                  >
-                    이전
-                  </button>
-                )}
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r"
-                  onClick={handleStepChangeToNext}
-                >
-                  다음
-                </button>
-              </>
-            )}
-            {currentStep === 7 && (
-              <>
-                <button
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-                  onClick={handleStepChangeToPrev}
-                >
-                  이전
-                </button>
-                <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-r"
-                  onClick={handleSubmitTripInfoToServer}
-                >
-                  등록
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
