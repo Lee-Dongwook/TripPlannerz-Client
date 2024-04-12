@@ -2,7 +2,7 @@ import KakaoLoginButton from "./KakaoLoginButton";
 
 export default {
   component: KakaoLoginButton,
-  title: "카카오 소셜 로그인 버튼",
+  title: "Components/KakaoLoginButton",
   tags: ["autodocs"],
 };
 

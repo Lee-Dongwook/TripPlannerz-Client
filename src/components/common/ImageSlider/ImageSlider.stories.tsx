@@ -1,7 +1,7 @@
 import ImageSlider from ".";
 
 export default {
-  title: "이미지 슬라이더",
+  title: "Components/ImageSlider",
   component: ImageSlider,
   tags: ["autodocs"],
 };

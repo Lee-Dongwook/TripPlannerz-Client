@@ -2,7 +2,7 @@ import Card from ".";
 
 export default {
   component: Card,
-  title: "Card",
+  title: "Components/Card",
   tags: ["autodocs"],
   argTypes: {},
 };

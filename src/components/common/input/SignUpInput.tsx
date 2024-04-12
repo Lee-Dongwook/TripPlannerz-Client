@@ -1,12 +1,12 @@
-import React from "react";
+import React, { type ChangeEventHandler } from "react";
 
-interface SignUpInputProps {
+export interface SignUpInputProps {
   type: string;
   placeholder: string;
-  onChange: (event: any) => void;
+  onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-const SignUpInput: React.FC<SignUpInputProps> = ({
+export const SignUpInput: React.FC<SignUpInputProps> = ({
   type,
   placeholder,
   onChange,
@@ -14,12 +14,10 @@ const SignUpInput: React.FC<SignUpInputProps> = ({
   return (
     <input
       type={type}
-      className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
-  focus:bg-white focus:outline-none"
       placeholder={placeholder}
       onChange={onChange}
+      className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
+      focus:bg-white focus:outline-none"
     />
   );
 };
-
-export default SignUpInput;

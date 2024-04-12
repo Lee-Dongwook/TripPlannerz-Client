@@ -2,7 +2,7 @@ import SelectTagButton from "./SelectTagButton";
 
 export default {
   component: SelectTagButton,
-  title: "태그선택 버튼",
+  title: "Components/SelectTagButton",
   tags: ["autodocs"],
 };
 

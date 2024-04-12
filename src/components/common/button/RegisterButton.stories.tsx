@@ -2,7 +2,7 @@ import RegisterButton from "./RegisterButton";
 
 export default {
   component: RegisterButton,
-  title: "회원가입 버튼",
+  title: "Components/RegisterButton",
   tags: ["autodocs"],
 };
 
