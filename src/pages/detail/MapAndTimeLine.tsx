@@ -13,30 +13,44 @@ const MapAndTimeline: React.FC<MapAndTimelineProps> = ({
 }) => {
   const timeLineItem = searchPlace.map((item, idx) => ({
     children: item.name,
+    description: item.description || "해당 장소에 대한 설명이 없습니다.",
+    time: `09:00 AM`,
     key: idx,
   }));
 
   return (
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <KakaoMap searchKeyword={searchPlaceInput} />
-          </td>
-          <td>
-            <strong>TimeLine</strong>
-            <div className="flex flex-col relative">
-              {timeLineItem.map((item) => (
-                <div className="flex relative pl-4 key={item.key}">
-                  <div className="w-4 h-4 bg-blue-500 rounded-full mt-1 -left-2.5 absolute"></div>
-                  <div className="ml-4">{item.children}</div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* 지도 영역 */}
+      <div className="bg-white shadow-lg rounded-lg p-4">
+        <KakaoMap searchKeyword={searchPlaceInput} />
+      </div>
+
+      {/* 타임라인 영역 */}
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+          여행 타임라인
+        </h3>
+        <div className="relative">
+          <div className="absolute top-0 left-6 w-0.5 h-full bg-blue-300"></div>
+          {timeLineItem.map((item) => (
+            <div key={item.key} className="relative flex mb-10 pl-8">
+              {/* 타임라인 내용 */}
+              <div className="ml-6">
+                <div className="flex justify-between items-center mb-2">
+                  <h4 className="text-lg font-semibold text-gray-800">
+                    {item.children}
+                  </h4>
+                  <span className="text-sm text-gray-500">
+                    &nbsp; &nbsp;{item.time}
+                  </span>
                 </div>
-              ))}
+                <p className="text-sm text-gray-600">{item.description}</p>
+              </div>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
