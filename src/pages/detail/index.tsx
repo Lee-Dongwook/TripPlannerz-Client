@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import axios from "axios";
 import Layout from "@/components/layout";
 import Comments from "@/pages/detail/Comments";
 import MapAndTimeline from "@/pages/detail/MapAndTimeLine";
@@ -9,9 +7,58 @@ import RequestModal from "@/pages/detail/RequestModal";
 import { type Comment } from "@/types/Comment";
 import { type TripPlaceInfo } from "@/types/TripPlaceInfo";
 
+// 목 데이터
+const mockTripDetail = {
+  title: "제주도 여행",
+  startingDate: "2024-09-01",
+  comingDate: "2024-09-07",
+  content: "제주도의 아름다운 경치를 즐길 수 있는 여행입니다.",
+  commentList: [
+    {
+      review: "정말 멋진 여행이었어요!",
+      senderName: "김철수",
+      postDate: "2024-09-08",
+    },
+    {
+      review: "풍경이 너무 아름다웠습니다.",
+      senderName: "이영희",
+      postDate: "2024-09-09",
+    },
+  ],
+  uuid: "mock-uuid-1234",
+};
+
+const mockUser = {
+  name: "박지민",
+};
+
+const mockPlaces: TripPlaceInfo[] = [
+  { name: "한라산", description: "높은 산", lat: 33.3, lng: 126.5 },
+  { name: "섭지코지", description: "제주의 해변", lat: 33.4, lng: 126.8 },
+  { name: "성산일출봉", description: "일출 명소", lat: 33.4587, lng: 126.9406 },
+  {
+    name: "천지연 폭포",
+    description: "제주에서 가장 유명한 폭포",
+    lat: 33.2505,
+    lng: 126.5584,
+  },
+  {
+    name: "만장굴",
+    description: "세계 최대의 용암 동굴",
+    lat: 33.5297,
+    lng: 126.7682,
+  },
+  { name: "우도", description: "아름다운 섬", lat: 33.4996, lng: 126.9517 },
+  {
+    name: "돌하르방 공원",
+    description: "제주의 상징 돌하르방이 있는 공원",
+    lat: 33.4632,
+    lng: 126.9029,
+  },
+];
+
 const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const token = useSelector((state: any) => state.token.token);
 
   const [title, setTitle] = useState("");
   const [startingDate, setStartingDate] = useState("");
@@ -24,58 +71,26 @@ const DetailPage: React.FC = () => {
   const [searchPlaceInput, setSearchPlaceInput] = useState("");
   const [userName, setUserName] = useState("");
 
-  // Fetch trip details
+  // 목 데이터로 여행 상세 정보 가져오기
   useEffect(() => {
-    const fetchTripDetails = async () => {
-      const response = await axios.get(
-        `http://localhost:8080/api/trip/detail/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        }
-      );
-      const data = response.data;
-      setTitle(data.title);
-      setStartingDate(data.startingDate);
-      setComingDate(data.comingDate);
-      setContent(data.content);
-      setComments(data.commentList);
-      setTripUuid(data.uuid);
-    };
+    // 서버 데이터 대신 목 데이터를 사용
+    const data = mockTripDetail;
+    setTitle(data.title);
+    setStartingDate(data.startingDate);
+    setComingDate(data.comingDate);
+    setContent(data.content);
+    setComments(data.commentList);
+    setTripUuid(data.uuid);
 
-    fetchTripDetails();
-  }, [id, token]);
-
-  // Fetch user name
-  useEffect(() => {
-    const fetchUserName = async () => {
-      const response = await axios.get(
-        "http://localhost:8080/api/members/tripInfo",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setUserName(response.data.name);
-    };
-
-    fetchUserName();
-  }, [token]);
+    // 사용자 이름도 목 데이터 사용
+    setUserName(mockUser.name);
+  }, [id]);
 
   const handleOpenModal = () => setRequestAccompanyModal(true);
   const handleCloseModal = () => setRequestAccompanyModal(false);
 
-  const handleAddComment = async (review: string) => {
+  const handleAddComment = (review: string) => {
     if (review) {
-      await axios.post(
-        `http://localhost:8080/api/trip/postComment`,
-        {
-          review,
-          tripUuid,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
       setComments([
         ...comments,
         { review, senderName: userName, postDate: new Date().toISOString() },
@@ -107,7 +122,7 @@ const DetailPage: React.FC = () => {
         <div className="p-6 bg-gray-100 rounded-lg">
           <MapAndTimeline
             searchPlaceInput={searchPlaceInput}
-            searchPlace={searchPlace}
+            searchPlace={mockPlaces} // 목 데이터 사용
           />
         </div>
 
@@ -117,7 +132,7 @@ const DetailPage: React.FC = () => {
             className="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-indigo-600 transition-colors duration-300"
             onClick={handleOpenModal}
           >
-            경로 최적화
+            동행 신청
           </button>
         </div>
 

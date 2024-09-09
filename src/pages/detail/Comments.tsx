@@ -13,22 +13,38 @@ const Comments: React.FC<CommentsProps> = ({
   onDelete,
 }) => {
   return (
-    <>
+    <div className="space-y-6">
       {comments.length === 0 ? (
-        <p>No comments yet.</p>
+        <p className="text-gray-500 text-center">아직 댓글이 없습니다.</p>
       ) : (
         comments.map((comment, idx) => (
-          <div key={idx}>
-            <p>날짜: {comment.postDate}</p>
-            <p>글쓴이: {comment.senderName}</p>
-            <p>댓글 : {comment.review}</p>
-            {comment.senderName === userName && (
-              <button onClick={() => onDelete(idx)}>삭제</button>
-            )}
+          <div
+            key={idx}
+            className="bg-gray-100 shadow-md rounded-lg p-4 space-y-2"
+          >
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="text-sm text-gray-500">
+                  날짜: {comment.postDate}
+                </p>
+                <p className="font-semibold text-gray-700">
+                  글쓴이: {comment.senderName}
+                </p>
+              </div>
+              {comment.senderName === userName && (
+                <button
+                  onClick={() => onDelete(idx)}
+                  className="text-red-500 text-sm font-medium hover:underline"
+                >
+                  삭제
+                </button>
+              )}
+            </div>
+            <p className="text-gray-700">{comment.review}</p>
           </div>
         ))
       )}
-    </>
+    </div>
   );
 };
 
