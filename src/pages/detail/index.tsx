@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Layout from "@/components/layout";
@@ -88,35 +88,57 @@ const DetailPage: React.FC = () => {
   };
 
   return (
-    <Layout>
-      <div className="bg-white shadow rounded-lg p-4 flex flex-col">
-        <h3 className="text-center">{title}</h3>
-        <h5 className="text-center">
-          여행 기간: {`${startingDate} ~ ${comingDate}`}
-        </h5>
-        <h5 className="text-center">
-          내용: {content || "No details provided."}
-        </h5>
-        <hr />
-        <MapAndTimeline
-          searchPlaceInput={searchPlaceInput}
-          searchPlace={searchPlace}
-        />
-        <button onClick={() => setRequestAccompanyModal(true)}>
-          경로 최적화
-        </button>
-        <RequestModal
-          isOpen={requestAccompanyModal}
-          onClose={() => setRequestAccompanyModal(false)}
-          onSubmit={handleAddComment}
-        />
-        <Comments
-          comments={comments}
-          userName={userName}
-          onDelete={handleDeleteComment}
-        />
+    <>
+      <div className="bg-white shadow rounded-lg p-8 space-y-8">
+        {/* Trip Details Section */}
+        <div className="text-center">
+          <h3 className="text-3xl font-bold text-gray-900 mb-2">{title}</h3>
+          <p className="text-md text-gray-600">
+            여행 기간: {`${startingDate} ~ ${comingDate}`}
+          </p>
+          <p className="text-md text-gray-600">
+            내용: {content || "No details provided."}
+          </p>
+        </div>
+
+        <hr className="my-6 border-gray-300" />
+
+        {/* Map and Timeline Section */}
+        <div className="p-6 bg-gray-100 rounded-lg">
+          <MapAndTimeline
+            searchPlaceInput={searchPlaceInput}
+            searchPlace={searchPlace}
+          />
+        </div>
+
+        {/* 경로 최적화 버튼 */}
+        <div className="flex justify-center">
+          <button
+            className="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-indigo-600 transition-colors duration-300"
+            onClick={handleOpenModal}
+          >
+            경로 최적화
+          </button>
+        </div>
+
+        {/* Comments Section */}
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <h4 className="text-xl font-semibold text-gray-900 mb-4">댓글</h4>
+          <Comments
+            comments={comments}
+            userName={userName}
+            onDelete={handleDeleteComment}
+          />
+        </div>
       </div>
-    </Layout>
+
+      {/* Request Modal */}
+      <RequestModal
+        isOpen={requestAccompanyModal}
+        onClose={handleCloseModal}
+        onSubmit={handleAddComment}
+      />
+    </>
   );
 };
 
