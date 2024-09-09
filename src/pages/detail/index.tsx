@@ -35,6 +35,26 @@ const mockUser = {
 const mockPlaces: TripPlaceInfo[] = [
   { name: "한라산", description: "높은 산", lat: 33.3, lng: 126.5 },
   { name: "섭지코지", description: "제주의 해변", lat: 33.4, lng: 126.8 },
+  { name: "성산일출봉", description: "일출 명소", lat: 33.4587, lng: 126.9406 },
+  {
+    name: "천지연 폭포",
+    description: "제주에서 가장 유명한 폭포",
+    lat: 33.2505,
+    lng: 126.5584,
+  },
+  {
+    name: "만장굴",
+    description: "세계 최대의 용암 동굴",
+    lat: 33.5297,
+    lng: 126.7682,
+  },
+  { name: "우도", description: "아름다운 섬", lat: 33.4996, lng: 126.9517 },
+  {
+    name: "돌하르방 공원",
+    description: "제주의 상징 돌하르방이 있는 공원",
+    lat: 33.4632,
+    lng: 126.9029,
+  },
 ];
 
 const DetailPage: React.FC = () => {
@@ -86,14 +106,56 @@ const DetailPage: React.FC = () => {
     <>
       <div className="bg-white shadow rounded-lg p-8 space-y-8">
         {/* Trip Details Section */}
-        <div className="text-center">
-          <h3 className="text-3xl font-bold text-gray-900 mb-2">{title}</h3>
-          <p className="text-md text-gray-600">
-            여행 기간: {`${startingDate} ~ ${comingDate}`}
-          </p>
-          <p className="text-md text-gray-600">
-            내용: {content || "No details provided."}
-          </p>
+        <div className="bg-gray-50 rounded-lg shadow-lg p-6 text-center space-y-4">
+          <h3 className="text-4xl font-extrabold text-gray-900 mb-4">
+            {title}
+          </h3>
+
+          {/* 여행 기간 */}
+          <div className="flex items-center justify-center space-x-2">
+            <svg
+              className="w-6 h-6 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M8 7V3m8 4V3m-9 4h10a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V9a2 2 0 012-2zm0 0h10"
+              ></path>
+            </svg>
+            <p className="text-lg text-gray-700">
+              여행 기간:{" "}
+              <span className="font-semibold text-gray-900">{`${startingDate} ~ ${comingDate}`}</span>
+            </p>
+          </div>
+
+          {/* 내용 */}
+          <div className="flex items-start justify-center space-x-2">
+            <svg
+              className="w-6 h-6 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 20h9m-9-4h6m-6-4h6m-6-4h6m-6-4h6m-8 12H3m0-4h6m-6-4h6m-6-4h6"
+              ></path>
+            </svg>
+            <p className="text-lg text-gray-700">
+              내용:{" "}
+              <span className="text-gray-900">
+                {content || "No details provided."}
+              </span>
+            </p>
+          </div>
         </div>
 
         <hr className="my-6 border-gray-300" />

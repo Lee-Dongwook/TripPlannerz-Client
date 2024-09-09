@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, type MutableRefObject } from 'react';
+import { useState, useEffect, useRef, type MutableRefObject } from "react";
 
 interface Marker {
   position: {
@@ -14,112 +14,101 @@ interface KakaoMapProps {
   searchKeyword: string;
 }
 
-function KakaoMap({ width = 'calc(20vw)', height = 'calc(40vh)', searchKeyword }: KakaoMapProps) {
+function KakaoMap({
+  width = "calc(48vw)",
+  height = "calc(70vh)",
+  searchKeyword,
+}: KakaoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [markers, setMarkers] = useState<Marker[]>([]);
 
   useEffect(() => {
-    const initializeMap = (latitude, longitude) => {
-      const container = document.getElementById('map');
-      const defaultOptions = {
-        center: new kakao.maps.LatLng(latitude, longitude),
+    // 지도 초기화
+    const initializeMap = (latitude: number, longitude: number) => {
+      const container = mapRef.current;
+      const mapOptions = {
+        center: new window.kakao.maps.LatLng(latitude, longitude),
         level: 3,
       };
-
-      const options = searchKeyword ? { ...defaultOptions } : defaultOptions;
-      const map = new window.kakao.maps.Map(container!, options);
-      (mapRef as MutableRefObject<any>).current = map;
-
+      const map = new window.kakao.maps.Map(container!, mapOptions);
+      mapRef.current = map;
       if (searchKeyword) {
         searchPlaces(map, searchKeyword);
       }
     };
-    // 검색어를 적용하는 함수
-    const searchPlaces = (map: any, keyword: string) => {
-      const ps = new window.kakao.maps.services.Places();
 
-      ps.keywordSearch(keyword, (data: any, status: any) => {
+    // 장소 검색
+    const searchPlaces = (map: any, keyword: string) => {
+      const placesService = new window.kakao.maps.services.Places();
+      placesService.keywordSearch(keyword, (data, status) => {
         if (status === window.kakao.maps.services.Status.OK) {
           const bounds = new window.kakao.maps.LatLngBounds();
-          const searchMarkers: Marker[] = [];
-
-          for (let i = 0; i < data.length; i++) {
-            disPlayMarker(map, data[i]);
-            searchMarkers.push({
-              position: {
-                lat: data[i].y,
-                lng: data[i].x,
-              },
-              content: data[i].place_name,
-            });
-            bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
-          }
+          const searchMarkers: Marker[] = data.map((place: any) => {
+            const marker = createMarker(map, place);
+            bounds.extend(new window.kakao.maps.LatLng(place.y, place.x));
+            return {
+              position: { lat: place.y, lng: place.x },
+              content: place.place_name,
+            };
+          });
           setMarkers(searchMarkers);
           map.setBounds(bounds);
         }
       });
     };
 
-    // 검색어 입력 시, Marker 표출
-    const infoWindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
-    const disPlayMarker = (map: any, place: any) => {
+    // 마커 생성 및 표시
+    const createMarker = (map: any, place: any) => {
       const marker = new window.kakao.maps.Marker({
-        map: map,
+        map,
         position: new window.kakao.maps.LatLng(place.y, place.x),
       });
-
-      window.kakao.maps.event.addListener(marker, 'click', function () {
-        infoWindow.setContent(
-          '<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>'
-        );
+      const infoWindow = new window.kakao.maps.InfoWindow({
+        content: `<div style="padding:5px;font-size:12px;">${place.place_name}</div>`,
+      });
+      window.kakao.maps.event.addListener(marker, "click", () => {
         infoWindow.open(map, marker);
       });
-
-      const latitudeList: number[] = [];
-      latitudeList.push(place.x, place.y);
-
-      localStorage.setItem('latitude', JSON.stringify(latitudeList));
+      return marker;
     };
 
-    // 초기에 GPS를 이용한 렌더링
-    if ('geolocation' in navigator) {
+    // GPS 위치로 지도 초기화
+    if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          initializeMap(latitude, longitude);
+          initializeMap(33.4996213, 126.5311884);
         },
-        (error: GeolocationPositionError) => {
-          console.error('Error getting geolocation:', error);
-          // 기본 위치(서울)로 초기화
+        () => {
+          // 기본 위치로 서울 설정
           initializeMap(37.552635722509, 126.92436042413);
         }
       );
     } else {
-      console.error('Geolocation is not supported in this browser');
-      // 기본 위치(서울)로 초기화
+      // 기본 위치로 서울 설정
       initializeMap(37.552635722509, 126.92436042413);
     }
   }, [searchKeyword]);
 
   return (
-    <div className='flex items-center'>
+    <div className="flex items-center">
       <div
-        id='map'
+        id="map"
         ref={mapRef}
-        className='rounded-lg border-2 border-sky-500'
+        className="rounded-lg border-2 border-sky-500"
         style={{ width: width, height: height }}
       ></div>
-      {markers.length > 0 ? (
-        <div className='bg-gray-100 w-1/3 p-2'>
-          <div className='text-xl font-semibold mb-2'>여행하실 장소들</div>
-          {markers.slice(0, 6).map((marker, index) => (
-            <li key={index} className='text-base text-gray-800 py-2'>
-              {marker.content}
-            </li>
-          ))}
+      {markers.length > 0 && (
+        <div className="bg-gray-100 w-1/3 p-2">
+          <div className="text-xl font-semibold mb-2">여행하실 장소들</div>
+          <ul>
+            {markers.slice(0, 6).map((marker, index) => (
+              <li key={index} className="text-base text-gray-800 py-2">
+                {marker.content}
+              </li>
+            ))}
+          </ul>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }
