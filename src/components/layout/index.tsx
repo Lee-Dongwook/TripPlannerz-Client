@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import jeju from "@/assets/image/jeju.png";
 import kyeongbok from "@/assets/image/kyeongbok.png";
 import seolak from "@/assets/image/seolak.png";
 import haewoondae from "@/assets/image/haewoondae.png";
 
-interface HoveredPlace {
+interface TravelPlan {
   id: number;
   title: string;
   image: string;
@@ -12,7 +12,8 @@ interface HoveredPlace {
 }
 
 const Layout = ({ children }) => {
-  const travelPlans = [
+  // 여행지 데이터
+  const travelPlans: TravelPlan[] = [
     {
       id: 1,
       title: "제주도",
@@ -39,49 +40,25 @@ const Layout = ({ children }) => {
     },
   ];
 
-  const [hoveredPlace, setHoveredPlace] = useState<HoveredPlace>(
-    travelPlans[0]
-  );
-
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="bg-gray-100">
       <div className="py-10">
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg grid grid-cols-1 md:grid-cols-4">
-          <aside className="col-span-1 bg-gray-50 p-5 border-r">
-            <h3 className="font-bold text-xl mb-5">국내 TOP 관광지</h3>
-            <ul className="space-y-4">
-              {/* 국내 관광지 데이터를 동적으로 렌더링 */}
-              {travelPlans.map((plan) => (
-                <li
-                  key={plan.id}
-                  className="text-blue-500 hover:underline cursor-pointer"
-                  onMouseEnter={() => setHoveredPlace(plan)}
-                  onMouseLeave={() => setHoveredPlace(null)}
-                >
-                  {plan.title}
-                </li>
-              ))}
-            </ul>
-          </aside>
-          <main className="col-span-2 p-5">
-            {hoveredPlace ? (
-              <div className="bg-white p-5 rounded shadow-lg">
-                <h4 className="text-2xl font-bold mb-3">
-                  {hoveredPlace.title}
-                </h4>
+        <div className="bg-white shadow overflow-hidden sm:rounded-lg grid grid-cols-1 md:grid-cols-4 gap-4">
+          {/* Main Content */}
+          <main className="col-span-1 p-5">
+            {/* 여행지 카드들을 순차적으로 렌더링 */}
+            {travelPlans.map((plan) => (
+              <div key={plan.id} className="bg-white p-5 rounded shadow-lg">
+                <h4 className="text-2xl font-bold mb-3">{plan.title}</h4>
                 <img
-                  src={hoveredPlace.image}
-                  alt={hoveredPlace.title}
-                  className="w-full h-full object-cover rounded mb-3"
+                  src={plan.image}
+                  alt={plan.title}
+                  className="w-full h-64 object-cover rounded mb-3"
                 />
-                <p className="text-gray-700">
-                  <strong>가는 방법: </strong>
-                  {hoveredPlace.directions}
-                </p>
               </div>
-            ) : null}
-            {children}
+            ))}
           </main>
+          <section className="col-span-3 p-5 bg-gray-50">{children}</section>
         </div>
       </div>
     </div>
