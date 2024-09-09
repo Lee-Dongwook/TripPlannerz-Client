@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 import Layout from "@/components/layout";
 import Comments from "@/pages/detail/Comments";
 import MapAndTimeline from "@/pages/detail/MapAndTimeLine";
@@ -9,9 +7,38 @@ import RequestModal from "@/pages/detail/RequestModal";
 import { type Comment } from "@/types/Comment";
 import { type TripPlaceInfo } from "@/types/TripPlaceInfo";
 
+// 목 데이터
+const mockTripDetail = {
+  title: "제주도 여행",
+  startingDate: "2024-09-01",
+  comingDate: "2024-09-07",
+  content: "제주도의 아름다운 경치를 즐길 수 있는 여행입니다.",
+  commentList: [
+    {
+      review: "정말 멋진 여행이었어요!",
+      senderName: "김철수",
+      postDate: "2024-09-08",
+    },
+    {
+      review: "풍경이 너무 아름다웠습니다.",
+      senderName: "이영희",
+      postDate: "2024-09-09",
+    },
+  ],
+  uuid: "mock-uuid-1234",
+};
+
+const mockUser = {
+  name: "박지민",
+};
+
+const mockPlaces: TripPlaceInfo[] = [
+  { name: "한라산", description: "높은 산", lat: 33.3, lng: 126.5 },
+  { name: "섭지코지", description: "제주의 해변", lat: 33.4, lng: 126.8 },
+];
+
 const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const token = useSelector((state: any) => state.token.token);
 
   const [title, setTitle] = useState("");
   const [startingDate, setStartingDate] = useState("");
@@ -24,58 +51,26 @@ const DetailPage: React.FC = () => {
   const [searchPlaceInput, setSearchPlaceInput] = useState("");
   const [userName, setUserName] = useState("");
 
-  // Fetch trip details
+  // 목 데이터로 여행 상세 정보 가져오기
   useEffect(() => {
-    const fetchTripDetails = async () => {
-      const response = await axios.get(
-        `http://localhost:8080/api/trip/detail/${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        }
-      );
-      const data = response.data;
-      setTitle(data.title);
-      setStartingDate(data.startingDate);
-      setComingDate(data.comingDate);
-      setContent(data.content);
-      setComments(data.commentList);
-      setTripUuid(data.uuid);
-    };
+    // 서버 데이터 대신 목 데이터를 사용
+    const data = mockTripDetail;
+    setTitle(data.title);
+    setStartingDate(data.startingDate);
+    setComingDate(data.comingDate);
+    setContent(data.content);
+    setComments(data.commentList);
+    setTripUuid(data.uuid);
 
-    fetchTripDetails();
-  }, [id, token]);
-
-  // Fetch user name
-  useEffect(() => {
-    const fetchUserName = async () => {
-      const response = await axios.get(
-        "http://localhost:8080/api/members/tripInfo",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setUserName(response.data.name);
-    };
-
-    fetchUserName();
-  }, [token]);
+    // 사용자 이름도 목 데이터 사용
+    setUserName(mockUser.name);
+  }, [id]);
 
   const handleOpenModal = () => setRequestAccompanyModal(true);
   const handleCloseModal = () => setRequestAccompanyModal(false);
 
-  const handleAddComment = async (review: string) => {
+  const handleAddComment = (review: string) => {
     if (review) {
-      await axios.post(
-        `http://localhost:8080/api/trip/postComment`,
-        {
-          review,
-          tripUuid,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
       setComments([
         ...comments,
         { review, senderName: userName, postDate: new Date().toISOString() },
@@ -88,35 +83,57 @@ const DetailPage: React.FC = () => {
   };
 
   return (
-    <Layout>
-      <div className="bg-white shadow rounded-lg p-4 flex flex-col">
-        <h3 className="text-center">{title}</h3>
-        <h5 className="text-center">
-          여행 기간: {`${startingDate} ~ ${comingDate}`}
-        </h5>
-        <h5 className="text-center">
-          내용: {content || "No details provided."}
-        </h5>
-        <hr />
-        <MapAndTimeline
-          searchPlaceInput={searchPlaceInput}
-          searchPlace={searchPlace}
-        />
-        <button onClick={() => setRequestAccompanyModal(true)}>
-          경로 최적화
-        </button>
-        <RequestModal
-          isOpen={requestAccompanyModal}
-          onClose={() => setRequestAccompanyModal(false)}
-          onSubmit={handleAddComment}
-        />
-        <Comments
-          comments={comments}
-          userName={userName}
-          onDelete={handleDeleteComment}
-        />
+    <>
+      <div className="bg-white shadow rounded-lg p-8 space-y-8">
+        {/* Trip Details Section */}
+        <div className="text-center">
+          <h3 className="text-3xl font-bold text-gray-900 mb-2">{title}</h3>
+          <p className="text-md text-gray-600">
+            여행 기간: {`${startingDate} ~ ${comingDate}`}
+          </p>
+          <p className="text-md text-gray-600">
+            내용: {content || "No details provided."}
+          </p>
+        </div>
+
+        <hr className="my-6 border-gray-300" />
+
+        {/* Map and Timeline Section */}
+        <div className="p-6 bg-gray-100 rounded-lg">
+          <MapAndTimeline
+            searchPlaceInput={searchPlaceInput}
+            searchPlace={mockPlaces} // 목 데이터 사용
+          />
+        </div>
+
+        {/* 경로 최적화 버튼 */}
+        <div className="flex justify-center">
+          <button
+            className="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-indigo-600 transition-colors duration-300"
+            onClick={handleOpenModal}
+          >
+            동행 신청
+          </button>
+        </div>
+
+        {/* Comments Section */}
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <h4 className="text-xl font-semibold text-gray-900 mb-4">댓글</h4>
+          <Comments
+            comments={comments}
+            userName={userName}
+            onDelete={handleDeleteComment}
+          />
+        </div>
       </div>
-    </Layout>
+
+      {/* Request Modal */}
+      <RequestModal
+        isOpen={requestAccompanyModal}
+        onClose={handleCloseModal}
+        onSubmit={handleAddComment}
+      />
+    </>
   );
 };
 

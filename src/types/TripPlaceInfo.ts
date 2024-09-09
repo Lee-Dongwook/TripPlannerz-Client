@@ -3,4 +3,5 @@ export interface TripPlaceInfo {
   x: string;
   y: string;
   tripUUID: string;
+  description?: string;
 }
