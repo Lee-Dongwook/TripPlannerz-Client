@@ -1,29 +1,29 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
-import type { Trip } from '@/types/TripList';
+import type { Trip } from "@/types/TripList";
 // import type { Comment } from '@/domain/Comment';
 
-import { getPaginatedTripList } from '@/services/getPaginatedTripList';
-import { getDetailTripRoute } from '@/services/getDetailTripRoute';
-import { postStartLocationToServer } from '@/services/postStartLocationToServer';
+import { getPaginatedTripList } from "@/services/getPaginatedTripList";
+import { getDetailTripRoute } from "@/services/getDetailTripRoute";
+import { postStartLocationToServer } from "@/services/postStartLocationToServer";
 // import { postRequestAccompanyToServer } from '@/application/api/detail/postRequestAccompanyToServer';
-import Layout from '@/components/layout';
-import TravelCard from './TravelCard';
-import TravelDetailDrawer from './TravelDetailDrawer';
+import Layout from "@/components/layout";
+import TravelCard from "./TravelCard";
+import TravelDetailDrawer from "./TravelDetailDrawer";
 
 function SearchPage() {
   const location = useLocation();
   const token = useSelector((state: any) => state.token.token);
   const searchParams = new URLSearchParams(location.search);
-  const searchedKeyword = searchParams.get('keyword');
+  const searchedKeyword = searchParams.get("keyword");
 
   const [tripList, setTripList] = useState<Trip[]>([]);
-  const [sortType] = useState<string>('new');
+  const [sortType] = useState<string>("new");
 
   const [, setSelectedTrip] = useState<any>(null);
-  const [selectedTripUuid, setSelectedTripUuid] = useState<string>('');
+  const [selectedTripUuid, setSelectedTripUuid] = useState<string>("");
   const [selectedTripRoute, setSelectedTripRoute] = useState<any[]>();
 
   const [startLocation, setStartLocation] = useState<string>();
@@ -32,7 +32,8 @@ function SearchPage() {
   const [optimizeModalState, setOptimizeModalState] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [calculateRouteLoading, setCalculateRouteLoading] = useState<boolean>(false);
+  const [calculateRouteLoading, setCalculateRouteLoading] =
+    useState<boolean>(false);
 
   const [, setOptimizeTime] = useState<number>(0);
 
@@ -45,7 +46,10 @@ function SearchPage() {
     if (selectedDetailTrip) {
       if (selectedDetailTrip.uuid) {
         setSelectedTripUuid(selectedDetailTrip.uuid);
-        const response = await getDetailTripRoute(token, selectedDetailTrip?.uuid);
+        const response = await getDetailTripRoute(
+          token,
+          selectedDetailTrip?.uuid
+        );
         setSelectedTripRoute(response.data);
         setSelectedTrip(record);
         setDrawerState(true);
@@ -78,7 +82,7 @@ function SearchPage() {
     setCalculateRouteLoading(true);
     const response = await postStartLocationToServer(token, postToServer);
     if (response) {
-      alert('최단 경로 계산이 완료되었습니다.');
+      alert("최단 경로 계산이 완료되었습니다.");
       setOptimizeTime(parseInt(response.data.totalDuration));
       setCalculateRouteLoading(false);
       setOptimizeModalState(false);
@@ -123,22 +127,22 @@ function SearchPage() {
   }, [searchedKeyword, sortType]);
 
   return (
-    <Layout>
+    <>
       {loading ? (
-        <div className='flex justify-center items-center'>
-          <div className='loader'></div>
+        <div className="flex justify-center items-center">
+          <div className="loader"></div>
         </div>
       ) : (
         <>
-          {/* <div className='mb-4'>
+          <div className="mb-4">
             <input
-              className='input input-bordered w-full'
-              placeholder='Search for trips...'
-              value={searchedKeyword || ''}
+              className="input input-bordered w-full"
+              placeholder="Search for trips..."
+              value={searchedKeyword || ""}
             />
-          </div> */}
+          </div>
 
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {tripList.map((trip, index) => (
               <TravelCard key={index} trip={trip} onClick={handleOpenDrawer} />
             ))}
@@ -158,7 +162,7 @@ function SearchPage() {
           )}
         </>
       )}
-    </Layout>
+    </>
   );
 }
 
